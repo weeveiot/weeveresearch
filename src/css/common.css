@@ -128,3 +128,36 @@ A gray box used to hold information needed to create/add an Object
   height: 800px;
   margin: 10px;
 }
+
+/***************************************************************************
+Styling for the home page
+	-Panel that holds initial selection buttons
+	-Buttons
+***************************************************************************/
+
+.panelButton {
+	background-color: #c3fef8;
+	color: #8d51ff;
+	text-align: center;
+	border-radius: 4px;
+	border: none;
+	cursor: pointer;
+	padding: 15px 32px;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	width: 400px;
+	height: 400px;
+	opacity: 0.6;
+}
+
+.panelButton:hover {
+	opacity: 1;
+}
+
+#homeSelectPanel {
+	display: flex;
+	justify-content: center;
+}
+
+
