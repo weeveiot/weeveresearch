@@ -23,6 +23,13 @@ Styling classes for text floating and screen splitting
 .right {
   right: 0px;
 }
+.top, .bottom {
+  position: fixed;
+  height: 50%;
+}
+.bottom {
+  bottom: 0px;
+}
 .center {
   position: absolute;
   top: 50%;
@@ -149,4 +156,12 @@ A gray box used to hold information needed to create/add an Object
   width: 925px;
   height: 800px;
   margin: 10px;
+}
+
+/***************************************************************************
+A cyan blue hexagon
+***************************************************************************/
+.blueHex {
+  height: 200px;
+  width: 225px;
 }
