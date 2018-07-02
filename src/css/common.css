@@ -49,7 +49,7 @@ Styling classes for text floating and screen splitting
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
-.backBtn button {
+.backBtn button{
   background-color:  #8D51FF;
   color: #FFFFFF;
   border: 2px solid transparent;
