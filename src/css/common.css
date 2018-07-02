@@ -30,6 +30,9 @@ Styling classes for text floating and screen splitting
 .bottom {
   bottom: 0px;
 }
+.top {
+  top: 0px;
+}
 .center {
   position: absolute;
   top: 50%;
@@ -37,6 +40,7 @@ Styling classes for text floating and screen splitting
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
@@ -159,11 +163,23 @@ A gray box used to hold information needed to create/add an Object
 }
 
 /***************************************************************************
-A cyan blue hexagon
+A cyan blue hexagon and hexagon group styling
 ***************************************************************************/
 .blueHex {
   height: 200px;
   width: 225px;
+}
+.hexagonTop {
+  align-content: center;
+  text-align: center;
+  margin: 20px;
+}
+.hexagonRow {
+  position: relative;
+  align-content: center;
+  text-align: center;
+  display: inline;
+  margin: 40px;
 }
 
 /***************************************************************************
