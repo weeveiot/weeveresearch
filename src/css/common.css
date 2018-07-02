@@ -30,6 +30,9 @@ Styling classes for text floating and screen splitting
 .bottom {
   bottom: 0px;
 }
+.top {
+  top: 0px;
+}
 .center {
   position: absolute;
   top: 50%;
@@ -42,6 +45,7 @@ Styling classes for text floating and screen splitting
 	flex-direction: column;
 	justify-content: space-around;
 }
+
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
@@ -50,11 +54,11 @@ Common back/cancel/finish button styling
   color: #FFFFFF;
   border: 2px solid transparent;
   border-radius: 4px;
-  width: 150px;
-  height: 75px;
+  width: 100px;
+  height: 50px;
   font-size: 22px;
   text-align: center;
-  margin: 10px;
+  margin-right: 9.5%;
 }
 .backBtn button:hover {
   /*background-color:  #FFFFFF;
@@ -164,11 +168,23 @@ A gray box used to hold information needed to create/add an Object
 }
 
 /***************************************************************************
-A cyan blue hexagon
+A cyan blue hexagon and hexagon group styling
 ***************************************************************************/
 .blueHex {
   height: 200px;
   width: 225px;
+}
+.hexagonTop {
+  align-content: center;
+  text-align: center;
+  margin: 20px;
+}
+.hexagonRow {
+  position: relative;
+  align-content: center;
+  text-align: center;
+  display: inline;
+  margin: 40px;
 }
 
 /***************************************************************************
@@ -208,16 +224,4 @@ Styling for the home page
 	line-height: 75px;
 }
 
-
-/***************************************************************************
-Styling for the registry info page
-	-panel that holds selected registry info
-***************************************************************************/
-
-.contentDisplay {
-	display: flex;
-	flex: 1 1;
-	justify-content: center;
-	padding: 20px;
-}
 
