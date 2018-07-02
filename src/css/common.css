@@ -1,5 +1,5 @@
 /***************************************************************************
-Styling classes for text floating
+Styling classes for text floating and screen splitting
 ***************************************************************************/
 .leftFloat {
   float: left;
@@ -7,7 +7,29 @@ Styling classes for text floating
 .rightFloat {
   float: right;
 }
-
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 80px;
+  padding-left: 20px;
+}
+.left {
+  left: 0px;
+}
+.right {
+  right: 0px;
+}
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
@@ -75,10 +97,10 @@ and some value (such as stake in weeve) on the right side
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 820px;
+  width: 90%;
   height: 70px;
   font-size: 28px;
-  margin: 10px;
+  margin: 5px;
 }
 .grayNameBtn button:hover {
   cursor: pointer;
