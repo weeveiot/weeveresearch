@@ -14,8 +14,8 @@ Styling classes for text floating and screen splitting
   z-index: 1;
   top: 0;
   overflow-x: hidden;
-  padding-top: 80px;
-  padding-left: 20px;
+  padding-top: 7%;
+  padding-left: 2%;
 }
 .left {
   left: 0px;
@@ -114,8 +114,9 @@ and some value (such as stake in weeve) on the right side
   padding-top: 10px;
   padding-bottom: 10px;
   width: 90%;
-  height: 70px;
-  font-size: 28px;
+  height: 55px;
+  text-align: center;
+  font-size: 22px;
   margin: 5px;
 }
 .grayNameBtn button:hover {
@@ -144,8 +145,9 @@ label contains a purple border.
   padding-top: 10px;
   padding-bottom: 10px;
   width: 90%;
-  height: 70px;
-  font-size: 28px;
+  height: 55px;
+  text-align: center;
+  font-size: 22px;
   margin: 10px;
 }
 .confirm {
@@ -177,14 +179,14 @@ A cyan blue hexagon and hexagon group styling
 .hexagonTop {
   align-content: center;
   text-align: center;
-  margin: 20px;
+  margin: 4%;
 }
 .hexagonRow {
   position: relative;
   align-content: center;
   text-align: center;
   display: inline;
-  margin: 40px;
+  margin: 6.5%;
 }
 
 /***************************************************************************
@@ -223,5 +225,3 @@ Styling for the home page
 	height: 100px;
 	line-height: 75px;
 }
-
-
