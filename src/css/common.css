@@ -37,6 +37,11 @@ Styling classes for text floating and screen splitting
   transform: translate(-50%, -50%);
   text-align: center;
 }
+.verticalDisplay {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
@@ -113,7 +118,7 @@ and some value (such as stake in weeve) on the right side
   cursor: pointer;
 }
 .grayNameBtn button:active {
-  border: 2px solid #FFD23B;
+  border: 2px solid #8D51FF;
   border-radius: 4px;
 }
 .grayNameBtn button:focus {
@@ -134,7 +139,7 @@ label contains a purple border.
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 820px;
+  width: 90%;
   height: 70px;
   font-size: 28px;
   margin: 10px;
@@ -197,13 +202,22 @@ Styling for the home page
 	justify-content: center;
 	padding: 20px;
 }
-#homeMainPanel {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-}
 #arbiterButton {
 	width: 1217px;
 	height: 100px;
 	line-height: 75px;
 }
+
+
+/***************************************************************************
+Styling for the registry info page
+	-panel that holds selected registry info
+***************************************************************************/
+
+.contentDisplay {
+	display: flex;
+	flex: 1 1;
+	justify-content: center;
+	padding: 20px;
+}
+
