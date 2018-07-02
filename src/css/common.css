@@ -1,0 +1,130 @@
+/***************************************************************************
+Styling classes for text floating
+***************************************************************************/
+.leftFloat {
+  float: left;
+}
+.rightFloat {
+  float: right;
+}
+
+/***************************************************************************
+Common back/cancel/finish button styling
+***************************************************************************/
+.backBtn button {
+  background-color:  #8D51FF;
+  color: #FFFFFF;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 150px;
+  height: 75px;
+  font-size: 22px;
+  text-align: center;
+  margin: 10px;
+}
+.backBtn button:hover {
+  /*background-color:  #FFFFFF;
+  color: #8D51FF;
+  border: 2px solid #8D51FF; Possibly? */
+  cursor: pointer;
+}
+.backBtn button:active {
+  border: 2px solid #FFD23B;
+  border-radius: 4px;
+}
+.backBtn button:focus {
+  outline: 0px;
+}
+
+/***************************************************************************
+Common add/remove button styling (e.g. add/remove registry/marketplace/device)
+***************************************************************************/
+.addBtn button {
+  background-color:  #8D51FF;
+  color: #FFFFFF;
+  border: 0px;
+  border-radius: 4px;
+  width: 200px;
+  height: 75px;
+  font-size: 22px;
+  text-align: center;
+  overflow-wrap: normal;
+  margin: 10px;
+}
+.addBtn button:hover {
+  cursor: pointer;
+}
+.addBtn button:active {
+  border: 2px solid #FFD23B;
+  border-radius: 4px;
+}
+.addBtn button:focus {
+  outline: 0px;
+}
+
+/***************************************************************************
+Common button to show the name of an object on the left side
+and some value (such as stake in weeve) on the right side
+***************************************************************************/
+.grayNameBtn button {
+  background-color:  #E4E7EA;
+  color: #353A40;
+  border: 0px;
+  border-radius: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 820px;
+  height: 70px;
+  font-size: 28px;
+  margin: 10px;
+}
+.grayNameBtn button:hover {
+  cursor: pointer;
+}
+.grayNameBtn button:active {
+  border: 2px solid #FFD23B;
+  border-radius: 4px;
+}
+.grayNameBtn button:focus {
+  outline: 0px;
+}
+
+/***************************************************************************
+Common label to show the name of an object on the left side
+and some value (such as stake in weeve) on the right side. confirm
+label contains a purple border.
+***************************************************************************/
+.infoLabel {
+  background-color:  #E4E7EA;
+  color: #353A40;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 820px;
+  height: 70px;
+  font-size: 28px;
+  margin: 10px;
+}
+.confirm {
+  border: 2px solid #8D51FF;
+}
+
+/***************************************************************************
+A gray box used to hold information needed to create/add an Object
+(e.g. registry/marketplace/device)
+***************************************************************************/
+.createBox {
+  background-color: #E4E7EA;
+  color: #353A40;
+  border: 0px solid transparent;
+  border-radius: 4px;
+  padding: 20px;
+  width: 925px;
+  height: 800px;
+  margin: 10px;
+}

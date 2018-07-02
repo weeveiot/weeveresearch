@@ -1,15 +1,6 @@
-#metamaskButton, #balanceETH, #balanceToken, #getTokens {
-	font-size: 0.9em;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 20px;
-	margin-left: 8px;
-}
-
-#balanceETH, #balanceToken {
-	display: none;
-}
-
+/***************************************************************************
+Styling for footer information
+***************************************************************************/
 .footer {
     position: fixed;
     left: 0;
@@ -20,28 +11,34 @@
     color: white;
     text-align: center;
 }
-
 .footer-right {
     margin-top: 10px;
     height: 2em;
 }
-
 .footer-right .fa {
     margin-right: 10px;
 }
-
 .footer-right a:link, .footer-right a:visited, .footer-right a:link:active {
     color: white;
 }
-
 .footer-right a:hover {
     color: lightgray;
 }
-
 .footercontainer {
     margin-top: 7px;
     width: 400px;
     height: 1em;
     margin-left: auto;
     margin-right: auto;
+}
+
+#metamaskButton, #balanceETH, #balanceToken, #getTokens {
+	font-size: 0.9em;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 20px;
+	margin-left: 8px;
+}
+#balanceETH, #balanceToken {
+	display: none;
 }
