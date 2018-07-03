@@ -22,7 +22,7 @@
     </script>
 
     <!-- Custom js for this template -->
-    <script src="js/script.js"></script>
+    <script src="../js/marketplaces.js"></script>
     <title>weeveNetwork Demo</title>
 
     <!-- Custom styles for this template -->
@@ -33,16 +33,18 @@
     <header>
       <div id="includeNav"></div>
     </header>
-    <div class="split left">
+
+    <div class="split left" id="titlePanel">
       <h1 style="padding-left: 20px">MARKETPLACES</h1>
       <img class="descriptionImage" src="../images/marketplaceImg.png" alt="arbiterImage"/>
     </div>
-    <div class="split right">
+
+    <div class="split right" id="marketPanel">
       <div>
         <h1 class="leftFloat">Your Marketplaces</h1>
         <button class="rightFloat addBtn">ADD NEW MARKETPLACE</button>
       </div>
-      <div>
+      <div id="marketButtons">
         <button class="grayNameBtn">
           <p class="leftFloat"> Test Marketplace 1</p>
           <p class="rightFloat"> 1000 WEEV</p>
@@ -61,6 +63,24 @@
         </button>
       </div>
     </div>
+
+	<div class="split right" id="infoPanel">
+		<div style="padding-bottom:9%">
+			<h1 class="leftFloat" id="marketName" style="padding-left:2%"> <!--name of selected marketplace --></h1>
+			<button class="rightFloat backBtn" id="closeBtn"> CLOSE MARKETPLACE</button>
+		</div>
+		<div>
+			<div class="infoLabel">
+				<p class="leftFloat">Stake</p>
+				<p class="rightFloat">1000 WEEV</p>
+			</div>
+			<div class="infoLabel">
+				<p class="leftFloat">Commission</p>
+				<p class="rightFloat">5 WEEV</p>
+			</div>
+		</div>
+	</div>
+
     <footer>
       <div id="includeFooter"></div>
     </footer>
