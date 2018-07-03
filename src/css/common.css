@@ -15,7 +15,7 @@ Styling classes for text floating and screen splitting
   top: 0;
   overflow-x: hidden;
   padding-top: 7%;
-  padding-left: 0%;
+  padding-left: 2%;
 }
 .left {
   left: 0px;
@@ -137,35 +137,14 @@ A gray box used to hold information needed to create/add an Object
 }
 
 /***************************************************************************
-A cyan blue hexagon and hexagon group styling
+A descriptive picture on the left side of the registry/marketplace/device
+pages
 ***************************************************************************/
-.blueHex {
-  height: 32%;
-}
-.blueHexTop {
-  height: 32%;
-  width: 34%;
-}
-.hexagonTop {
-  position: relative;
-  align-content: center;
-  text-align: center;
-  margin-top: 5%;
-  margin-right: 11%;
-}
-.hexagonLeft {
-  position: relative;
-  align-content: center;
-  text-align: center;
-  display: inline;
-  margin-left: 2%;
-}
-.hexagonRight {
-  position: relative;
-  align-content: center;
-  text-align: center;
-  display: inline;
-  margin-left: 20%;
+.descriptionImage {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /***************************************************************************
