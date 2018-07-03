@@ -82,9 +82,9 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
   color: #FFFFFF;
   border: 0px;
   border-radius: 4px;
-  width: 200px;
-  height: 75px;
-  font-size: 22px;
+  width: 100px;
+  height: 50px;
+  font-size: 16px;
   text-align: center;
   overflow-wrap: normal;
   margin: 10px;
@@ -123,8 +123,8 @@ and some value (such as stake in weeve) on the right side
   cursor: pointer;
 }
 .grayNameBtn button:active {
-  border: 2px solid #8D51FF;
-  border-radius: 4px;
+  background-color: #8D51FF;
+  color: #FFFFFF;
 }
 .grayNameBtn button:focus {
   outline: 0px;
@@ -173,20 +173,37 @@ A gray box used to hold information needed to create/add an Object
 A cyan blue hexagon and hexagon group styling
 ***************************************************************************/
 .blueHex {
-  height: 200px;
-  width: 225px;
+  height: 35%;
+}
+.blueHexTop {
+  height: 35%;
+  width: 37%;
 }
 .hexagonTop {
+  position: relative;
   align-content: center;
   text-align: center;
-  margin: 4%;
+  padding-top: 2%;
 }
-.hexagonRow {
+.hexagonLeft {
   position: relative;
   align-content: center;
   text-align: center;
   display: inline;
-  margin: 6.5%;
+  padding-left: 2%;
+}
+.hexagonLeft p {
+  padding-left: 2%;
+}
+.hexagonRight {
+  position: relative;
+  align-content: center;
+  text-align: center;
+  display: inline;
+  padding-left: 20%;
+}
+.hexagonRight p {
+  padding-left: 20%;
 }
 
 /***************************************************************************
