@@ -47,7 +47,7 @@ Styling classes for text floating and screen splitting
 }
 
 /***************************************************************************
-Common back/cancel/finish button styling
+Common back button styling
 ***************************************************************************/
 .backBtn {
   background-color: #8D51FF;
@@ -59,6 +59,21 @@ Common back/cancel/finish button styling
   font-size: 16px;
   text-align: center;
   margin-right: 9.5%;
+}
+
+/***************************************************************************
+Common cancel button styling
+***************************************************************************/
+.cancelBtn {
+  background-color: #8D51FF;
+  color: #FFFFFF;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 25%;
+  height: 50px;
+  font-size: 16px;
+  text-align: center;
+  margin-right: 1%;
 }
 
 /***************************************************************************
@@ -130,10 +145,8 @@ A gray box used to hold information needed to create/add an Object
   color: #353A40;
   border: 0px solid transparent;
   border-radius: 4px;
-  padding: 20px;
-  width: 925px;
-  height: 800px;
-  margin: 10px;
+  width: 60%;
+  height: 70%;
 }
 
 /***************************************************************************
@@ -144,6 +157,44 @@ pages
   width: 90%;
   display: block;
   margin: auto;
+}
+
+/***************************************************************************
+A purple dot for the creation slide show view
+***************************************************************************/
+.purpleDot {
+  height: 25px;
+  width: 25px;
+  background-color: #8D51FF;
+  opacity: 0.6;
+  cursor: pointer;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.purpleDot:hover {
+  opacity: 1.0;
+}
+
+/***************************************************************************
+Images that display next arrows
+***************************************************************************/
+.leftArrow, .rightArrow {
+    position: relative;
+    width: 10%;
+    opacity: 0.6;
+    cursor: pointer;
+    display: inline-block;
+}
+.leftArrow {
+    transform: rotate(180deg);
+    left: -40%;
+}
+.rightArrow {
+    right: -40%;
+}
+.leftArrow:hover, .rightArrow:hover {
+  opacity: 1;
 }
 
 /***************************************************************************
@@ -199,4 +250,9 @@ button:hover {
 button:active {
   border: 2px solid #8D51FF;
   border-radius: 4px;
+  outline: transparent;
+}
+
+button:focus {
+  outline: transparent;
 }

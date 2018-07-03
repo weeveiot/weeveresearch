@@ -22,65 +22,50 @@
     </script>
 
     <!-- Custom js for this template -->
-    <script src="../js/marketplaces.js"></script>
+    <script src="js/script.js"></script>
     <title>weeveNetwork Demo</title>
 
     <!-- Custom styles for this template -->
     <link href="../css/common.css" rel="stylesheet">
   </head>
-
   <body>
     <header>
       <div id="includeNav"></div>
     </header>
-
-    <div class="split left" id="titlePanel">
-      <h1 style="padding-left: 20px">MARKETPLACES</h1>
-      <img class="descriptionImage" src="../images/marketplaceImg.png" alt="marketplaceImage"/>
-    </div>
-
-    <div class="split right" id="marketPanel">
-      <div>
-        <h1 class="leftFloat">Your Marketplaces</h1>
-        <button class="rightFloat addBtn">ADD NEW MARKETPLACE</button>
+    <img style="opacity: 0.7" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
+    <div class="center createBox">
+      <div style="padding: 2%">
+        <h1 class="leftFloat">Create Registry</h1>
+        <button class="rightFloat cancelBtn">CANCEL</button>
       </div>
-      <div id="marketButtons">
-        <button class="grayNameBtn">
-          <p class="leftFloat"> Test Marketplace 1</p>
-          <p class="rightFloat"> 1000 WEEV</p>
-        </button>
-        <button class="grayNameBtn">
-          <p class="leftFloat"> Test Marketplace 2</p>
-          <p class="rightFloat"> 1000 WEEV</p>
-        </button>
-        <button class="grayNameBtn">
-          <p class="leftFloat"> Test Marketplace 3</p>
-          <p class="rightFloat"> 1000 WEEV</p>
-        </button>
-        <button class="grayNameBtn">
-          <p class="leftFloat"> Test Marketplace 4</p>
-          <p class="rightFloat"> 1000 WEEV</p>
-        </button>
+      <div class="center" style="width: 65%; margin-top: 5%">
+        <br>
+        <h3>Stake Amount</h3>
+        <br>
+        <a>
+             <img class="leftArrow" src="../images/nextArrow.png" alt="backArrowImage"/>
+        </a>
+        <input type="text" style="text-align: center" placeholder="Enter Stake"></input>
+        <a>
+            <img class="rightArrow" src="../images/nextArrow.png" alt="nextArrowImage"/>
+        </a>
+        <h6 style="margin-top: 10%">Some WEEV must be given as collateral to discourage malicious behavior</h6>
+        <div style="margin-top: 10%">
+            <a>
+                <span class="purpleDot"></span>
+            </a>
+            <a>
+                <span class="purpleDot"></span>
+            </a>
+            <a>
+                <span class="purpleDot"></span>
+            </a>
+            <a>
+                <span class="purpleDot"></span>
+            </a>
+        </div>
       </div>
     </div>
-
-	<div class="split right" id="infoPanel">
-		<div style="padding-bottom:9%">
-			<h1 class="leftFloat" id="marketName" style="padding-left:2%"> <!--name of selected marketplace --></h1>
-			<button class="rightFloat backBtn" id="closeBtn"> CLOSE MARKETPLACE</button>
-		</div>
-		<div>
-			<div class="infoLabel">
-				<p class="leftFloat">Stake</p>
-				<p class="rightFloat">1000 WEEV</p>
-			</div>
-			<div class="infoLabel">
-				<p class="leftFloat">Commission</p>
-				<p class="rightFloat">5 WEEV</p>
-			</div>
-		</div>
-	</div>
-
     <footer>
       <div id="includeFooter"></div>
     </footer>
