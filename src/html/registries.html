@@ -16,8 +16,10 @@
 	    $(function(){
 	      $("#includeNav").load("navbar.html");
 	    });
+      $(function(){
+	      $("#includeFooter").load("footer.html");
+	    });
     </script>
-    <div id="includeNav"></div>
 
     <!-- Custom js for this template -->
     <script src="js/script.js"></script>
@@ -28,13 +30,16 @@
   </head>
 
   <body>
+    <header>
+      <div id="includeNav"></div>
+    </header>
     <div class="split left">
       <h1 style="padding-left: 20px">REGISTRIES</h1>
       <img class="descriptionImage" src="../images/registryImg.png" alt="arbiterImage"/>
     </div>
     <div class="split right">
       <div>
-        <h1 class="leftFloat">Your Registries</h1>
+        <h1 class="leftFloat">Your Registries </h1>
         <button class="rightFloat addBtn">ADD NEW REGISTRY</button>
       </div>
       <div>
@@ -56,5 +61,8 @@
         </button>
       </div>
     </div>
+    <footer>
+      <div id="includeFooter"></div>
+    </footer>
   </body>
 </html>
