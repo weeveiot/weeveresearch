@@ -22,7 +22,7 @@
     </script>
 
     <!-- Custom js for this template -->
-    <script src="js/script.js"></script>
+    <script src="../js/devices.js"></script>
     <title>weeveNetwork Demo</title>
 
     <!-- Custom styles for this template -->
@@ -33,16 +33,18 @@
     <header>
       <div id="includeNav"></div>
     </header>
-    <div class="split left">
+
+    <div class="split left" id="titlePanel">
       <h1 style="padding-left: 20px">DEVICES</h1>
       <img class="descriptionImage" src="../images/deviceImg.png" alt="arbiterImage"/>
     </div>
-    <div class="split right">
+
+    <div class="split right" id="registryPanel">
       <div>
         <h1 class="leftFloat">Choose Registry</h1>
         <button class="rightFloat addBtn">ADD NEW DEVICE</button>
       </div>
-      <div>
+      <div id="registryButtons">
         <button class="grayNameBtn">
           <p class="leftFloat"> Test Registry 1</p>
           <p class="rightFloat"> 1000 WEEV</p>
@@ -61,6 +63,49 @@
         </button>
       </div>
     </div>
+
+	<div class="split right" id="devicesPanel">
+		<div style="padding-bottom:10%">
+			<h1 class="leftFloat" id="regName" style="padding-left:2%"> <!--name of registry --></h1>
+			<button class="rightFloat backBtn" id="goBack">BACK</button>
+		</div>
+		<div id="deviceButtons">
+			<button class="grayNameBtn">
+				<p class="leftFloat">Device 1</p>
+				<p class="rightFloat">20 WEEV</p>
+			</button>
+			<button class="grayNameBtn">
+				<p class="leftFloat">Device 2</p>
+				<p class="rightFloat">20 WEEV</p>
+			</button>
+			<button class="grayNameBtn">
+				<p class="leftFloat">Device 3</p>
+				<p class="rightFloat">20 WEEV</p>
+			</button>
+			<button class="grayNameBtn">
+				<p class="leftFloat">Device 4</p>
+				<p class="rightFloat">20 WEEV</p>
+			</button>
+		</div>
+	</div>
+
+	<div class="split right" id="infoPanel">
+		<div style="padding-bottom:9%">
+			<h1 class="leftFloat" id="deviceName" style="padding-left:2%"> <!-- name of device --></h1>
+			<button class="rightFloat backBtn" id="removeBtn">REMOVE DEVICE</button>
+		</div>
+		<div>
+			<div class="infoLabel">
+				<p class="leftFloat">Stake</p>
+				<p class="rightFloat">20 WEEV</p>
+			</div>
+			<div class="infoLabel">
+				<p class="leftFloat">Device Field</p>
+				<p class="rightFloat">Value WEEV</p>
+			</div>
+		</div>
+	</div>
+
     <footer>
       <div id="includeFooter"></div>
     </footer>
