@@ -54,9 +54,9 @@ Common back/cancel/finish button styling
   color: #FFFFFF;
   border: 2px solid transparent;
   border-radius: 4px;
-  width: 100px;
+  width: 25%;
   height: 50px;
-  font-size: 22px;
+  font-size: 16px;
   text-align: center;
   margin-right: 9.5%;
 }
@@ -69,7 +69,7 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
   color: #FFFFFF;
   border: 0px;
   border-radius: 4px;
-  width: 100px;
+  width: 25%;
   height: 50px;
   font-size: 16px;
   text-align: center;
@@ -115,7 +115,7 @@ label contains a purple border.
   height: 55px;
   text-align: center;
   font-size: 22px;
-  margin: 15px;
+  margin: 10px;
 }
 .confirm {
   border: 2px solid #8D51FF;
