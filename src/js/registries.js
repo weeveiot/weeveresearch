@@ -1,9 +1,3 @@
-// track what view is being shown
-let landing = true;
-let displayingReg = false;
-let addingReg = false;
-
-
 window.onload=function() {
 
 	$("#infoPanel").hide();
@@ -31,12 +25,24 @@ window.onload=function() {
 			$('#registryPanel').addClass("left").removeClass("right");
 
 			//show info panel on right side
+			document.getElementById("regName").textContent = selectedReg;
 			$("#infoPanel").show();
-			$("#regName").innerText = selectedReg;
 
-			landing = false;
-			displayingReg = true;
+			//TODO: eventually will pull actual info about registry and display that
+
 		}
+	});
+
+	//handle closing registry
+	var closeButton = document.querySelector('#closeBtn');
+
+	closeButton.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+
+		//TODO: eventually logic to delete registry goes here
+
 	});
 
 
