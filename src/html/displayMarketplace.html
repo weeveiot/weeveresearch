@@ -12,17 +12,29 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="../css/common.css">
 
-		<script>
-			$(function() {
-				$("#includeNav").load("navbar.html");
-			});
-		</script>
+    <!-- Load in header and footer navigation bars -->
+    <script>
+	    $(function(){
+	      $("#includeNav").load("navbar.html");
+	    });
+      $(function(){
+	      $("#includeFooter").load("footer.html");
+	    });
+    </script>
+
+    <!-- Custom js for this template -->
+    <script src="js/script.js"></script>
+    <title>weeveNetwork Demo</title>
+
+    <!-- Custom styles for this template -->
+    <link href="../css/common.css" rel="stylesheet">
 
 	</head>
 
 	<body>
-		<div id="includeNav"></div>
-
+    <header>
+      <div id="includeNav"></div>
+    </header>
 		<div class="split left">
 			<div style="padding-bottom:10%">
 				<h1 class="leftFloat" style="padding-left: 2%"> Your Marketplaces </h1>
@@ -64,6 +76,9 @@
 				</div>
 			</div>
 		</div>
+    <footer>
+      <div id="includeFooter"></div>
+    </footer>
 	</body>
 
 </html>
