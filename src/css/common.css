@@ -49,8 +49,8 @@ Styling classes for text floating and screen splitting
 /***************************************************************************
 Common back/cancel/finish button styling
 ***************************************************************************/
-.backBtn button{
-  background-color:  #8D51FF;
+.backBtn {
+  background-color: #8D51FF;
   color: #FFFFFF;
   border: 2px solid transparent;
   border-radius: 4px;
@@ -60,24 +60,11 @@ Common back/cancel/finish button styling
   text-align: center;
   margin-right: 9.5%;
 }
-.backBtn button:hover {
-  /*background-color:  #FFFFFF;
-  color: #8D51FF;
-  border: 2px solid #8D51FF; Possibly? */
-  cursor: pointer;
-}
-.backBtn button:active {
-  border: 2px solid #FFD23B;
-  border-radius: 4px;
-}
-.backBtn button:focus {
-  outline: 0px;
-}
 
 /***************************************************************************
 Common add/remove button styling (e.g. add/remove registry/marketplace/device)
 ***************************************************************************/
-.addBtn button {
+.addBtn {
   background-color:  #8D51FF;
   color: #FFFFFF;
   border: 0px;
@@ -89,25 +76,15 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
   overflow-wrap: normal;
   margin: 10px;
 }
-.addBtn button:hover {
-  cursor: pointer;
-}
-.addBtn button:active {
-  border: 2px solid #FFD23B;
-  border-radius: 4px;
-}
-.addBtn button:focus {
-  outline: 0px;
-}
 
 /***************************************************************************
 Common button to show the name of an object on the left side
 and some value (such as stake in weeve) on the right side
 ***************************************************************************/
-.grayNameBtn button {
+.grayNameBtn {
   background-color:  #E4E7EA;
   color: #353A40;
-  border: 0px;
+  border: none;
   border-radius: 4px;
   padding-left: 20px;
   padding-right: 20px;
@@ -118,16 +95,6 @@ and some value (such as stake in weeve) on the right side
   text-align: center;
   font-size: 22px;
   margin: 5px;
-}
-.grayNameBtn button:hover {
-  cursor: pointer;
-}
-.grayNameBtn button:active {
-  border: 2px solid #8D51FF;
-  border-radius: 4px;
-}
-.grayNameBtn button:focus {
-  outline: 0px;
 }
 
 /***************************************************************************
@@ -148,7 +115,7 @@ label contains a purple border.
   height: 55px;
   text-align: center;
   font-size: 22px;
-  margin: 10px;
+  margin: 15px;
 }
 .confirm {
   border: 2px solid #8D51FF;
@@ -224,4 +191,22 @@ Styling for the home page
 	width: 1217px;
 	height: 100px;
 	line-height: 75px;
+}
+
+
+/***************************************************************************
+Basic styling for buttons
+***************************************************************************/
+button {
+	opacity: 0.6;
+	cursor: pointer;
+}
+
+button:hover {
+	opacity: 1;
+}
+
+button:active {
+  border: 2px solid #8D51FF;
+  border-radius: 4px;
 }
