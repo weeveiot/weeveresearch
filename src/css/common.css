@@ -140,17 +140,18 @@ A gray box used to hold information needed to create/add an Object
 A cyan blue hexagon and hexagon group styling
 ***************************************************************************/
 .blueHex {
-  height: 35%;
+  height: 32%;
 }
 .blueHexTop {
-  height: 35%;
-  width: 37%;
+  height: 32%;
+  width: 34%;
 }
 .hexagonTop {
   position: relative;
   align-content: center;
   text-align: center;
-  padding-top: 2%;
+  margin-top: 5%;
+  margin-right: 8%;
 }
 .hexagonLeft {
   position: relative;
