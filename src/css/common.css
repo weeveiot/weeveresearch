@@ -167,7 +167,7 @@ A purple dot for the creation slide show view
   height: 25px;
   width: 25px;
   background-color: #8D51FF;
-  opacity: 0.6;
+  opacity: 0.8;
   cursor: pointer;
   border-radius: 50%;
   display: inline-block;
@@ -189,7 +189,7 @@ Images that display next arrows
 .leftArrow, .rightArrow {
     position: relative;
     width: 10%;
-    opacity: 0.6;
+    opacity: 0.8;
     cursor: pointer;
     display: inline-block;
 }
