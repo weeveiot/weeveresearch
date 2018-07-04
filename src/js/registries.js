@@ -95,6 +95,7 @@ window.onload=function() {
 	displayRegistries();
 
 	$("#infoPanel").hide();
+	$('#createPanel').hide();
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -144,5 +145,31 @@ window.onload=function() {
 
 	});
 
+	//handle creating a new registry
+	var addButton = document.querySelector('#addRegBtn');
+
+	addButton.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$('#registryPanel').hide();
+		$('#titlePanel').hide();
+		$('#createPanel').show();
+
+
+	});
+
+	//handle canceling from creation and returning to mainpage
+	var cancelAddButton = document.querySelector('#cancelAddBtn');
+
+	cancelAddBtn.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$('#registryPanel').show();
+		$('#titlePanel').show();
+		$('#createPanel').hide();
+
+	});
 
 }
