@@ -4,9 +4,8 @@ var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 /****************************Functions******************************/
 
 function getRegistries() {
-	//maybe have to clear array at start?
 
-	console.log("filling registry array")		//FIXME:debug
+	console.log("filling registry array");		//FIXME:debug
 
 	var name;
 	var stake;
