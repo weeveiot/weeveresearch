@@ -33,12 +33,12 @@ Styling for footer information
 }
 
 #metamaskButton, #balanceETH, #balanceToken, #getTokens {
-	font-size: 0.9em;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 20px;
-	margin-left: 8px;
+    font-size: 0.9em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+    margin-left: 8px;
 }
 #balanceETH, #balanceToken {
-	display: none;
+    display: none;
 }
