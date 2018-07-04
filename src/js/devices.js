@@ -1,4 +1,121 @@
+// hold info about devices for user
+var regArray = [];			//[regName, regStake]
+var deviceArray = [];		//[regIndex][deviceName, devStake, devType]
+
+var selectedRegId;			//track which reg we're in
+
+/******************************Functions******************************/
+
+function getDevices() {
+	console.log("please put on your 3d glasses (this array is gross)");		//FIXME:debug
+
+	var regName;
+	var regStake;
+	var deviceName;
+	var devStake;
+	var devType;
+
+	//TODO: pull actual data from contract
+	for(var i = 0; i < 3; i++) {
+		if (i == 0) {
+			regName = "Ben's Reg";
+			regStake = 1500;
+			deviceName = "Ben's Camera"
+			devStake = 20;
+			devType = "Camera";
+		}
+
+		if (i == 1) {
+			regName = "Braden's Reg";
+			regStake = 1000;
+			deviceName = "Braden's Car"
+			devStake = 15;
+			devType = "Car";
+		}
+
+		if (i == 2) {
+			regName = "Martin's Reg";
+			regStake = 2000;
+			deviceName = "Martin's Fridge"
+			devStake = 5;
+			devType = "Refridgerator";
+		}
+
+		//fill array in the most disgusting way possible
+		regArray[i] = [regName, regStake];
+		for(var j = 0; j < 1; j++) {
+			deviceArray[i] = [];
+			deviceArray[i][j] = [deviceName, devStake, devType];
+
+			console.log(deviceArray[i][j][0] + " " + deviceArray[i][j][1] + " " + deviceArray[i][j][2]);		//FIXME: debug
+		}
+
+		console.log(regArray[i][0] + " " + regArray[i][1]);		//FIXME:debug
+
+	}
+
+}
+
+function displayRegistries() {
+	if(regArray.length != 0) {
+		//fill registryButtons
+		var panel = document.querySelector('#registryButtons');
+		var newHtml = "";
+		var str1;
+		var str2;
+		for (var i = 0; i < regArray.length; i++) {
+			str1 = newHtml;
+			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + regArray[i][0] + "</p><p class='rightFloat'>" + regArray[i][1] + " WEEV</p></button>";
+			newHtml = str1.concat(str2);
+		}
+
+		console.log(newHtml);		//FIXME: debug
+
+		panel.innerHTML = newHtml;
+	}
+}
+
+function displayDevices(id) {
+	if(deviceArray[id].length != 0) {
+		//fill deviceButtons
+		var panel = document.querySelector('#deviceButtons');
+		var newHtml = "";
+		var str1;
+		var str2;
+		for (var i = 0; i < deviceArray[id].length; i++) {
+			str1 = newHtml;
+			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + deviceArray[id][i][0] + "</p><p class='rightFloat'>" + deviceArray[id][i][1] + " WEEV</p></button>";
+			newHtml = str1.concat(str2);
+		}
+
+		console.log(newHtml);		//FIXME: debug
+
+		panel.innerHTML = newHtml;
+	}
+}
+
+function displayDeviceInfo(id) {
+	if(deviceArray[selectedRegId].length != 0) {
+		//fill deviceInfo
+		var panel = document.querySelector('#deviceInfo');
+
+		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + deviceArray[selectedRegId][id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Device Type</p><p class='rightFloat'>" + deviceArray[selectedRegId][id][2] + "</p></div>";
+
+		console.log(newHtml);			//FIXME:debug
+
+		panel.innerHTML = newHtml;
+	}
+}
+
+
+
+
+/*******************************UI*******************************/
+
 window.onload=function() {
+	// immediately fill arrays and display regs
+	getDevices();
+	displayRegistries();
 
 	$("#devicesPanel").hide();
 	$('#infoPanel').hide();
@@ -15,7 +132,7 @@ window.onload=function() {
 
 			let string  = event.target.innerHTML;
 
-			let beginning = string.search(">") + 2;
+			let beginning = string.search(">") + 1;
 			let end = string.search("</p>");
 
 			let selectedReg = string.slice(beginning, end);
@@ -24,6 +141,10 @@ window.onload=function() {
 
 			//move list of registers from right to left
 			$('#registryPanel').addClass("left").removeClass("right");
+
+			//display devices for that registry
+			selectedRegId = $('.grayNameBtn').index(event.target);
+			displayDevices(selectedRegId);
 
 			//show device list on right side and hide back button
 			document.getElementById("regName").textContent = selectedReg;
@@ -54,6 +175,10 @@ window.onload=function() {
 			//move list of devices to left and show back button
 			$('#devicesPanel').addClass('left').removeClass('right');
 			$('#goBack').show();
+
+			//show device info
+			let buttonId = $('.grayNameBtn').index(event.target) - regArray.length;			//cheeky
+			displayDeviceInfo(buttonId);
 
 			//show info panel on right
 			document.getElementById('deviceName').textContent = selectedDevice;
