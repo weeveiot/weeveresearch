@@ -45,20 +45,6 @@ Styling classes for text floating and screen splitting
     flex-direction: column;
     justify-content: space-around;
 }
-.row {
-    margin-left: 5%;
-    margin-right: 5%;
-    justify-content: space-around;
-    text-align: center;
-    align-content: center;
-}
-.row:before,.row:after{
-    content: " ";
-    display: table;
-}
-.row:after{
-    clear: both;
-}
 
 /***************************************************************************
 Common back button styling
@@ -243,6 +229,7 @@ Styling for the home page
     font-size: 16px;
     width: 30%;
     height: 400px;
+    line-height: 375px;
     opacity: 0.6;
     text-decoration: none !important;
 }
@@ -261,6 +248,23 @@ Styling for the home page
     line-height: 75px;
 }
 
+/***************************************************************************
+Homepage styling testing
+***************************************************************************/
+.row {
+    margin-left: -15px;
+    margin-right: -15px
+}
+.row:before, .row:after {
+    content: " ";
+    display: table
+}
+.row:after {
+    clear: both
+}
+.col {
+
+}
 
 /***************************************************************************
 Basic styling for buttons
