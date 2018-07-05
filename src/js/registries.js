@@ -146,7 +146,7 @@ window.onload=function() {
 
 	//handle creating a new registry
 	var addButton = document.querySelector('#addRegBtn');
-
+	var currentFieldNum = 0;
 	addButton.addEventListener('click', function(event) {
 
 		//hide info panel
@@ -155,6 +155,47 @@ window.onload=function() {
 		$('#titlePanel').hide();
 		$('#createPanel').show();
 
+		let fieldArray = ["Stake Amount", "Registry Name"] // function needed to read the appropriate registryFields.txt file
+		console.log(fieldArray);
+
+		// set text appropriately
+		document.getElementById('createName').textContent = "Create Registry";
+		var dotRow = document.querySelector('#dotRow');
+		var newHtml = "";
+		for (var i = 0; i < fieldArray.length; i++) {
+			str1 = newHtml;
+			str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
+			newHtml = str1.concat(str2);
+		}
+		dotRow.innerHTML = newHtml;
+
+		// setup listeners to handle moving through slides
+		// TODO bugs to work out
+		for (var i = 0; i < fieldArray.length; i++) {
+			var thisDot = document.getElementById('dot' + i);
+			thisDot.addEventListener('click', function(event) {
+				thisDot.style.opacity = 1;
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				currentFieldNum = i;
+				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum];
+			});
+		}
+		$('#dotRow').show();
+		console.log(newHtml);
+
+		//set opacity for the first field
+		document.getElementById('dot0').style.opacity = 1;
+		document.getElementById('fieldName').textContent = fieldArray[currentFieldNum];
+		$("leftArrow").each(function() {
+    		this.data("href", this.attr("href"))
+        		.attr("href", "javascript:void(0)")
+        		.attr("disabled", "disabled");
+		});
+		//document.getElementById('leftArrow').setAttribute("style","opacity:0.5; -moz-opacity:0.5; filter:alpha(opacity=50)");
+		// to re-enable the left arrow
+		//$("leftArrow").each(function() {
+    	//	this.attr("href", this.data("href")).removeAttr("disabled");
+		//});
 
 	});
 

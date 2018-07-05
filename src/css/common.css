@@ -211,6 +211,7 @@ A purple dot for the creation slide show view
     cursor: pointer;
     border-radius: 50%;
     display: inline-block;
+    margin: 4px;
 }
 .purpleDot:hover {
     opacity: 1.0;

@@ -1,0 +1,5 @@
+Stake Amount#numeric#Some WEEV must be given as collateral to discourage malicious behavior
+Registry Name#text#Provide a name to identify and describe the registry
+Stake per Registration#numeric#Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted
+Stake per Validator#numeric#Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards.
+Stake per Arbiter#numeric#Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types.
