@@ -242,14 +242,9 @@ Styling for the home page
     justify-content: center;
     padding: 20px;
 }
-#arbiterButton {
-    width: 1217px;
-    height: 100px;
-    line-height: 75px;
-}
 
 /***************************************************************************
-Homepage styling for tiles
+Homepage styling for tiles and buttons
 ***************************************************************************/
 .tileTitle {
     margin-top: 6%;

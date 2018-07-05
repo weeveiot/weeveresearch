@@ -165,7 +165,7 @@ window.onload=function() {
 
 		//hide info panel
 		$('#infoPanel').hide();
-		$('#registryPanel').show();
+		$('#registryPanel').show().addClass("right").removeClass("left");
 		$('#titlePanel').show();
 		$('#createPanel').hide();
 
