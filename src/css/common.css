@@ -315,7 +315,7 @@ Homepage styling for tiles and buttons
     margin-top: 3%;
 }
 .tile {
-    padding-top: 25px;
+    padding-top: 35px;
     text-decoration: none !important;
     box-shadow: 0px 3px 10px -3px #424242;
     display: block;
