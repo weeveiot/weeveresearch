@@ -159,7 +159,47 @@ pages
     display: block;
     margin: auto;
 }
-
+.firstHex {
+    position: relative;
+    margin-top: 2%;
+    min-width: 3%;
+    width: auto;
+    max-width: 225px;
+    height: auto;
+    margin-left: 0px;
+}
+.secondHex {
+    position: relative;
+    margin-top: 2%;
+    min-width: 3%;
+    width: auto;
+    max-width: 225px;
+    height: auto;
+    margin-left: 0px;
+    text-align: center;
+}
+.thirdHex {
+    position: relative;
+    margin-top: 2%;
+    min-width: 3%;
+    width: auto;
+    max-width: 225px;
+    height: auto;
+    margin-left: 0px;
+    text-align: center;
+}
+.hexRow {
+    display: flex;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+.hexCol {
+    position: relative;
+    flex: 50%;
+    align-content: center;
+    text-align: center;
+}
 /***************************************************************************
 A purple dot for the creation slide show view
 ***************************************************************************/
@@ -275,6 +315,7 @@ Homepage styling for tiles and buttons
     margin-top: 3%;
 }
 .tile {
+    padding-top: 25px;
     text-decoration: none !important;
     box-shadow: 0px 3px 10px -3px #424242;
     display: block;
