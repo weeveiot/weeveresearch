@@ -30,6 +30,7 @@ Styling for footer information
     height: 1em;
     margin-left: auto;
     margin-right: auto;
+    z-index: 9999;
 }
 
 #metamaskButton, #balanceETH, #balanceToken, #getTokens {
