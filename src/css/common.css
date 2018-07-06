@@ -378,7 +378,7 @@ Homepage styling for tiles and buttons
 }
 
 /***************************************************************************
-Basic styling for buttons
+Basic styling for buttons and inputs
 ***************************************************************************/
 button {
     opacity: 0.8;
@@ -406,6 +406,14 @@ button:focus {
     -webkit-appearance:none;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+input:focus {
+    border-color: rgba(141, 81, 255, 0.6) !important;
+    outline: 0 none !important;
+}
+input:active {
+    border-color: rgba(141, 81, 255, 0.6) !important;
+    outline: 0 none !important;
 }
 /***************************************************************************
 Basic styling for scrollbar

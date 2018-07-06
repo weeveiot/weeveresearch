@@ -274,7 +274,7 @@ window.onload=function() {
 				if (event.target.id != "dot" + currentFieldNum) {
 					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
 				}
-				inputArray[currentFieldNum] = input.value;
+				inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = +event.target.id.split("dot")[1];
 				updateFields(
 					fieldArray[currentFieldNum][0],
@@ -293,7 +293,7 @@ window.onload=function() {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
 			if (currentFieldNum > 0) {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum - 1;
 				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
 				updateFields(
@@ -314,7 +314,7 @@ window.onload=function() {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
 			if (currentFieldNum < fieldArray.length - 1) {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum + 1;
 				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
 				updateFields(
@@ -326,7 +326,7 @@ window.onload=function() {
 			}
 			// handle updating input for last slide
 			// TODO create finish button
-			inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+			inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 		}
 		else {
 			inputError(fieldArray[currentFieldNum][1]);
