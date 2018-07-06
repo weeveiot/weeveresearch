@@ -104,6 +104,21 @@ function populateFields() {
 	//return ["Stake Amount", "Registry Name"];
 }
 
+function updateFields(name, placeholder, description, input) {
+	document.getElementById('fieldName').textContent = name;
+	document.getElementById("fieldInput").placeholder = placeholder;
+	document.getElementById('fieldDescription').textContent = description;
+	document.getElementById("fieldInput").value = input;
+}
+
+// verify user gave correct input
+function verifyInput(type) {
+	var input = document.getElementById("fieldInput");
+	if (type.toLowerCase() === "str") {
+		return typeof input.value === typeof "";
+	}
+}
+
 /***************************UI***************************************/
 
 
@@ -164,18 +179,92 @@ window.onload=function() {
 	});
 
 	//handle creating a new registry
+
 	var addButton = document.querySelector('#addRegBtn');
 	var currentFieldNum = 0;
 	var fieldArray = [
-		["Stake Amount", "int", "Some WEEV must be given as collateral to discourage malicious behavior"],
-		["Registry Name", "str", "Provide a name to identify and describe the registry"],
-		["Stake per Registration", "int", "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"],
-		["Stake per Validator", "int", "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards."],
-		["Stake per Arbiter", "int", "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types."]
+		["Stake Amount", "int", "Enter stake", "Some WEEV must be given as collateral to discourage malicious behavior"],
+		["Registry Name", "str", "Enter name", "Provide a name to identify and describe the registry"],
+		["Stake per Registration", "int", "Enter stake", "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"],
+		["Stake per Validator", "int", "Enter stake", "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards."],
+		["Stake per Arbiter", "int", "Enter stake", "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types."]
 	];
 	//var fieldArray = populateFields();
-	console.log(fieldArray);
 	var inputArray = [];
+
+	// generate correct number of 'slides'
+	document.getElementById('createName').textContent = "Create Registry";
+	var dotRow = document.querySelector('#dotRow');
+	var newHtml = "";
+	for (var i = 0; i < fieldArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
+		newHtml = str1.concat(str2);
+	}
+	dotRow.innerHTML = newHtml;
+
+	// setup listeners to handle moving through slides and updating data
+	for (var i = 0; i < fieldArray.length; i++) {
+		var thisDot = document.getElementById("dot" + i);
+		var input = document.getElementById("fieldInput");
+		thisDot.addEventListener('click', function(event) {
+			event.target.style.opacity = 1;
+			if (event.target.id != "dot" + currentFieldNum) {
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+			}
+			inputArray[currentFieldNum] = input.value;
+			currentFieldNum = +event.target.id.split("dot")[1];
+			updateFields(
+				fieldArray[currentFieldNum][0],
+				fieldArray[currentFieldNum][2],
+				fieldArray[currentFieldNum][3],
+				inputArray[currentFieldNum]
+			);
+			console.log(inputArray);
+		});
+		// add blank elements to input array
+		inputArray.push(input.value);
+	}
+	var leftArrow = document.getElementById("prevBtn");
+	leftArrow.addEventListener('click', function(event) {
+		if (currentFieldNum > 0) {
+			console.log(currentFieldNum);
+			document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+			inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+			currentFieldNum = currentFieldNum - 1;
+			console.log(currentFieldNum);
+			document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+			updateFields(
+				fieldArray[currentFieldNum][0],
+				fieldArray[currentFieldNum][2],
+				fieldArray[currentFieldNum][3],
+				inputArray[currentFieldNum]
+			);
+		}
+		console.log(inputArray);
+	});
+	var rightArrow = document.getElementById("nextBtn");
+	rightArrow.addEventListener('click', function(event) {
+		if (currentFieldNum < fieldArray.length - 1) {
+			console.log(currentFieldNum);
+			document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+			inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+			currentFieldNum = currentFieldNum + 1;
+			console.log(currentFieldNum);
+			document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+			updateFields(
+				fieldArray[currentFieldNum][0],
+				fieldArray[currentFieldNum][2],
+				fieldArray[currentFieldNum][3],
+				inputArray[currentFieldNum]
+			);
+		}
+		// handle updating input for last slide
+		// TODO create finish button
+		inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+		console.log(inputArray);
+	});
+
 	addButton.addEventListener('click', function(event) {
 
 		//hide info panel
@@ -184,58 +273,16 @@ window.onload=function() {
 		$('#titlePanel').hide();
 		$('#createPanel').show();
 
-		// set text appropriately
-		document.getElementById('createName').textContent = "Create Registry";
-		var dotRow = document.querySelector('#dotRow');
-		var newHtml = "";
-		for (var i = 0; i < fieldArray.length; i++) {
-			str1 = newHtml;
-			str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
-			newHtml = str1.concat(str2);
-		}
-		dotRow.innerHTML = newHtml;
-
-		// setup listeners to handle moving through slides
-		for (var i = 0; i < fieldArray.length; i++) {
-			var thisDot = document.getElementById("dot" + i);
-			thisDot.addEventListener('click', function(event) {
-				event.target.style.opacity = 1;
-				if (event.target.id != "dot" + currentFieldNum) {
-					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				}
-				currentFieldNum = +event.target.id.split("dot")[1];
-				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
-				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
-			});
-		}
-		var leftArrow = document.getElementById("prevBtn");
-		leftArrow.addEventListener('click', function(event) {
-			if (currentFieldNum > 0) {
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				currentFieldNum = currentFieldNum - 1;
-				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
-				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
-			}
-		});
-		var rightArrow = document.getElementById("nextBtn");
-		rightArrow.addEventListener('click', function(event) {
-			if (currentFieldNum < fieldArray.length - 1) {
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				currentFieldNum = currentFieldNum + 1;
-				console.log(currentFieldNum);
-				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
-				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
-			}
-		});
-
 		$('#dotRow').show();
 
-		//set opacity for the first field
+		//set data for the first field
 		document.getElementById('dot0').style.opacity = 1;
-		document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
-		document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
+		updateFields(
+			fieldArray[currentFieldNum][0],
+			fieldArray[currentFieldNum][2],
+			fieldArray[currentFieldNum][3],
+			inputArray[currentFieldNum]
+		);
 
 
 	});
@@ -250,6 +297,14 @@ window.onload=function() {
 		$('#registryPanel').show().addClass("right").removeClass("left");
 		$('#titlePanel').show();
 		$('#createPanel').hide();
+
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			inputArray[i] = "";
+		}
+		currentFieldNum = 0;
+		document.getElementById("fieldInput").value = "";
 
 	});
 
