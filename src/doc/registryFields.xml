@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fields>
+    <field id="stake">
+        <name> Stake Amount </name>
+        <data> int </data>
+        <description> Some WEEV must be given as collateral to discourage malicious behavior </description>
+    </field>
+    <field id="name">
+        <name> Registry Name </name>
+        <data> str </data>
+        <description> Provide a name to identify and describe the registry </description>
+    </field>
+    <field id="regStake">
+        <name> Stake per Registration </name>
+        <data> int </data>
+        <description> Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted </description>
+    </field>
+    <field id="valStake">
+        <name> Stake per Validator </name>
+        <data> int </data>
+        <description> Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards. </description>
+    </field>
+    <field id="arbStake">
+        <name> Stake per Arbiter </name>
+        <data> int </data>
+        <description> Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types. </description>
+    </field>
+</fields>

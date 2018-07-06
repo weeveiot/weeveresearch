@@ -84,6 +84,25 @@ function displayRegistryInfo(id) {
 	}
 }
 
+// used for populating fields needed to add a registry from xml file
+function populateFields() {
+	var retArray = [];
+	var xmlDoc = XML.load('../doc/registryFields.xml');
+	var fields = xmlDoc.getElementByTagName("field");
+	for (var key in fields) {
+		retArray.push([]);
+		var fieldElements = fields[key].childNodes;
+		console.log(fields[key]);
+		for (var ele in fieldElements) {
+			if (fieldElements[ele]) {
+				retArray[key].push(fieldElements[ele]);
+				console.log(fieldElements[ele]);
+			}
+		}
+	}
+	return retArray;
+	//return ["Stake Amount", "Registry Name"];
+}
 
 /***************************UI***************************************/
 
@@ -147,6 +166,16 @@ window.onload=function() {
 	//handle creating a new registry
 	var addButton = document.querySelector('#addRegBtn');
 	var currentFieldNum = 0;
+	var fieldArray = [
+		["Stake Amount", "int", "Some WEEV must be given as collateral to discourage malicious behavior"],
+		["Registry Name", "str", "Provide a name to identify and describe the registry"],
+		["Stake per Registration", "int", "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"],
+		["Stake per Validator", "int", "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards."],
+		["Stake per Arbiter", "int", "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types."]
+	];
+	//var fieldArray = populateFields();
+	console.log(fieldArray);
+	var inputArray = [];
 	addButton.addEventListener('click', function(event) {
 
 		//hide info panel
@@ -154,9 +183,6 @@ window.onload=function() {
 		$('#registryPanel').hide();
 		$('#titlePanel').hide();
 		$('#createPanel').show();
-
-		let fieldArray = ["Stake Amount", "Registry Name"] // function needed to read the appropriate registryFields.txt file
-		console.log(fieldArray);
 
 		// set text appropriately
 		document.getElementById('createName').textContent = "Create Registry";
@@ -170,32 +196,47 @@ window.onload=function() {
 		dotRow.innerHTML = newHtml;
 
 		// setup listeners to handle moving through slides
-		// TODO bugs to work out
 		for (var i = 0; i < fieldArray.length; i++) {
-			var thisDot = document.getElementById('dot' + i);
+			var thisDot = document.getElementById("dot" + i);
 			thisDot.addEventListener('click', function(event) {
-				thisDot.style.opacity = 1;
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				currentFieldNum = i;
-				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum];
+				event.target.style.opacity = 1;
+				if (event.target.id != "dot" + currentFieldNum) {
+					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				}
+				currentFieldNum = +event.target.id.split("dot")[1];
+				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
+				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
 			});
 		}
+		var leftArrow = document.getElementById("prevBtn");
+		leftArrow.addEventListener('click', function(event) {
+			if (currentFieldNum > 0) {
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				currentFieldNum = currentFieldNum - 1;
+				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
+				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
+			}
+		});
+		var rightArrow = document.getElementById("nextBtn");
+		rightArrow.addEventListener('click', function(event) {
+			if (currentFieldNum < fieldArray.length - 1) {
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				currentFieldNum = currentFieldNum + 1;
+				console.log(currentFieldNum);
+				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+				document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
+				document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
+			}
+		});
+
 		$('#dotRow').show();
-		console.log(newHtml);
 
 		//set opacity for the first field
 		document.getElementById('dot0').style.opacity = 1;
-		document.getElementById('fieldName').textContent = fieldArray[currentFieldNum];
-		$("leftArrow").each(function() {
-    		this.data("href", this.attr("href"))
-        		.attr("href", "javascript:void(0)")
-        		.attr("disabled", "disabled");
-		});
-		//document.getElementById('leftArrow').setAttribute("style","opacity:0.5; -moz-opacity:0.5; filter:alpha(opacity=50)");
-		// to re-enable the left arrow
-		//$("leftArrow").each(function() {
-    	//	this.attr("href", this.data("href")).removeAttr("disabled");
-		//});
+		document.getElementById('fieldName').textContent = fieldArray[currentFieldNum][0];
+		document.getElementById('fieldDescription').textContent = fieldArray[currentFieldNum][2];
+
 
 	});
 
