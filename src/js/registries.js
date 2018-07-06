@@ -150,7 +150,8 @@ function verifyInput(inputType) {
 		return !isNaN(input.value) || input.value === "";
 	}
 	else if (inputType.toLowerCase() === "bool") {
-		return typeof input.value === typeof true
+		return input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
+		|| input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "false"
 		|| input.value === "";
 	}
 	else {
@@ -161,7 +162,29 @@ function verifyInput(inputType) {
 
 // throws an error stating the desired inputType
 function inputError(inputType) {
-	console.log("User input error");
+	var errorAlert = document.getElementById("inputAlert");
+	var alertPrompt = document.getElementById("alertPrompt");
+	var input = document.getElementById("fieldInput");
+	if (inputType.toLowerCase() === "str") {
+		alertPrompt.textContent = "Please enter a string of text";
+	}
+	else if (inputType.toLowerCase() === "num") {
+		alertPrompt.textContent = "Please enter a number";
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		alertPrompt.textContent = "Please enter either 'true' or 'false'";
+	}
+	else {
+		alertPrompt.textContent = "Invalid input type given";
+	}
+	$("#inputAlert").show();
+	input.style.opacity = 0;
+}
+
+// close error prompt
+function closeInputError() {
+	$("#inputAlert").hide();
+	document.getElementById("fieldInput").style.opacity = 1;
 }
 
 /***************************UI***************************************/
