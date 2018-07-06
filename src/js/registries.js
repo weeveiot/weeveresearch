@@ -86,11 +86,52 @@ function displayRegistryInfo(id) {
 
 // used for populating fields needed to add a registry from JSON file
 function populateFields() {
-	$.getJSON("", function(json) {
-        console.log(json);
-    });
+	// TODO load in file later, focus on parsing now
+	var data = [
+		{
+			"name": "Stake Amount",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Some WEEV must be given as collateral to discourage malicious behavior"
+		},
+		{
+			"name": "Registry Name",
+			"data": "str",
+			"placeholder": "Enter name",
+			"description": "Provide a name to identify and describe the registry"
+		},
+		{
+			"name": "Stake per Registration",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+		},
+		{
+			"name": "Stake per Validator",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+		},
+		{
+			"name": "Stake per Arbiter",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
+		}
+	]
+	var retArray = [];
+	for (var key in data) {
+		var fields = data[key];
+		var fieldArray = [];
+		for (var el in fields) {
+			fieldArray.push(fields[el].replace(/^\s+|\s+$/g,''));
+		}
+		retArray.push(fieldArray);
+	}
+	return retArray;
 }
 
+// updates slide to match current field data
 function updateFields(name, placeholder, description, input) {
 	document.getElementById('fieldName').textContent = name;
 	document.getElementById("fieldInput").placeholder = placeholder;
@@ -99,11 +140,28 @@ function updateFields(name, placeholder, description, input) {
 }
 
 // verify user gave correct input
-function verifyInput(type) {
+function verifyInput(inputType) {
 	var input = document.getElementById("fieldInput");
-	if (type.toLowerCase() === "str") {
-		return typeof input.value === typeof "";
+	if (inputType.toLowerCase() === "str") {
+		return typeof input.value === typeof ""
+		|| input.value === "";
 	}
+	else if (inputType.toLowerCase() === "num") {
+		return !isNaN(input.value) || input.value === "";
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		return typeof input.value === typeof true
+		|| input.value === "";
+	}
+	else {
+		console.log("Invalid input type");
+		return false;
+	}
+}
+
+// throws an error stating the desired inputType
+function inputError(inputType) {
+	console.log("User input error");
 }
 
 /***************************UI***************************************/
@@ -169,16 +227,7 @@ window.onload=function() {
 
 	var addButton = document.querySelector('#addRegBtn');
 	var currentFieldNum = 0;
-	var fieldArray = [
-		["Stake Amount", "int", "Enter stake", "Some WEEV must be given as collateral to discourage malicious behavior"],
-		["Registry Name", "str", "Enter name", "Provide a name to identify and describe the registry"],
-		["Stake per Registration", "int", "Enter stake", "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"],
-		["Stake per Validator", "int", "Enter stake", "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards."],
-		["Stake per Arbiter", "int", "Enter stake", "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types."]
-	];
-	var testArray = populateFields();
-	console.log("Hello, i'm here");
-	console.log(testArray);
+	var fieldArray = populateFields();
 	var inputArray = [];
 
 	// generate correct number of 'slides'
@@ -197,60 +246,68 @@ window.onload=function() {
 		var thisDot = document.getElementById("dot" + i);
 		var input = document.getElementById("fieldInput");
 		thisDot.addEventListener('click', function(event) {
-			event.target.style.opacity = 1;
-			if (event.target.id != "dot" + currentFieldNum) {
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+			if (verifyInput(fieldArray[currentFieldNum][1])) {
+				event.target.style.opacity = 1;
+				if (event.target.id != "dot" + currentFieldNum) {
+					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				}
+				inputArray[currentFieldNum] = input.value;
+				currentFieldNum = +event.target.id.split("dot")[1];
+				updateFields(
+					fieldArray[currentFieldNum][0],
+					fieldArray[currentFieldNum][2],
+					fieldArray[currentFieldNum][3],
+					inputArray[currentFieldNum]
+				);
+				console.log(inputArray);
 			}
-			inputArray[currentFieldNum] = input.value;
-			currentFieldNum = +event.target.id.split("dot")[1];
-			updateFields(
-				fieldArray[currentFieldNum][0],
-				fieldArray[currentFieldNum][2],
-				fieldArray[currentFieldNum][3],
-				inputArray[currentFieldNum]
-			);
-			console.log(inputArray);
 		});
 		// add blank elements to input array
 		inputArray.push(input.value);
 	}
 	var leftArrow = document.getElementById("prevBtn");
 	leftArrow.addEventListener('click', function(event) {
-		if (currentFieldNum > 0) {
-			console.log(currentFieldNum);
-			document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-			inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
-			currentFieldNum = currentFieldNum - 1;
-			console.log(currentFieldNum);
-			document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-			updateFields(
-				fieldArray[currentFieldNum][0],
-				fieldArray[currentFieldNum][2],
-				fieldArray[currentFieldNum][3],
-				inputArray[currentFieldNum]
-			);
+		if (verifyInput(fieldArray[currentFieldNum][1])) {
+			if (currentFieldNum > 0) {
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+				currentFieldNum = currentFieldNum - 1;
+				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+				updateFields(
+					fieldArray[currentFieldNum][0],
+					fieldArray[currentFieldNum][2],
+					fieldArray[currentFieldNum][3],
+					inputArray[currentFieldNum]
+				);
+			}
+		}
+		else {
+			inputError(fieldArray[currentFieldNum][1]);
 		}
 		console.log(inputArray);
 	});
 	var rightArrow = document.getElementById("nextBtn");
 	rightArrow.addEventListener('click', function(event) {
-		if (currentFieldNum < fieldArray.length - 1) {
-			console.log(currentFieldNum);
-			document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		if (verifyInput(fieldArray[currentFieldNum][1])) {
+			if (currentFieldNum < fieldArray.length - 1) {
+				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+				currentFieldNum = currentFieldNum + 1;
+				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+				updateFields(
+					fieldArray[currentFieldNum][0],
+					fieldArray[currentFieldNum][2],
+					fieldArray[currentFieldNum][3],
+					inputArray[currentFieldNum]
+				);
+			}
+			// handle updating input for last slide
+			// TODO create finish button
 			inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
-			currentFieldNum = currentFieldNum + 1;
-			console.log(currentFieldNum);
-			document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-			updateFields(
-				fieldArray[currentFieldNum][0],
-				fieldArray[currentFieldNum][2],
-				fieldArray[currentFieldNum][3],
-				inputArray[currentFieldNum]
-			);
 		}
-		// handle updating input for last slide
-		// TODO create finish button
-		inputArray[currentFieldNum] = document.getElementById("fieldInput").value;
+		else {
+			inputError(fieldArray[currentFieldNum][1]);
+		}
 		console.log(inputArray);
 	});
 
@@ -262,6 +319,14 @@ window.onload=function() {
 		$('#titlePanel').hide();
 		$('#createPanel').show();
 
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			inputArray[i] = "";
+		}
+		currentFieldNum = 0;
+		document.getElementById("fieldInput").value = "";
+
 		$('#dotRow').show();
 
 		//set data for the first field
@@ -272,7 +337,6 @@ window.onload=function() {
 			fieldArray[currentFieldNum][3],
 			inputArray[currentFieldNum]
 		);
-
 
 	});
 

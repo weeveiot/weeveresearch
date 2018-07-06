@@ -214,7 +214,7 @@ A purple dot for the creation slide show view
     margin: 4px;
 }
 .purpleDot:hover {
-    opacity: 1.0;
+    opacity: 1.0 !important;
 }
 .dotRow {
     position: absolute;
