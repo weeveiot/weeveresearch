@@ -1,0 +1,22 @@
+{
+  "name": "weeveresearch",
+  "version": "1.0.0",
+  "description": "Demo website for weeveNetwork",
+  "main": "truffle-config.js",
+  "scripts": {
+    "test": "do the test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weeveiot/weeveresearch.git"
+  },
+  "author": "Braden Meyerhoefer, Ben Hodgson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weeveiot/weeveresearch/issues"
+  },
+  "homepage": "https://github.com/weeveiot/weeveresearch#readme",
+  "dependencies": {
+    "browserify": "^16.2.2"
+  }
+}
