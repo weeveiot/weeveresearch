@@ -84,24 +84,11 @@ function displayRegistryInfo(id) {
 	}
 }
 
-// used for populating fields needed to add a registry from xml file
+// used for populating fields needed to add a registry from JSON file
 function populateFields() {
-	var retArray = [];
-	var xmlDoc = XML.load('../doc/registryFields.xml');
-	var fields = xmlDoc.getElementByTagName("field");
-	for (var key in fields) {
-		retArray.push([]);
-		var fieldElements = fields[key].childNodes;
-		console.log(fields[key]);
-		for (var ele in fieldElements) {
-			if (fieldElements[ele]) {
-				retArray[key].push(fieldElements[ele]);
-				console.log(fieldElements[ele]);
-			}
-		}
-	}
-	return retArray;
-	//return ["Stake Amount", "Registry Name"];
+	$.getJSON("", function(json) {
+        console.log(json);
+    });
 }
 
 function updateFields(name, placeholder, description, input) {
@@ -189,7 +176,9 @@ window.onload=function() {
 		["Stake per Validator", "int", "Enter stake", "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards."],
 		["Stake per Arbiter", "int", "Enter stake", "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types."]
 	];
-	//var fieldArray = populateFields();
+	var testArray = populateFields();
+	console.log("Hello, i'm here");
+	console.log(testArray);
 	var inputArray = [];
 
 	// generate correct number of 'slides'
