@@ -1,0 +1,34 @@
+{
+    "fields": [
+        {
+            "name": "Stake Amount",
+            "data": "int",
+            "placeholder": "Enter stake",
+            "description": "Some WEEV must be given as collateral to discourage malicious behavior"
+        },
+        {
+            "name": "Name",
+            "data": "str",
+            "placeholder": "Enter name",
+            "description": "Provide a name to identify and describe the registry"
+        },
+        {
+            "name": "Stake per Registration",
+            "data": "int",
+            "placeholder": "Enter stake",
+            "description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+        },
+        {
+            "name": "Stake per Validator",
+            "data": "int",
+            "placeholder": "Enter stake",
+            "description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+        },
+        {
+            "name": "Stake per Arbiter",
+            "data": "int",
+            "placeholder": "Enter stake",
+            "description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
+        }
+    ]
+}
