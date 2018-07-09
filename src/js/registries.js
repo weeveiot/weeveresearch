@@ -291,8 +291,6 @@ window.onload=function() {
 	});
 
 	//handle creating a new registry
-
-	var addButton = document.querySelector('#addRegBtn');
 	var currentFieldNum = 0;
 	var fieldArray = populateFields();
 	var inputArray = [];
@@ -309,6 +307,7 @@ window.onload=function() {
 	dotRow.innerHTML = newHtml;
 
 	// setup listeners to handle moving through slides and updating data
+	// setup clickable dots
 	for (var i = 0; i < fieldArray.length; i++) {
 		var thisDot = document.getElementById("dot" + i);
 		var input = document.getElementById("fieldInput");
@@ -341,6 +340,8 @@ window.onload=function() {
 		// add blank elements to input array
 		inputArray.push(input.value);
 	}
+
+	// setup clickable previous button
 	var leftArrow = document.getElementById("prevBtn");
 	leftArrow.addEventListener('click', function(event) {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
@@ -365,6 +366,8 @@ window.onload=function() {
 		}
 		console.log(inputArray);
 	});
+
+	// setup clickable next button
 	var rightArrow = document.getElementById("nextBtn");
 	rightArrow.addEventListener('click', function(event) {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
@@ -418,6 +421,8 @@ window.onload=function() {
 		console.log(inputArray);
 	});
 
+
+	var addButton = document.querySelector('#addRegBtn');
 	addButton.addEventListener('click', function(event) {
 
 		//hide info panel

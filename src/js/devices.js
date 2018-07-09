@@ -107,7 +107,93 @@ function displayDeviceInfo(id) {
 	}
 }
 
-
+// extracts necessary inputs from json file
+function populateSlides() {
+	// TODO load in file later, focus on parsing now
+	var data = [
+		{
+		    "slide1": {
+		        "title": "Select Registry",
+		        "field1": {
+		            "name": "",
+		            "data": "str",
+		            "placeholder": "Enter registry name"
+		        },
+		        "description": "Select a registry to register the device to"
+		    },
+		    "slide2": {
+		        "title": "Stake Amount",
+		        "field1": {
+		            "name": "",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
+		    },
+		    "slide3": {
+		        "title": "Device Information",
+		        "field1": {
+		            "name": "Device Name",
+		            "data": "str",
+		            "placeholder": "Device name"
+		        },
+		        "field2": {
+		            "name": "Device ID",
+		            "data": "str",
+		            "placeholder": "Device ID (E.g. '4aa0c302c6138118')"
+		        },
+		        "field3": {
+		            "name": "Device Product Name",
+		            "data": "str",
+		            "placeholder": "Product name (E.g. 'CHARGE_SENS_1_8')"
+		        },
+		        "field4": {
+		            "name": "Device Version",
+		            "data": "str",
+		            "placeholder": "Device version (E.g. '1.50.361A')"
+		        },
+		        "field5": {
+		            "name": "Device Serial",
+		            "data": "str",
+		            "placeholder": "Device serial (E.g. 'LR04M1CA')"
+		        },
+		        "field6": {
+		            "name": "Device Description",
+		            "data": "str",
+		            "placeholder": "Device description (E.g. 'Small thermal sensor')"
+		        },
+		    },
+		    "slide4": {
+		        "title": "Device Specifications",
+		        "field1": {
+		            "name": "Device CPU",
+		            "data": "str",
+		            "placeholder": "Device CPU (E.g. 'ARM Cortex-A53')"
+		        },
+		        "field2": {
+		            "name": "Device TrustZone",
+		            "data": "bool",
+		            "placeholder": "Device has TrustZone ('true' or 'false')"
+		        },
+		        "field3": {
+		            "name": "Device WiFi",
+		            "data": "bool",
+		            "placeholder": "Device has WiFi ('true' or 'false')"
+		        },
+		        "field4": {
+		            "name": "Device Sensors",
+		            "data": "str",
+		            "placeholder": "Device sensors (E.g. 'electricity, current')"
+		        },
+		        "field5": {
+		            "name": "Device Datatype",
+		            "data": "str",
+		            "placeholder": "Device data type (E.g. 'numeric')"
+		        },
+		    }
+		}
+	]
+}
 
 
 /*******************************UI*******************************/
@@ -119,6 +205,8 @@ window.onload=function() {
 
 	$("#devicesPanel").hide();
 	$('#infoPanel').hide();
+	$('#createPanel').hide();
+	$('#finishBox').hide();
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -213,6 +301,37 @@ window.onload=function() {
 		$('#infoPanel').hide();
 
 		//TODO: eventually actual logic to remove
+	});
+
+	//handle adding device
+	var addButton = document.querySelector('#addBtn');
+
+	addButton.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$("#devicesPanel").hide();
+		$("#titlePanel").hide();
+		$('#registryPanel').hide();
+		$('#createPanel').show();
+	});
+
+	//handle creating a new registry
+	var currentSlideNum = 0;
+	var slideArray = populateSlides();
+	var inputArray = [];
+
+	//handle canceling during adding device
+	var cancelAddButton = document.querySelector('#cancelAddBtn');
+
+	cancelAddButton.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$("#devicesPanel").hide();
+		$("#titlePanel").show();
+		$('#registryPanel').show().addClass('right').removeClass('left');;
+		$('#createPanel').hide();
 	});
 
 
