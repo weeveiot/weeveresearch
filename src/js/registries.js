@@ -197,6 +197,7 @@ window.onload=function() {
 
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
+	$('#finishBox').hide();
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -282,7 +283,16 @@ window.onload=function() {
 					fieldArray[currentFieldNum][3],
 					inputArray[currentFieldNum]
 				);
+				if (currentFieldNum === 0) {
+					document.getElementById("prevBtn").style.opacity = 0.3;
+				}
+				else {
+					document.getElementById("prevBtn").style.opacity = 1.0;
+				}
 				console.log(inputArray);
+			}
+			else {
+				inputError(fieldArray[currentFieldNum][1]);
 			}
 		});
 		// add blank elements to input array
@@ -302,6 +312,9 @@ window.onload=function() {
 					fieldArray[currentFieldNum][3],
 					inputArray[currentFieldNum]
 				);
+				if (currentFieldNum === 0) {
+					document.getElementById("prevBtn").style.opacity = 0.3;
+				}
 			}
 		}
 		else {
@@ -312,7 +325,13 @@ window.onload=function() {
 	var rightArrow = document.getElementById("nextBtn");
 	rightArrow.addEventListener('click', function(event) {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
-			if (currentFieldNum < fieldArray.length - 1) {
+			if (currentFieldNum === fieldArray.length - 1) {
+				console.log("Right here");
+				// display finish screen
+				$('#createSlides').hide();
+				$('#finishBox').show();
+			}
+			else if (currentFieldNum < fieldArray.length - 1) {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
 				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum + 1;
@@ -324,9 +343,10 @@ window.onload=function() {
 					inputArray[currentFieldNum]
 				);
 			}
-			// handle updating input for last slide
-			// TODO create finish button
 			inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
+			if (currentFieldNum > 0) {
+				document.getElementById("prevBtn").style.opacity = 1.0;
+			}
 		}
 		else {
 			inputError(fieldArray[currentFieldNum][1]);
@@ -349,6 +369,7 @@ window.onload=function() {
 		}
 		currentFieldNum = 0;
 		document.getElementById("fieldInput").value = "";
+		document.getElementById("prevBtn").style.opacity = 0.3;
 
 		$('#dotRow').show();
 
@@ -373,6 +394,29 @@ window.onload=function() {
 		$('#registryPanel').show().addClass("right").removeClass("left");
 		$('#titlePanel').show();
 		$('#createPanel').hide();
+
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			inputArray[i] = "";
+		}
+		currentFieldNum = 0;
+		document.getElementById("fieldInput").value = "";
+
+	});
+
+	//handle canceling from creation and returning to mainpage
+	var finishAddButton = document.querySelector('#finishAddBtn');
+
+	finishAddBtn.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$('#registryPanel').show().addClass("right").removeClass("left");
+		$('#titlePanel').show();
+		$('#createSlides').show();
+		$('#createPanel').hide();
+		$('#finishBox').hide();
 
 		// reset input array and currentField counter
 		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;

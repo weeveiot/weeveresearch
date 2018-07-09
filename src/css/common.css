@@ -91,6 +91,19 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
     overflow-wrap: normal;
     margin-right: 9.5%;
 }
+/***************************************************************************
+Common finish button styling (e.g. confirm registry/marketplace/device)
+***************************************************************************/
+.finishBtn {
+    background-color:  #8D51FF;
+    color: #FFFFFF;
+    border-radius: 4px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+    text-align: center;
+    overflow-wrap: normal;
+}
 
 /***************************************************************************
 Common button to show the name of an object on the left side
@@ -130,11 +143,13 @@ label contains a purple border.
     height: 55px;
     text-align: center;
     font-size: 22px;
-    margin: 5px;
+    margin: auto;
+    margin-bottom: 5px !important;
 }
 .confirm {
-    border: 2px solid #8D51FF;
+    border-bottom: 1px solid #8D51FF;
     height: 51px;
+    margin: auto;
 }
 
 /***************************************************************************
@@ -204,8 +219,8 @@ pages
 A purple dot for the creation slide show view
 ***************************************************************************/
 .purpleDot {
-    height: 25px;
-    width: 25px;
+    height: 15px;
+    width: 15px;
     background-color: #8D51FF;
     opacity: 0.6;
     cursor: pointer;
@@ -260,12 +275,13 @@ Error popup message and an exit button
 .errorPopup {
     z-index: 1000;
     width: 250px;
-    height: 75px;
-    padding: 20px;
+    height: 70px;
+    padding: 10px;
     background-color: #8d51ff;
     border-radius: 4px;
     color: white;
     margin-bottom: 15px;
+    text-align: center;
 }
 .exitBtn {
     margin-left: 15px;
@@ -278,7 +294,6 @@ Error popup message and an exit button
     transition: 0.3s;
 }
 .exitBtn:hover {
-    font-size: 28px;
     color: #f44336;
 }
 
@@ -407,12 +422,18 @@ button:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(141, 81, 255, 0.6);
+}
 input:focus {
-    border-color: rgba(141, 81, 255, 0.6) !important;
     outline: 0 none !important;
 }
+input:hover::placeholder {
+    color: rgba(141, 81, 255, 1.0) !important;
+}
 input:active {
-    border-color: rgba(141, 81, 255, 0.6) !important;
     outline: 0 none !important;
 }
 /***************************************************************************
@@ -435,4 +456,56 @@ Basic styling for scrollbar
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #CDCFD2;
+}
+/*************************************************************************
+/ Styling for placeholder removal on focus
+/*************************************************************************/
+ /* Chrome <=56, Safari < 10 */
+::-webkit-input-placeholder {
+    opacity: 0.5;
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+}
+ /* FF 4-18 */
+:-moz-placeholder {
+    opacity: 0.5;
+    -moz-transition: opacity .5s;
+    transition: opacity .5s;
+}
+/* FF 19-51 */
+::-moz-placeholder {
+    opacity: 0.5;
+    -moz-transition: opacity .5s;
+    transition: opacity .5s;
+}
+/* IE 10+ */
+:-ms-input-placeholder {
+    opacity: 0.5;
+    -ms-transition: opacity .5s;
+    transition: opacity .5s;
+}
+/* Modern Browsers */
+::placeholder {
+    opacity: 0.5;
+    transition: opacity .5s;
+}
+/* Chrome <=56, Safari < 10 */
+*:focus::-webkit-input-placeholder {
+    opacity: 0;
+}
+/* FF 4-18 */
+*:focus:-moz-placeholder {
+    opacity: 0;
+}
+ /* FF 19-50 */
+*:focus::-moz-placeholder {
+    opacity: 0;
+}
+/* IE 10+ */
+*:focus:-ms-input-placeholder {
+    opacity: 0;
+}
+/* Modern Browsers */
+*:focus::placeholder {
+    opacity: 0;
 }
