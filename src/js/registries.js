@@ -139,7 +139,7 @@ function updateFields(name, placeholder, description, input) {
 	document.getElementById("fieldInput").value = input;
 }
 
-// verify user gave correct input
+// verify user gave correct input before advancing slides and storing data
 function verifyInput(inputType) {
 	var input = document.getElementById("fieldInput");
 	if (inputType.toLowerCase() === "str") {
@@ -158,6 +158,49 @@ function verifyInput(inputType) {
 		console.log("Invalid input type");
 		return false;
 	}
+}
+
+// confirm stored input is of the correct type before finishing creation
+function confirmInput(storedVal, valType) {
+	if (valType.toLowerCase() === "str") {
+		return typeof storedVal === typeof ""
+		&& storedVal !== "";
+	}
+	else if (valType.toLowerCase() === "num") {
+		return !isNaN(storedVal) && storedVal !== "";
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		return storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
+		|| storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "false";
+	}
+	else {
+		console.log("Invalid input type");
+		return false;
+	}
+}
+
+// confirms the stored input for each field is valid
+// returns -1 if all are valid
+// returns index of the invalid stored input otherwise
+function executeFinish(inputArray, fieldArray) {
+	for (var i = 0; i < inputArray.length; i++) {
+		if (!confirmInput(inputArray[i], fieldArray[i][1])) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+// populate the finish display before displaying
+// assume input array and field array are the same size
+function populateFinish(inputArray, fieldArray) {
+	var newHtml = ""
+	for (var i = 0; i < inputArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<div class='infoLabel confirm'><p class='leftFloat'>" + fieldArray[i][0] + "</p><p class='rightFloat'>" + inputArray[i] + "</p></div>";
+		newHtml = str1.concat(str2);
+	}
+	document.querySelector('#confirmData').innerHTML = newHtml;
 }
 
 // throws an error stating the desired inputType
@@ -197,6 +240,7 @@ window.onload=function() {
 
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
+	$('#finishBox').hide();
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -282,7 +326,16 @@ window.onload=function() {
 					fieldArray[currentFieldNum][3],
 					inputArray[currentFieldNum]
 				);
+				if (currentFieldNum === 0) {
+					document.getElementById("prevBtn").style.opacity = 0.3;
+				}
+				else {
+					document.getElementById("prevBtn").style.opacity = 1.0;
+				}
 				console.log(inputArray);
+			}
+			else {
+				inputError(fieldArray[currentFieldNum][1]);
 			}
 		});
 		// add blank elements to input array
@@ -302,6 +355,9 @@ window.onload=function() {
 					fieldArray[currentFieldNum][3],
 					inputArray[currentFieldNum]
 				);
+				if (currentFieldNum === 0) {
+					document.getElementById("prevBtn").style.opacity = 0.3;
+				}
 			}
 		}
 		else {
@@ -312,7 +368,34 @@ window.onload=function() {
 	var rightArrow = document.getElementById("nextBtn");
 	rightArrow.addEventListener('click', function(event) {
 		if (verifyInput(fieldArray[currentFieldNum][1])) {
-			if (currentFieldNum < fieldArray.length - 1) {
+			if (currentFieldNum === fieldArray.length - 1) {
+				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
+				var finishResult = executeFinish(inputArray, fieldArray);
+				// all stored values are correct, display the finish screen
+				if (finishResult === -1) {
+					// populate finish screen fields to match input fields
+					populateFinish(inputArray, fieldArray);
+					// display finish screen
+					$('#createSlides').hide();
+					$('#finishBox').show();
+				}
+				else {
+					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+					currentFieldNum = finishResult;
+					document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
+					updateFields(
+						fieldArray[currentFieldNum][0],
+						fieldArray[currentFieldNum][2],
+						fieldArray[currentFieldNum][3],
+						inputArray[currentFieldNum]
+					);
+					inputError(fieldArray[currentFieldNum][1]);
+					if (currentFieldNum === 0) {
+						document.getElementById("prevBtn").style.opacity = 0.3;
+					}
+				}
+			}
+			else if (currentFieldNum < fieldArray.length - 1) {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
 				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum + 1;
@@ -324,9 +407,10 @@ window.onload=function() {
 					inputArray[currentFieldNum]
 				);
 			}
-			// handle updating input for last slide
-			// TODO create finish button
-			inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
+			// at the end, check to restore full opacity
+			if (currentFieldNum > 0) {
+				document.getElementById("prevBtn").style.opacity = 1.0;
+			}
 		}
 		else {
 			inputError(fieldArray[currentFieldNum][1]);
@@ -349,6 +433,7 @@ window.onload=function() {
 		}
 		currentFieldNum = 0;
 		document.getElementById("fieldInput").value = "";
+		document.getElementById("prevBtn").style.opacity = 0.3;
 
 		$('#dotRow').show();
 
@@ -382,6 +467,37 @@ window.onload=function() {
 		currentFieldNum = 0;
 		document.getElementById("fieldInput").value = "";
 
+	});
+
+	//handle canceling from creation and returning to mainpage
+	var finishAddButton = document.querySelector('#finishAddBtn');
+
+	finishAddBtn.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$('#registryPanel').show().addClass("right").removeClass("left");
+		$('#titlePanel').show();
+		$('#createSlides').show();
+		$('#createPanel').hide();
+		$('#finishBox').hide();
+
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			inputArray[i] = "";
+		}
+		currentFieldNum = 0;
+		document.getElementById("fieldInput").value = "";
+	});
+
+	//handle canceling from confirmation and returning to slideshow
+	var backAddButton = document.querySelector('#backAddBtn');
+
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		$('#createSlides').show();
+		$('#finishBox').hide();
 	});
 
 }

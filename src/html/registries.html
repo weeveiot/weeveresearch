@@ -86,7 +86,7 @@
         <h1 class="leftFloat" id="regName" style="padding-left:2%"> <!--name of registry selected goes here --></h1>
         <button class="rightFloat backBtn" id="closeBtn">CLOSE REGISTRY</button>
     </div>
-    <div id="registryInfo">
+    <div id="registryInfo" style="margin-left: 12px;">
         <!-- now being filled with js, leaving template here
         <div class="infoLabel">
         <p class="leftFloat">Stake</p>
@@ -109,7 +109,7 @@
 
 <div id="createPanel">
     <img style="opacity: 0.7" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
-    <div class="center createBox">
+    <div class="center createBox" id="createSlides">
         <div style="padding: 2%">
             <h1 class="leftFloat" id="createName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
             <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
@@ -137,6 +137,19 @@
             <!-- TODO add the correct amount of dots on initialization -->
 
         </div>
+    </div>
+    <div class="center createBox" id="finishBox">
+        <br>
+        <h1 class="createName">Confirm New Registry</h1>
+        <br>
+        <div style="overflow: auto; height: 50%; width: 95%; margin: auto" id="confirmData">
+        </div>
+        <br>
+        <span>
+            <button class="finishBtn" id="backAddBtn">Back</button>
+            <button class="finishBtn" id="finishAddBtn">Finish</button>
+        </span>
+        <br>
     </div>
 </div>
 
