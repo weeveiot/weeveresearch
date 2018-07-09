@@ -191,6 +191,18 @@ function executeFinish(inputArray, fieldArray) {
 	return -1;
 }
 
+// populate the finish display before displaying
+// assume input array and field array are the same size
+function populateFinish(inputArray, fieldArray) {
+	var newHtml = ""
+	for (var i = 0; i < inputArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<div class='infoLabel confirm'><p class='leftFloat'>" + fieldArray[i][0] + "</p><p class='rightFloat'>" + inputArray[i] + "</p></div>";
+		newHtml = str1.concat(str2);
+	}
+	document.querySelector('#confirmData').innerHTML = newHtml;
+}
+
 // throws an error stating the desired inputType
 function inputError(inputType) {
 	var errorAlert = document.getElementById("inputAlert");
@@ -362,7 +374,7 @@ window.onload=function() {
 				// all stored values are correct, display the finish screen
 				if (finishResult === -1) {
 					// populate finish screen fields to match input fields
-
+					populateFinish(inputArray, fieldArray);
 					// display finish screen
 					$('#createSlides').hide();
 					$('#finishBox').show();
