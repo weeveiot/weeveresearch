@@ -56,75 +56,121 @@
     <div class="split right" id="registryPanel">
         <div style="margin-bottom:2%">
             <h1 class="leftFloat">Choose Registry</h1>
-            <button class="rightFloat addBtn">ADD NEW DEVICE</button>
+            <button class="rightFloat addBtn" id="addBtn">ADD NEW DEVICE</button>
         </div>
         <div id="registryButtons">
-			<!-- now filled by js
+            <!-- now filled by js
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 1</p>
-                <p class="rightFloat"> 1000 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 2</p>
-                <p class="rightFloat"> 1000 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 3</p>
-                <p class="rightFloat"> 1000 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 4</p>
-                <p class="rightFloat"> 1000 WEEV</p>
-			</button>	-->
-        </div>
-    </div>
+            <p class="leftFloat"> Test Registry 1</p>
+            <p class="rightFloat"> 1000 WEEV</p>
+        </button>
+        <button class="grayNameBtn">
+        <p class="leftFloat"> Test Registry 2</p>
+        <p class="rightFloat"> 1000 WEEV</p>
+    </button>
+    <button class="grayNameBtn">
+    <p class="leftFloat"> Test Registry 3</p>
+    <p class="rightFloat"> 1000 WEEV</p>
+</button>
+<button class="grayNameBtn">
+<p class="leftFloat"> Test Registry 4</p>
+<p class="rightFloat"> 1000 WEEV</p>
+</button>	-->
+</div>
+</div>
 
-    <div class="split right" id="devicesPanel">
-        <div style="margin-bottom:10%">
-            <h1 class="leftFloat" id="regName" style="padding-left:2%"> <!--name of registry --></h1>
-            <button class="rightFloat backBtn" id="goBack">BACK</button>
-        </div>
-        <div id="deviceButtons" style="margin-left: 12px;">
-			<!-- filled by js now
-            <button class="grayNameBtn">
-                <p class="leftFloat">Device 1</p>
-                <p class="rightFloat">20 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat">Device 2</p>
-                <p class="rightFloat">20 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat">Device 3</p>
-                <p class="rightFloat">20 WEEV</p>
-            </button>
-            <button class="grayNameBtn">
-                <p class="leftFloat">Device 4</p>
-                <p class="rightFloat">20 WEEV</p>
-			</button>	-->
-        </div>
+<div class="split right" id="devicesPanel">
+    <div style="margin-bottom:10%">
+        <h1 class="leftFloat" id="regName" style="padding-left:2%"> <!--name of registry --></h1>
+        <button class="rightFloat backBtn" id="goBack">BACK</button>
     </div>
+    <div id="deviceButtons" style="margin-left: 12px;">
+        <!-- filled by js now
+        <button class="grayNameBtn">
+        <p class="leftFloat">Device 1</p>
+        <p class="rightFloat">20 WEEV</p>
+    </button>
+    <button class="grayNameBtn">
+    <p class="leftFloat">Device 2</p>
+    <p class="rightFloat">20 WEEV</p>
+</button>
+<button class="grayNameBtn">
+<p class="leftFloat">Device 3</p>
+<p class="rightFloat">20 WEEV</p>
+</button>
+<button class="grayNameBtn">
+<p class="leftFloat">Device 4</p>
+<p class="rightFloat">20 WEEV</p>
+</button>	-->
+</div>
+</div>
 
-    <div class="split right" id="infoPanel">
-        <div style="margin-bottom:10%">
-            <h1 class="leftFloat" id="deviceName" style="padding-left:2%"> <!-- name of device --></h1>
-            <button class="rightFloat backBtn" id="removeBtn">REMOVE DEVICE</button>
+<div class="split right" id="infoPanel">
+    <div style="margin-bottom:10%">
+        <h1 class="leftFloat" id="deviceName" style="padding-left:2%"> <!-- name of device --></h1>
+        <button class="rightFloat backBtn" id="removeBtn">REMOVE DEVICE</button>
+    </div>
+    <div id="deviceInfo" style="margin-left: 12px;">
+        <!-- filled by js now
+        <div class="infoLabel">
+        <p class="leftFloat">Stake</p>
+        <p class="rightFloat">20 WEEV</p>
+    </div>
+    <div class="infoLabel">
+    <p class="leftFloat">Device Field</p>
+    <p class="rightFloat">Value WEEV</p>
+</div>	-->
+</div>
+</div>
+
+<div id="createPanel">
+    <img style="opacity: 0.7" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
+    <div class="center createBox" id="createSlides">
+        <div style="padding: 2%">
+            <h1 class="leftFloat" id="createName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
+            <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
         </div>
-        <div id="deviceInfo" style="margin-left: 12px;">
-			<!-- filled by js now
-            <div class="infoLabel">
-                <p class="leftFloat">Stake</p>
-                <p class="rightFloat">20 WEEV</p>
+        <div style="width: 65%;top: 35%;left: 50%;transform: translate(-50%, -50%);text-align: center;position:absolute">
+            <h3 style="margin-bottom: 5%" id="fieldName"><!-- name of the field to be specified goes here --></h3>
+            <div style="position: absolute">
+                <a>
+                    <img class="leftArrow" id="prevBtn" src="../images/nextArrow.png" alt="backArrowImage"/>
+                </a>
+                <input type="text" style="text-align: center" id="fieldInput" placeholder=""></input>
+                <a>
+                    <img class="rightArrow" id="nextBtn" src="../images/nextArrow.png" alt="nextArrowImage"/>
+                </a>
             </div>
-            <div class="infoLabel">
-                <p class="leftFloat">Device Field</p>
-                <p class="rightFloat">Value WEEV</p>
-			</div>	-->
+            <div class="center errorPopup" id="inputAlert" style="display: none; margin-top: 60px">
+                <span class='exitBtn' onclick="closeInputError()">&times;</span>
+                <p id="alertPrompt"></p>
+            </div>
+        </div>
+        <h6 id="fieldDescription" style="position: absolute;top: 65%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+            <!-- description of the field to be specified goes here -->
+        </h6>
+        <div id="dotRow" style="position: absolute;top: 90%;left: 50%;transform: translate(-50%, -50%);text-align: center;">
+            <!-- TODO add the correct amount of dots on initialization -->
+
         </div>
     </div>
+    <div class="center createBox" id="finishBox">
+        <br>
+        <h1 class="createName">Confirm New Registry</h1>
+        <br>
+        <div style="overflow: auto; height: 50%; width: 95%; margin: auto" id="confirmData">
+        </div>
+        <br>
+        <span>
+            <button class="finishBtn" id="backAddBtn">Back</button>
+            <button class="finishBtn" id="finishAddBtn">Finish</button>
+        </span>
+        <br>
+    </div>
+</div>
 
-    <footer>
-        <div id="includeFooter"></div>
-    </footer>
+<footer>
+    <div id="includeFooter"></div>
+</footer>
 </body>
 </html>
