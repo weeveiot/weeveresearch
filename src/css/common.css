@@ -258,7 +258,6 @@ Images that display next arrows
 .leftArrow:hover, .rightArrow:hover {
     opacity: 1;
 }
-
 .createInterior {
     width: 65%;
     top: 50%;
@@ -392,7 +391,7 @@ Homepage styling for tiles and buttons
 }
 
 /***************************************************************************
-Basic styling for buttons and inputs
+Basic styling for buttons
 ***************************************************************************/
 button {
     opacity: 0.8;
@@ -420,6 +419,23 @@ button:focus {
     -webkit-appearance:none;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+/***************************************************************************
+Basic styling inputs
+***************************************************************************/
+.inputContainer {
+    margin-top: 75px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px !important;
+    z-index: 999 !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+.inputContainer input {
+    width: 350px;
 }
 input {
     background: none;
