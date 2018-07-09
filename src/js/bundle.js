@@ -36543,7 +36543,10 @@ window.addEventListener('load', function() {
 
 	// connect to web3
 	if (typeof web3 !== 'undefined') {
-		web3Provider = web3.currentProvider;
+		//web3Provider = web3.currentProvider;
+
+		web3Provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
+		console.log("web3Provider: " + web3Provider);		//FIXME
 	} else {
 		//default to local ganache
 		console.log("ganache");
@@ -36555,13 +36558,11 @@ window.addEventListener('load', function() {
 	console.log("web3: " + web3);
 
 	// get contract data for factory and token
-	$.getJSON('abi_token.json', function(data) {
-		contract_token = web3.eth.contract(data).at(token_address);
+	$.getJSON('/home/meyerhoeferb/weeve/weeveresearch/build/contracts/weeveToken.json', function(data) {
+		contract_token = new web3.eth.Contract(data, token_address, {from: token_address});
 	});
 
-	$.getJSON('abi_factory.json', function(data) {
-		contract_factory = web3.eth.contract(data).at(factory_address);
-	});
+	contract_factory = new web3.eth.Contract('../../build/contracts/weeveFactory.json').at(factory_address);
 
 	console.log("token: " + contract_token);
 	console.log("factory: " + contract_factory);
