@@ -35,7 +35,7 @@
     </header>
 
     <div class="split left" id="titlePanel">
-        <h1 style="padding-left: 20px">DEVICES</h1>
+        <h1 style="padding-left: 20px">Devices</h1>
         <div class="hexRow">
             <div style="float: right">
                 <img class="firstHex" src="../images/deviceImg.png" alt="devicesHexagon"/>
@@ -44,11 +44,11 @@
         <div class="hexRow">
             <div class="hexCol">
                 <img class="secondHex" src="../images/hexagon.png" alt="registryHexagon"/>
-                <p class="center">MAKE MONEY FROM YOUR IoT DEVICES</p>
+                <p class="center hexTxt">Make money from your IoT devices</p>
             </div>
             <div class="hexCol">
                 <img class="thirdHex" src="../images/hexagon.png" alt="registryHexagon"/>
-                <p class="center">ADD DEVICES TO ACTIVE DEVICE REGISTRIES</p>
+                <p class="center hexTxt">Add devices to device registries to participate in data marketplaces</p>
             </div>
         </div>
     </div>
@@ -131,26 +131,51 @@
             <h1 class="leftFloat" id="slideName"> Device Information<!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
             <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
         </div>
-        <div style="width: 65%;left: 50%;transform: translate(-50%, -50%);text-align: center;position:absolute; z-index: 50">
-            <div class="inputContainer">
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Device name"></input>
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Device ID (E.g. '4aa0c302c6138118')"></input>
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Product name (E.g. 'CHARGE_SENS_1_8')"></input>
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Device version (E.g. '1.50.361A')"></input>
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Device serial (E.g. 'LR04M1CA')"></input>
-                <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="Device description (E.g. 'Small thermal sensor')"></input>
+        <div id="multiField">
+            <div class="inputContainer center">
+                <div class="split left">
+                    <div class="leftFloat">
+                        <p>Device Name</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. 'Apple iPhone'"></input>
+                    </div>
+                    <div class="leftFloat">
+                        <p>Device ID</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. '4aa0c302c6138118'"></input>
+                    </div>
+                    <div class="leftFloat">
+                        <p>Product Name</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. 'CHARGE_SENS_1_8'"></input>
+                    </div>
+                </div>
+                <div class="split right">
+                    <div class="rightFloat">
+                        <p>Device Version</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. '1.50.361A'"></input>
+                    </div>
+                    <div class="rightFloat">
+                        <p>Device Serial</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. 'LR04M1CA'"></input>
+                    </div>
+                    <div class="rightFloat">
+                        <p>Device Description</p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput" placeholder="E.g. 'Small thermal sensor'"></input>
+                    </div>
+                </div>
             </div>
+            <div style="position: fixed; top: 47%; width: 99%; left: 50%; transform: translate(-50%, -50%)">
+                <a>
+                    <img class="leftArrow" style="width: 6.6%" id="prevBtn" src="../images/nextArrow.png" alt="backArrowImage"/>
+                </a>
+                <a>
+                    <img class="rightArrow" style="width: 6.6%" id="nextBtn" src="../images/nextArrow.png" alt="nextArrowImage"/>
+                </a>
+            </div>
+            <h6 id="fieldDescription" style="position: absolute;top: 80%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+                <!-- description of the field to be specified goes here -->
+                Provide device information to ensure it conforms to the selected registry standards
+            </h6>
         </div>
-        <div style="position: fixed; top: 47%; width: 99%; left: 50%; transform: translate(-50%, -50%)">
-            <a>
-                <img class="leftArrow" style="width: 6.7%" id="prevBtn" src="../images/nextArrow.png" alt="backArrowImage"/>
-            </a>
-            <a>
-                <img class="rightArrow" style="width: 6.7%" id="nextBtn" src="../images/nextArrow.png" alt="nextArrowImage"/>
-            </a>
-        </div>
-        <br>
-        <div id="dotRow" style="position: absolute;top: 90%;left: 50%;transform: translate(-50%, -50%);text-align: center;">
+        <div class="dotRow" id="dotRow">
             <!-- TODO add the correct amount of dots on initialization -->
             <a><span class='purpleDot' id='dot'></span></a>
             <a><span class='purpleDot' id='dot'></span></a>
