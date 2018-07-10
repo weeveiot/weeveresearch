@@ -185,21 +185,25 @@ function inputError(inputType) {
 		//alertPrompt.textContent = "Please enter a string of text";
 		input.value = "";
 		input.placeholder = "Please enter a string of text";
+		$('#fieldInput').addClass("error");
 	}
 	else if (inputType.toLowerCase() === "num") {
 		//alertPrompt.textContent = "Please enter a number";
 		input.value = "";
 		input.placeholder = "Please enter a number";
+		$('#fieldInput').addClass("error");
 	}
 	else if (inputType.toLowerCase() === "bool") {
 		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
 		input.value = "";
 		input.placeholder = "Please enter 'true' or 'false'";
+		$('#fieldInput').addClass("error");
 	}
 	else {
 		//alertPrompt.textContent = "Invalid input type given";
 		input.value = "";
 		input.placeholder = "Invalid input type given";
+		$('#fieldInput').addClass("error");
 	}
 	//$("#inputAlert").show();
 	//input.style.opacity = 0;
@@ -209,6 +213,7 @@ function inputError(inputType) {
 function closeInputError() {
 	$("#inputAlert").hide();
 	document.getElementById("fieldInput").style.opacity = 1;
+	$('#fieldInput').removeClass("error");
 }
 
 /*************************************UI*******************************/
@@ -299,6 +304,7 @@ window.onload=function() {
 				}
 				inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = +event.target.id.split("dot")[1];
+				closeInputError();
 				updateFields(
 					fieldArray[currentFieldNum][0],
 					fieldArray[currentFieldNum][2],
@@ -329,6 +335,7 @@ window.onload=function() {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
 				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum - 1;
+				closeInputError();
 				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
 				updateFields(
 					fieldArray[currentFieldNum][0],
@@ -382,6 +389,7 @@ window.onload=function() {
 				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
 				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
 				currentFieldNum = currentFieldNum + 1;
+				closeInputError();
 				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
 				updateFields(
 					fieldArray[currentFieldNum][0],

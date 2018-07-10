@@ -227,7 +227,7 @@ A purple dot for the creation slide show view
     cursor: pointer;
     border-radius: 50%;
     display: inline-block;
-    margin: 4px;
+    margin: 4px !important;
 }
 .purpleDot:hover {
     opacity: 1.0 !important;
@@ -452,6 +452,9 @@ input:hover::placeholder {
 }
 input:active {
     outline: 0 none !important;
+}
+input.error::placeholder {
+    color: red !important;
 }
 /***************************************************************************
 Link disabling
