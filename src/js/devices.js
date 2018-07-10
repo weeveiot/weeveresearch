@@ -113,18 +113,18 @@ function populateSlides() {
 	var data = [
 		{
 		    "slide1": {
-		        "title": "Select Registry",
+		        "title": "Register Device",
 		        "field1": {
-		            "name": "",
+		            "name": "Select Registry",
 		            "data": "str",
 		            "placeholder": "Enter registry name"
 		        },
 		        "description": "Select a registry to register the device to"
 		    },
 		    "slide2": {
-		        "title": "Stake Amount",
+		        "title": "Register Device",
 		        "field1": {
-		            "name": "",
+		            "name": "Stake Amount",
 		            "data": "num",
 		            "placeholder": "Enter stake"
 		        },
@@ -135,64 +135,93 @@ function populateSlides() {
 		        "field1": {
 		            "name": "Device Name",
 		            "data": "str",
-		            "placeholder": "Device name"
+		            "placeholder": "E.g. Ben's iPhone"
 		        },
 		        "field2": {
 		            "name": "Device ID",
 		            "data": "str",
-		            "placeholder": "Device ID (E.g. '4aa0c302c6138118')"
+		            "placeholder": "E.g. '4aa0c302c6138118'"
 		        },
 		        "field3": {
 		            "name": "Device Product Name",
 		            "data": "str",
-		            "placeholder": "Product name (E.g. 'CHARGE_SENS_1_8')"
+		            "placeholder": "E.g. 'CHARGE_SENS_1_8'"
 		        },
 		        "field4": {
 		            "name": "Device Version",
 		            "data": "str",
-		            "placeholder": "Device version (E.g. '1.50.361A')"
+		            "placeholder": "E.g. '1.50.361A'"
 		        },
 		        "field5": {
 		            "name": "Device Serial",
 		            "data": "str",
-		            "placeholder": "Device serial (E.g. 'LR04M1CA')"
+		            "placeholder": "E.g. 'LR04M1CA'"
 		        },
 		        "field6": {
 		            "name": "Device Description",
 		            "data": "str",
-		            "placeholder": "Device description (E.g. 'Small thermal sensor')"
+		            "placeholder": "E.g. 'Small thermal sensor'"
 		        },
+				"description": "Provide device information useful for identification purposes"
 		    },
 		    "slide4": {
 		        "title": "Device Specifications",
-		        "field1": {
-		            "name": "Device CPU",
+				"field1": {
+		            "name": "Device Manufacturer",
 		            "data": "str",
-		            "placeholder": "Device CPU (E.g. 'ARM Cortex-A53')"
+		            "placeholder": "E.g. 'Sensor HW Ltd.'"
 		        },
 		        "field2": {
-		            "name": "Device TrustZone",
-		            "data": "bool",
-		            "placeholder": "Device has TrustZone ('true' or 'false')"
+		            "name": "Device CPU",
+		            "data": "str",
+		            "placeholder": "E.g. 'ARM Cortex-A53'"
 		        },
 		        "field3": {
-		            "name": "Device WiFi",
+		            "name": "Device has TrustZone",
 		            "data": "bool",
-		            "placeholder": "Device has WiFi ('true' or 'false')"
+		            "placeholder": "'true' or 'false'"
 		        },
 		        "field4": {
-		            "name": "Device Sensors",
-		            "data": "str",
-		            "placeholder": "Device sensors (E.g. 'electricity, current')"
+		            "name": "Device has WiFi",
+		            "data": "bool",
+		            "placeholder": "'true' or 'false'"
 		        },
 		        "field5": {
+		            "name": "Device Sensors",
+		            "data": "str",
+		            "placeholder": "E.g. 'electricity, current'"
+		        },
+		        "field6": {
 		            "name": "Device Datatype",
 		            "data": "str",
-		            "placeholder": "Device data type (E.g. 'numeric')"
+		            "placeholder": "E.g. 'numeric'"
 		        },
+				"description": "Provide device specifications to ensure it conforms to the selected registry standards"
 		    }
 		}
 	]
+
+	// extra slow parsing
+	var retArray = [];
+	var slides = data[0];
+	for (var num in slides) {
+		var singleSlide = slides[num];
+		var slideArray = [];
+		for (var field in singleSlide) {
+			if (field == "title" || field == "description") {
+				slideArray.push(singleSlide[field]);
+			}
+			else {
+				var fieldArray = [];
+				for (var el in singleSlide[field]) {
+					fieldArray.push(singleSlide[field][el]);
+				}
+				slideArray.push(fieldArray);
+			}
+		}
+		retArray.push(slideArray);
+	}
+	return retArray;
 }
 
 
@@ -320,6 +349,16 @@ window.onload=function() {
 	var currentSlideNum = 0;
 	var slideArray = populateSlides();
 	var inputArray = [];
+
+	// generate correct number of 'slides'
+	var dotRow = document.querySelector('#dotRow');
+	var newHtml = "";
+	for (var i = 0; i < slideArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
+		newHtml = str1.concat(str2);
+	}
+	dotRow.innerHTML = newHtml;
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
