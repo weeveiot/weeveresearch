@@ -169,7 +169,7 @@ function confirmInput(storedVal, valType) {
 	else if (valType.toLowerCase() === "num") {
 		return !isNaN(storedVal) && storedVal !== "";
 	}
-	else if (inputType.toLowerCase() === "bool") {
+	else if (valType.toLowerCase() === "bool") {
 		return storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
 		|| storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "false";
 	}
@@ -204,24 +204,33 @@ function populateFinish(inputArray, fieldArray) {
 }
 
 // throws an error stating the desired inputType
+// uncomment alertPrompt to display error popup
 function inputError(inputType) {
 	var errorAlert = document.getElementById("inputAlert");
-	var alertPrompt = document.getElementById("alertPrompt");
+	//var alertPrompt = document.getElementById("alertPrompt");
 	var input = document.getElementById("fieldInput");
 	if (inputType.toLowerCase() === "str") {
-		alertPrompt.textContent = "Please enter a string of text";
+		//alertPrompt.textContent = "Please enter a string of text";
+		input.value = "";
+		input.placeholder = "Please enter a string of text";
 	}
 	else if (inputType.toLowerCase() === "num") {
-		alertPrompt.textContent = "Please enter a number";
+		//alertPrompt.textContent = "Please enter a number";
+		input.value = "";
+		input.placeholder = "Please enter a number";
 	}
 	else if (inputType.toLowerCase() === "bool") {
-		alertPrompt.textContent = "Please enter either 'true' or 'false'";
+		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
+		input.value = "";
+		input.placeholder = "Please enter 'true' or 'false'";
 	}
 	else {
-		alertPrompt.textContent = "Invalid input type given";
+		//alertPrompt.textContent = "Invalid input type given";
+		input.value = "";
+		input.placeholder = "Invalid input type given";
 	}
-	$("#inputAlert").show();
-	input.style.opacity = 0;
+	//$("#inputAlert").show();
+	//input.style.opacity = 0;
 }
 
 // close error prompt
