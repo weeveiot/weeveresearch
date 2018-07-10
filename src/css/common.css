@@ -132,6 +132,7 @@ and some value (such as stake in weeve) on the right side. confirm
 label contains a purple border.
 ***************************************************************************/
 .infoLabel {
+    display: block;
     background-color:  #E4E7EA;
     color: #353A40;
     border: none;

@@ -1,72 +1,12 @@
-//global variables
-var marketArray = []	//name, stake, commission
+/**
+ *
+ *  Template file for creating registries and marketplaces. Currently this code
+ *  is repeated in both javascript files. Considering refactoring that later.
+ *
+ */
 
-/************************************Functions*****************************/
 
-function getMarkets() {
-
-	console.log("filling market array");		//FIXME:debug
-
-	var name;
-	var stake;
-	var commission;
-
-	//TODO: update to actually pull from contract
-	for(var i = 0; i < 3; i++) {
-		if (i == 0) {
-			name = "Ben's Market";
-			stake = 1000;
-			commission = 5;
-		}
-
-		if (i == 1) {
-			name = "Braden's Market";
-			stake = 1500;
-			commission = 20;
-		}
-
-		if (i == 2) {
-			name = "Martin's Market";
-			stake = 3000;
-			commission = 30;
-		}
-
-		marketArray[i] = [name, stake, commission];
-
-		console.log(marketArray[i][0] + " " + marketArray[i][2]);		//FIXME: debug
-
-	}
-}
-
-function displayMarkets() {
-	if(marketArray.length != 0) {
-		var panel = document.querySelector('#marketButtons');
-		var newHtml = "";
-		var str1;
-		var str2;
-
-		for(var i = 0; i < marketArray.length; i++) {
-			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + marketArray[i][0] + "</p><p class='rightFloat'>" + marketArray[i][1] + " WEEV</p></button>";
-			newHtml = str1.concat(str2);
-		}
-
-		console.log(newHtml);		//FIXME: debug
-
-		panel.innerHTML = newHtml;
-	}
-}
-
-function displayMarketInfo(id) {
-	if(marketArray.length != 0) {
-		var panel = document.querySelector('#marketInfo');
-		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + marketArray[id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Commission</p><p class='rightFloat'>" + marketArray[id][2] + " WEEV</p></div>";
-
-		console.log(newHtml);		//FIXME: debug
-
-		panel.innerHTML = newHtml;
-	}
-}
+/****************************Functions******************************/
 
 // used for populating fields needed to add a registry from JSON file
 function populateFields() {
@@ -79,16 +19,28 @@ function populateFields() {
 			"description": "Some WEEV must be given as collateral to discourage malicious behavior"
 		},
 		{
-			"name": "Marketplace Name",
+			"name": "Registry Name",
 			"data": "str",
 			"placeholder": "Enter name",
-			"description": "Provide a name to identify and describe the Marketplace"
+			"description": "Provide a name to identify and describe the registry"
 		},
 		{
-			"name": "Commission",
+			"name": "Stake per Registration",
 			"data": "num",
-			"placeholder": "Enter commission",
-			"description": "Set the amount that will be collected as commission on marketplace transactions to support marketplace curation"
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+		},
+		{
+			"name": "Stake per Validator",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+		},
+		{
+			"name": "Stake per Arbiter",
+			"data": "num",
+			"placeholder": "Enter stake",
+			"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
 		}
 	]
 	var retArray = [];
@@ -215,68 +167,16 @@ function closeInputError() {
 
 window.onload=function() {
 
-	//immediately fill array and display
-	getMarkets();
-	displayMarkets();
-
-	$("#infoPanel").hide();
-	$('#createPanel').hide();
+    $('#createPanel').hide();
     $('#finishBox').hide();
 
-	// handle clicking of a marketplace
-	var marketButtons = document.querySelector('#marketButtons');
-
-	marketButtons.addEventListener('click', function(event) {
-
-		//check if creator of event is child of the panel
-		if(event.target.parentNode === marketButtons) {
-			// get rid of left panel
-			$('#titlePanel').hide();
-
-			let string  = event.target.innerHTML;
-
-			let beginning = string.search(">") + 1;
-			let end = string.search("</p>");
-
-			let selectedMarket = string.slice(beginning, end);
-			let msg = "Selected " + selectedMarket;
-			console.log(msg);
-
-			//move list of registers from right to left
-			$('#marketPanel').addClass("left").removeClass("right");
-
-			//load info for chosen marketplace
-			let buttonId = $('.grayNameBtn').index(event.target);
-			displayMarketInfo(buttonId);
-
-			//show info panel on right side
-			document.getElementById("marketName").textContent = selectedMarket;
-			$("#infoPanel").show();
-
-			//TODO: eventually will pull actual info about markets and display that
-
-		}
-	});
-
-	//handle closing marketplace
-	var closeButton = document.querySelector('#closeBtn');
-
-	closeButton.addEventListener('click', function(event) {
-
-		//hide info panel
-		$('#infoPanel').hide();
-
-		//TODO: eventually logic to delete marketplace goes here
-
-	});
-
-	//handle creating a new marketplace
+    //handle creating a new registry or marketplace
 	var currentFieldNum = 0;
 	var fieldArray = populateFields();
 	var inputArray = [];
 
 	// generate correct number of 'slides'
-	document.getElementById('createName').textContent = "Create Marketplace";
+	document.getElementById('createName').textContent = "Create Registry";
 	var dotRow = document.querySelector('#dotRow');
 	var newHtml = "";
 	for (var i = 0; i < fieldArray.length; i++) {
@@ -402,12 +302,12 @@ window.onload=function() {
 	});
 
 
-	var addButton = document.querySelector('#addMPBtn');
+	var addButton = document.querySelector('#addRegBtn');
 	addButton.addEventListener('click', function(event) {
 
 		//hide info panel
 		$('#infoPanel').hide();
-		$('#marketPanel').hide();
+		$('#registryPanel').hide();
 		$('#titlePanel').hide();
 		$('#createPanel').show();
 
@@ -440,7 +340,7 @@ window.onload=function() {
 
 		//hide info panel
 		$('#infoPanel').hide();
-		$('#marketPanel').show().addClass("right").removeClass("left");
+		$('#registryPanel').show().addClass("right").removeClass("left");
 		$('#titlePanel').show();
 		$('#createPanel').hide();
 
@@ -461,7 +361,7 @@ window.onload=function() {
 
 		//hide info panel
 		$('#infoPanel').hide();
-		$('#marketPanel').show().addClass("right").removeClass("left");
+		$('#registryPanel').show().addClass("right").removeClass("left");
 		$('#titlePanel').show();
 		$('#createSlides').show();
 		$('#createPanel').hide();
@@ -484,6 +384,5 @@ window.onload=function() {
 		$('#createSlides').show();
 		$('#finishBox').hide();
 	});
-
 
 }

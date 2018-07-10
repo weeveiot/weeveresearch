@@ -1,0 +1,18 @@
+{
+    "name": "Stake Amount",
+    "data": "num",
+    "placeholder": "Enter stake",
+    "description": "Some WEEV must be given as collateral to discourage malicious behavior"
+},
+{
+    "name": "Marketplace Name",
+    "data": "str",
+    "placeholder": "Enter name",
+    "description": "Provide a name to identify and describe the Marketplace"
+},
+{
+    "name": "Commission",
+    "data": "num",
+    "placeholder": "Enter commission",
+    "description": "Set the amount that will be collected as commission on marketplace transactions to support marketplace curation"
+}
