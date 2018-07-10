@@ -110,6 +110,7 @@ Common button to show the name of an object on the left side
 and some value (such as stake in weeve) on the right side
 ***************************************************************************/
 .grayNameBtn {
+    display: block;
     background-color:  #E4E7EA;
     color: #353A40;
     border: none;
@@ -122,7 +123,7 @@ and some value (such as stake in weeve) on the right side
     height: 55px;
     text-align: center;
     font-size: 22px;
-    margin: 3px;
+    margin-bottom: 5px !important;
 }
 
 /***************************************************************************
