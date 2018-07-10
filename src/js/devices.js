@@ -224,6 +224,20 @@ function populateSlides() {
 	return retArray;
 }
 
+// used to populate text for single field slides
+function updateSingleFields(slideArr, storedInput) {
+	var title = slideArr[0];
+	var field = slideArr[1];
+	var description = slideArr[2];
+	var fieldName = field[0];
+	var fieldPH = field[2];
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldNameSingle').textContent = fieldName;
+	document.getElementById("fieldInputSingle").placeholder = fieldPH;
+	document.getElementById("fieldInputSingle").value = storedInput;
+	document.getElementById('fieldDescriptionSingle').textContent = description;
+}
+
 
 /*******************************UI*******************************/
 
@@ -343,6 +357,19 @@ window.onload=function() {
 		$("#titlePanel").hide();
 		$('#registryPanel').hide();
 		$('#createPanel').show();
+
+		// initialize creation panel
+		if (slideArray[0].length > 3) {
+			$('#multiField').show();
+			$('#singleField').hide();
+		}
+		else {
+			$('#multiField').hide();
+			$('#singleField').show();
+			// TODO replace "" with inputArray[0]
+			updateSingleFields(slideArray[0], "");
+			document.getElementById("prevBtnSingle").style.opacity = 0.3;
+		}
 	});
 
 	//handle creating a new registry
@@ -359,6 +386,16 @@ window.onload=function() {
 		newHtml = str1.concat(str2);
 	}
 	dotRow.innerHTML = newHtml;
+
+	// setup listeners to handle moving through slides and updating data
+	// setup clickable dots
+	for (var i = 0; i < slideArray.length; i++) {
+		var thisDot = document.getElementById("dot" + i);
+		thisDot.addEventListener('click', function(event) {
+			// TODO handle input verification later
+		});
+		// TODO add proper number of blank elements to input array
+	}
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
