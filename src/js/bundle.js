@@ -36647,9 +36647,9 @@ window.addEventListener('load', function() {
 			});
 
 			//set WEEV balance display and button to get test WEEV
-			//weevBalance = contract_token.methods.balanceOf(userAccount).send({from: userAccount});
+			weevBalance = contract_token.methods.balanceOf(userAccount).send({from: userAccount});
 			//weevBalance = contract_token.balanceOf(userAccount);
-			//console.log("WEEV of current account: ", weevBalance);
+			console.log("WEEV of current account: ", weevBalance);
 
 			if (!testTokensRequested) {
 				$('#getTokens').show();
