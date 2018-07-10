@@ -8,13 +8,14 @@ Styling classes for text floating and screen splitting
     float: right;
 }
 .split {
-    height: 85%;
+    height: 100%;
     width: 50%;
     position: fixed;
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    padding-top: 7%;
+    padding-top: 80px;
+    margin-bottom: 55px !important;
     padding-left: 2%;
 }
 .left {
@@ -110,6 +111,7 @@ Common button to show the name of an object on the left side
 and some value (such as stake in weeve) on the right side
 ***************************************************************************/
 .grayNameBtn {
+    display: block;
     background-color:  #E4E7EA;
     color: #353A40;
     border: none;
@@ -122,7 +124,7 @@ and some value (such as stake in weeve) on the right side
     height: 55px;
     text-align: center;
     font-size: 22px;
-    margin: 3px;
+    margin-bottom: 5px !important;
 }
 
 /***************************************************************************
@@ -131,6 +133,7 @@ and some value (such as stake in weeve) on the right side. confirm
 label contains a purple border.
 ***************************************************************************/
 .infoLabel {
+    display: block;
     background-color:  #E4E7EA;
     color: #353A40;
     border: none;
@@ -214,6 +217,10 @@ pages
     align-content: center;
     text-align: center;
 }
+.hexTxt {
+    padding: 5px;
+    font-size: 16px;
+}
 /***************************************************************************
 A purple dot for the creation slide show view
 ***************************************************************************/
@@ -225,7 +232,8 @@ A purple dot for the creation slide show view
     cursor: pointer;
     border-radius: 50%;
     display: inline-block;
-    margin: 4px;
+    margin: 4px !important;
+    z-index: 10 !important;
 }
 .purpleDot:hover {
     opacity: 1.0 !important;
@@ -236,6 +244,7 @@ A purple dot for the creation slide show view
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    z-index: 10 !important;
 }
 
 /***************************************************************************
@@ -424,18 +433,23 @@ button:focus {
 Basic styling inputs
 ***************************************************************************/
 .inputContainer {
-    margin-top: 75px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px !important;
-    z-index: 999 !important;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
+    width: 60%;
+    height: 97%;
+    z-index: 5;
 }
 .inputContainer input {
-    width: 350px;
+    display: block;
+    width: 200px;
+    background: #f0f0f0;
+    border: 1px solid rgba(141, 81, 255, 0.6) !important;
+    border-radius: 4px !important;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.inputContainer p {
+    display: block;
+    margin-top: 20px;
+    line-height: 0px;
 }
 input {
     background: none;
@@ -450,6 +464,15 @@ input:hover::placeholder {
 }
 input:active {
     outline: 0 none !important;
+}
+input.error::placeholder {
+    color: red !important;
+}
+/***************************************************************************
+Link disabling
+***************************************************************************/
+a.disabled {
+    pointer-events: none !important;
 }
 /***************************************************************************
 Basic styling for scrollbar
