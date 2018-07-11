@@ -344,7 +344,7 @@ window.onload=function() {
 					document.getElementById("prevBtn").style.opacity = 0.3;
 				}
 				else {
-					document.getElementById("prevBtn").style.opacity = 1.0;
+					document.getElementById("prevBtn").style.opacity = 0.8;
 				}
 				console.log(inputArray);
 			}
@@ -429,7 +429,7 @@ window.onload=function() {
 			}
 			// at the end, check to restore full opacity
 			if (currentFieldNum > 0) {
-				document.getElementById("prevBtn").style.opacity = 1.0;
+				document.getElementById("prevBtn").style.opacity = 0.8;
 			}
 		}
 		else {

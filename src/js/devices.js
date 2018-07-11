@@ -359,8 +359,8 @@ function disablePrevBtn() {
 
 // enables the left arrow button
 function enablePrevBtn() {
-	document.getElementById("prevBtnSingle").style.opacity = 1.0;
-	document.getElementById("prevBtnMulti").style.opacity = 1.0;
+	document.getElementById("prevBtnSingle").style.opacity = 0.8;
+	document.getElementById("prevBtnMulti").style.opacity = 0.8;
 }
 
 // handles displaying error messages in certain fields
