@@ -286,6 +286,24 @@ function updateMultiFields(slideArr, inputArr) {
 	}
 }
 
+// handles storing user input values
+function updateInput(inputArr) {
+	if (inputArr.length > 1) {
+		if (inputArr.length > 6) {
+			// TODO more rigorous error checking here
+			console.log("Critical json format error. More than 6 fields on slide!")
+		}
+		else {
+			for (var i = 0; i < inputArr.length; i++) {
+				inputArr[i] = document.getElementById("fieldInput" + (i + 1)).value.replace(/^\s+|\s+$/g,'');
+			}
+		}
+	}
+	else {
+		inputArr[0] = document.getElementById("fieldInputSingle").value.replace(/^\s+|\s+$/g,'');
+	}
+}
+
 // disables the left arrow button
 function disablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.3;
@@ -451,6 +469,7 @@ window.onload=function() {
 			}
 			//inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
 			// TODO how to store fields if slides could have multiple fields
+			updateInput(inputArray[currentSlideNum]);
 			currentSlideNum = +event.target.id.split("dot")[1];
 			//closeInputError();
 			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
@@ -461,7 +480,6 @@ window.onload=function() {
 				enablePrevBtn();
 			}
 		});
-		// TODO add proper number of blank elements to input array
 	}
 
 	//handle canceling during adding device
