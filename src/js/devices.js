@@ -116,7 +116,7 @@ function populateSlides() {
 		        "title": "Register Device",
 		        "field1": {
 		            "name": "Select Registry",
-		            "data": "str",
+		            "data": "num",
 		            "placeholder": "Enter registry name"
 		        },
 		        "description": "Select a registry to register the device to"
@@ -265,6 +265,8 @@ function updateSingleFields(slideArr, storedInput) {
 	document.getElementById("fieldInputSingle").placeholder = fieldPH;
 	document.getElementById("fieldInputSingle").value = storedInput;
 	document.getElementById('fieldDescriptionSingle').textContent = description;
+	$('#fieldInputSingle').removeClass("error");
+	console.log("should have updated");
 }
 
 // used to populate text for multi field slides
@@ -285,6 +287,7 @@ function updateMultiFields(slideArr, inputArr) {
 		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
 		document.getElementById("fieldInput" + i).placeholder = fieldPH;
 		document.getElementById("fieldName" + i).textContent = fieldName;
+		$('#fieldInput' + i).removeClass("error");
 	}
 }
 
@@ -362,7 +365,56 @@ function enablePrevBtn() {
 
 // handles displaying error messages in certain fields
 function inputError(slideArr) {
+	// loop through the slide fields
+	if (slideArr.length > 3) {
+		for (var i = 1; i < slideArr.length - 1; i++) {
+			var fieldArr = slideArr[i];
+			var inputType = fieldArr[1];
+			var input = document.getElementById("fieldInput" + i);
+			if (!verifySingleInput(inputType, input)) {
+				errorSingleInput(inputType, input);
+			}
+		}
+	}
+	else {
+		var fieldArr = slideArr[1];
+		var inputType = fieldArr[1];
+		var input = document.getElementById("fieldInputSingle");
+		errorSingleInput(inputType, input);
+	}
+}
 
+/**
+ *
+ * Handles displaying a specific error message, depending upon inputType, in
+ * the correct field, specified by the input parameter.
+ */
+function errorSingleInput(inputType, input) {
+	//var alertPrompt = document.getElementById("alertPrompt");
+	if (inputType.toLowerCase() === "str") {
+		//alertPrompt.textContent = "Please enter a string of text";
+		input.value = "";
+		input.placeholder = "Please enter a string of text";
+		$('#' + input.id).addClass("error");
+	}
+	else if (inputType.toLowerCase() === "num") {
+		//alertPrompt.textContent = "Please enter a number";
+		input.value = "";
+		input.placeholder = "Please enter a number";
+		$('#' + input.id).addClass("error");
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
+		input.value = "";
+		input.placeholder = "Please enter 'true' or 'false'";
+		$('#' + input.id).addClass("error");
+	}
+	else {
+		//alertPrompt.textContent = "Invalid input type given";
+		input.value = "";
+		input.placeholder = "Invalid input type given in device fields json file";
+		$('#' + input.id).addClass("error");
+	}
 }
 
 
