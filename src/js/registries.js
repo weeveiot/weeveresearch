@@ -353,7 +353,7 @@ window.onload=function() {
 			}
 		});
 		// add blank elements to input array
-		inputArray.push(input.value);
+		inputArray.push("");
 	}
 
 	// setup clickable previous button
