@@ -116,7 +116,7 @@ function populateSlides() {
 		        "title": "Register Device",
 		        "field1": {
 		            "name": "Select Registry",
-		            "data": "num",
+		            "data": "str",
 		            "placeholder": "Enter registry name"
 		        },
 		        "description": "Select a registry to register the device to"
@@ -253,6 +253,7 @@ function updateSlide(slideArr, inputArr) {
 
 // TODO handle creating the fields needed, e.g. instead of standard input
 // maybe use two buttons, one yes and the other no, for bool fields
+
 // used to populate text for single field slides
 function updateSingleFields(slideArr, storedInput) {
 	var title = slideArr[0];
@@ -393,7 +394,7 @@ function errorSingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
 		//alertPrompt.textContent = "Please enter a string of text";
 		input.value = "";
-		input.placeholder = "Please enter a string of text";
+		input.placeholder = "Please enter some text";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "num") {
@@ -411,8 +412,68 @@ function errorSingleInput(inputType, input) {
 	else {
 		//alertPrompt.textContent = "Invalid input type given";
 		input.value = "";
-		input.placeholder = "Invalid input type given in device fields json file";
+		input.placeholder = "Invalid input in json file";
 		$('#' + input.id).addClass("error");
+	}
+}
+
+// ensure all stored input values are valid
+function executeFinish(slideArr, inputArr) {
+	for (var i = 0; i < slideArr.length; i++) {
+		var slide = slideArr[i];
+		var errorArr = [];
+		for (var j = 1; j < slide.length - 1; j++) {
+			var slideField = slide[j];
+			console.log(inputArr[i][j - 1]);
+			console.log(slideField[1]);
+			if (!confirmSingleInput(inputArr[i][j - 1], slideField[1])) {
+				errorArr.push(j);
+			}
+		}
+		if (errorArr.length > 0) {
+			return [i, errorArr];
+		}
+	}
+	return -1;
+}
+
+// returns whether the stored input value is of the correct valType
+function confirmSingleInput(storedVal, valType) {
+	if (valType.toLowerCase() === "str") {
+		return typeof storedVal === typeof "" && storedVal !== "";
+	}
+	else if (valType.toLowerCase() === "num") {
+		return !isNaN(storedVal) && storedVal !== "";
+	}
+	else if (valType.toLowerCase() === "bool") {
+		return storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
+				|| storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "false";
+	}
+	else {
+		// TODO better error checking
+		console.log("Invalid input type");
+		return false;
+	}
+}
+
+// displays errors for all fields that didn't pass input type confirmation
+function confirmInputError(slideArr, errorFields) {
+	if (slideArr.length > 3) {
+		for (var i = 0; i < errorFields.length; i++) {
+			var index = +errorFields[i];
+			var field = slideArr[index];
+			var fieldType = field[1];
+			console.log(+index + 1);
+			var input = document.getElementById("fieldInput" + index);
+			console.log(input);
+			errorSingleInput(fieldType, input);
+		}
+	}
+	else {
+		var field = slideArr[1];
+		var fieldType = field[1];
+		var input = document.getElementById("fieldInputSingle");
+		errorSingleInput(fieldType, input);
 	}
 }
 
@@ -634,6 +695,27 @@ window.onload=function() {
 			if (currentSlideNum === slideArray.length - 1) {
 				updateInput(inputArray[currentSlideNum]);
 				// handle displaying finish box
+				var finishResult = executeFinish(slideArray, inputArray);
+				console.log("finish result:");
+				console.log(finishResult);
+				if (finishResult === -1) {
+					// populate finish screen fields to match input fields
+					// TODO populateFinish(inputArray, fieldArray);
+					// display finish screen
+					$('#createPanel').hide();
+					$('#finishBox').show();
+				}
+				else {
+					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+					currentSlideNum = finishResult[0];
+					document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+					updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+					// display errors
+					confirmInputError(slideArray[currentSlideNum], finishResult[1]);
+					if (currentSlideNum === 0) {
+						disablePrevBtn();
+					}
+				}
 			}
 			else if (currentSlideNum < slideArray.length - 1) {
 				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
