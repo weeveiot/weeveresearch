@@ -434,7 +434,7 @@ Basic styling inputs
 ***************************************************************************/
 .inputContainer {
     width: 60%;
-    height: 97%;
+    height: 95%;
     z-index: 5;
 }
 .inputContainer input {
@@ -448,7 +448,7 @@ Basic styling inputs
 }
 .inputContainer p {
     display: block;
-    margin-top: 20px;
+    margin-top: 15px;
     line-height: 0px;
 }
 input {

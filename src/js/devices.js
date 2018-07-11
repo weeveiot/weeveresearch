@@ -135,7 +135,7 @@ function populateSlides() {
 		        "field1": {
 		            "name": "Device Name",
 		            "data": "str",
-		            "placeholder": "E.g. Ben's iPhone"
+		            "placeholder": "E.g. Device_0d87"
 		        },
 		        "field2": {
 		            "name": "Device ID",
@@ -224,6 +224,33 @@ function populateSlides() {
 	return retArray;
 }
 
+// creates and returns an array initialized with empty strings for each field
+function populateInputs(slideArr) {
+	var retArray = [];
+	for (var slide in slideArr) {
+		var slideFields = [];
+		for (var i = 1; i < slideArr[slide].length - 1; i++) {
+			slideFields.push("");
+		}
+		retArray.push(slideFields);
+	}
+	return retArray;
+}
+
+// updates the slide information
+function updateSlide(slideArr, inputArr) {
+	if (slideArr.length > 3) {
+		$('#multiField').show();
+		$('#singleField').hide();
+		updateMultiFields(slideArr, inputArr);
+	}
+	else {
+		$('#multiField').hide();
+		$('#singleField').show();
+		updateSingleFields(slideArr, inputArr[0]);
+	}
+}
+
 // used to populate text for single field slides
 function updateSingleFields(slideArr, storedInput) {
 	var title = slideArr[0];
@@ -236,6 +263,39 @@ function updateSingleFields(slideArr, storedInput) {
 	document.getElementById("fieldInputSingle").placeholder = fieldPH;
 	document.getElementById("fieldInputSingle").value = storedInput;
 	document.getElementById('fieldDescriptionSingle').textContent = description;
+}
+
+// used to populate text for multi field slides
+function updateMultiFields(slideArr, inputArr) {
+	var title = slideArr[0];
+	var description = slideArr[slideArr.length - 1];
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldDescriptionMulti').textContent = description;
+	// can't handle more than 6 inputs on one multi field slide
+	// plus 2 for the title and description
+	if (slideArr.length > 8) {
+		// TODO more rigorous error checking here
+		console.log("Critical json format error. More than 6 fields on slide!")
+	}
+	for (var i = 1; i < slideArr.length - 1; i++) {
+		var fieldName = slideArr[i][0];
+		var fieldPH = slideArr[i][2];
+		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
+		document.getElementById("fieldInput" + i).placeholder = fieldPH;
+		document.getElementById("fieldName" + i).textContent = fieldName;
+	}
+}
+
+// disables the left arrow button
+function disablePrevBtn() {
+	document.getElementById("prevBtnSingle").style.opacity = 0.3;
+	document.getElementById("prevBtnMulti").style.opacity = 0.3;
+}
+
+// enables the left arrow button
+function enablePrevBtn() {
+	document.getElementById("prevBtnSingle").style.opacity = 1.0;
+	document.getElementById("prevBtnMulti").style.opacity = 1.0;
 }
 
 
@@ -359,23 +419,15 @@ window.onload=function() {
 		$('#createPanel').show();
 
 		// initialize creation panel
-		if (slideArray[0].length > 3) {
-			$('#multiField').show();
-			$('#singleField').hide();
-		}
-		else {
-			$('#multiField').hide();
-			$('#singleField').show();
-			// TODO replace "" with inputArray[0]
-			updateSingleFields(slideArray[0], "");
-			document.getElementById("prevBtnSingle").style.opacity = 0.3;
-		}
+		updateSlide(slideArray[0], inputArray[0]);
+		disablePrevBtn();
+		document.getElementById('dot0').style.opacity = 1.0;
 	});
 
 	//handle creating a new registry
 	var currentSlideNum = 0;
 	var slideArray = populateSlides();
-	var inputArray = [];
+	var inputArray = populateInputs(slideArray);
 
 	// generate correct number of 'slides'
 	var dotRow = document.querySelector('#dotRow');
@@ -393,6 +445,21 @@ window.onload=function() {
 		var thisDot = document.getElementById("dot" + i);
 		thisDot.addEventListener('click', function(event) {
 			// TODO handle input verification later
+			event.target.style.opacity = 1;
+			if (event.target.id != "dot" + currentSlideNum) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			}
+			//inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
+			// TODO how to store fields if slides could have multiple fields
+			currentSlideNum = +event.target.id.split("dot")[1];
+			//closeInputError();
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			if (currentSlideNum === 0) {
+				disablePrevBtn();
+			}
+			else {
+				enablePrevBtn();
+			}
 		});
 		// TODO add proper number of blank elements to input array
 	}
