@@ -477,6 +477,20 @@ function confirmInputError(slideArr, errorFields) {
 	}
 }
 
+// populates the finish box with stored user inputs
+function populateFinish(inputArr, slideArr) {
+	var newHtml = ""
+	for (var i = 0; i < slideArr.length; i++) {
+		var slide = slideArr[i];
+		for (var j = 1; j < slide.length - 1; j++) {
+			str1 = newHtml;
+			str2 = "<div class='infoLabel confirm'><p class='leftFloat'>" + slide[j][0] + "</p><p class='rightFloat'>" + inputArr[i][j - 1] + "</p></div>";
+			newHtml = str1.concat(str2);
+		}
+	}
+	document.querySelector('#confirmData').innerHTML = newHtml;
+}
+
 
 /*******************************UI*******************************/
 
@@ -700,10 +714,11 @@ window.onload=function() {
 				console.log(finishResult);
 				if (finishResult === -1) {
 					// populate finish screen fields to match input fields
-					// TODO populateFinish(inputArray, fieldArray);
+					populateFinish(inputArray, slideArray);
 					// display finish screen
-					$('#createPanel').hide();
+					$('#createSlides').hide();
 					$('#finishBox').show();
+					$('#createPanel').show();
 				}
 				else {
 					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
@@ -743,6 +758,48 @@ window.onload=function() {
 		$("#titlePanel").show();
 		$('#registryPanel').show().addClass('right').removeClass('left');;
 		$('#createPanel').hide();
+
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			for (var j = 0; j < inputArray[i].length; j++) {
+				inputArray[i][j] = "";
+			}
+		}
+		currentSlideNum = 0;
+	});
+
+	//handle canceling from confirmation and returning to slideshow
+	var backAddButton = document.querySelector('#backAddBtn');
+
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		$('#createPanel').show();
+		$('#createSlides').show();
+		$('#finishBox').hide();
+	});
+
+	finishAddBtn.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$('#registryPanel').show().addClass("right").removeClass("left");
+		$('#titlePanel').show();
+		$('#createSlides').show();
+		$('#createPanel').hide();
+		$('#finishBox').hide();
+
+		// reset input array and currentField counter
+		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+		for (var i = 0; i < inputArray.length; i++) {
+			for (var j = 0; j < inputArray[i].length; j++) {
+				inputArray[i][j] = "";
+			}
+		}
+		currentSlideNum = 0;
+
+		// TODO update blockchain
 	});
 
 
