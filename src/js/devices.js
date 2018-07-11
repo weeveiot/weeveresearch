@@ -251,6 +251,8 @@ function updateSlide(slideArr, inputArr) {
 	}
 }
 
+// TODO handle creating the fields needed, e.g. instead of standard input
+// maybe use two buttons, one yes and the other no, for bool fields
 // used to populate text for single field slides
 function updateSingleFields(slideArr, storedInput) {
 	var title = slideArr[0];
@@ -304,6 +306,48 @@ function updateInput(inputArr) {
 	}
 }
 
+// verify user gave correct input before advancing slides and storing data
+function verifyInput(slideArr) {
+	// loop through the slide fields
+	if (slideArr.length > 3) {
+		for (var i = 1; i < slideArr.length - 1; i++) {
+			var fieldArr = slideArr[i];
+			var inputType = fieldArr[1];
+			var input = document.getElementById("fieldInput" + i);
+			if (!verifySingleInput(inputType, input)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	else {
+		var fieldArr = slideArr[1];
+		var inputType = fieldArr[1];
+		var input = document.getElementById("fieldInputSingle");
+		return verifySingleInput(inputType, input);
+	}
+}
+
+// verify user gave correct input before advancing from a single field slide
+function verifySingleInput(inputType, input) {
+	if (inputType.toLowerCase() === "str") {
+		return typeof input.value === typeof "" || input.value === "";
+	}
+	else if (inputType.toLowerCase() === "num") {
+		return !isNaN(input.value) || input.value === "";
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		return input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
+				|| input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "false"
+				|| input.value === "";
+	}
+	else {
+		// TODO better error throwing in this case
+		console.log("Invalid input type");
+		return false;
+	}
+}
+
 // disables the left arrow button
 function disablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.3;
@@ -314,6 +358,11 @@ function disablePrevBtn() {
 function enablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 1.0;
 	document.getElementById("prevBtnMulti").style.opacity = 1.0;
+}
+
+// handles displaying error messages in certain fields
+function inputError(slideArr) {
+
 }
 
 
@@ -462,22 +511,26 @@ window.onload=function() {
 	for (var i = 0; i < slideArray.length; i++) {
 		var thisDot = document.getElementById("dot" + i);
 		thisDot.addEventListener('click', function(event) {
-			// TODO handle input verification later
-			event.target.style.opacity = 1;
-			if (event.target.id != "dot" + currentSlideNum) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-			}
-			//inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
-			// TODO how to store fields if slides could have multiple fields
-			updateInput(inputArray[currentSlideNum]);
-			currentSlideNum = +event.target.id.split("dot")[1];
-			//closeInputError();
-			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-			if (currentSlideNum === 0) {
-				disablePrevBtn();
+			if (verifyInput(slideArray[currentSlideNum])) {
+				event.target.style.opacity = 1;
+				if (event.target.id != "dot" + currentSlideNum) {
+					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				}
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = +event.target.id.split("dot")[1];
+				//closeInputError();
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+				else {
+					enablePrevBtn();
+				}
 			}
 			else {
-				enablePrevBtn();
+				// handle displaying error
+				console.log("ERROR");
+				inputError(slideArray[currentSlideNum]);
 			}
 		});
 	}
