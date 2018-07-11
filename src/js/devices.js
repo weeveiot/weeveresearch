@@ -266,7 +266,6 @@ function updateSingleFields(slideArr, storedInput) {
 	document.getElementById("fieldInputSingle").value = storedInput;
 	document.getElementById('fieldDescriptionSingle').textContent = description;
 	$('#fieldInputSingle').removeClass("error");
-	console.log("should have updated");
 }
 
 // used to populate text for multi field slides
@@ -570,7 +569,6 @@ window.onload=function() {
 				}
 				updateInput(inputArray[currentSlideNum]);
 				currentSlideNum = +event.target.id.split("dot")[1];
-				//closeInputError();
 				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
 				if (currentSlideNum === 0) {
 					disablePrevBtn();
@@ -581,10 +579,75 @@ window.onload=function() {
 			}
 			else {
 				// handle displaying error
-				console.log("ERROR");
 				inputError(slideArray[currentSlideNum]);
 			}
 		});
+	}
+
+	// setup clickable previous buttons
+	var leftArrowSingle = document.getElementById("prevBtnSingle");
+	var leftArrowMulti = document.getElementById("prevBtnMulti");
+	leftArrowSingle.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowMulti.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+
+	// listener for left arrow previous buttons
+	function leftArrowListener() {
+		if (verifyInput(slideArray[currentSlideNum])) {
+			if (currentSlideNum > 0) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = currentSlideNum - 1;
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+				else {
+					enablePrevBtn();
+				}
+			}
+		}
+		else {
+			// handle displaying error
+			inputError(slideArray[currentSlideNum]);
+		}
+	}
+
+
+	// setup clickable next buttons
+	var rightArrowSingle = document.getElementById("nextBtnSingle");
+	var rightArrowMulti = document.getElementById("nextBtnMulti");
+	rightArrowSingle.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowMulti.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+
+	// listener for right arrow next buttons
+	function rightArrowListener() {
+		if (verifyInput(slideArray[currentSlideNum])) {
+			if (currentSlideNum === slideArray.length - 1) {
+				updateInput(inputArray[currentSlideNum]);
+				// handle displaying finish box
+			}
+			else if (currentSlideNum < slideArray.length - 1) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = currentSlideNum + 1;
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				enablePrevBtn();
+			}
+		}
+		else {
+			// handle displaying error
+			inputError(slideArray[currentSlideNum]);
+		}
 	}
 
 	//handle canceling during adding device
