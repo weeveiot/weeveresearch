@@ -8,8 +8,10 @@ var web3Provider;
 var contract_token;
 var contract_factory;
 
-var token_address = '0x1cd91502f6179b6353bf6a89525183a90eca79a1';
-var factory_address = '0xec717ba4d292ecfd2e60f2bdb65a17d86e93faa4';
+//var token_address = '0x1cd91502f6179b6353bf6a89525183a90eca79a1';
+var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
+//var factory_address = '0xec717ba4d292ecfd2e60f2bdb65a17d86e93faa4';
+var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 
 var balanceETH = 0;
 var weevBalance;
