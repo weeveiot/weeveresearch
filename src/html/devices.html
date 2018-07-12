@@ -20,7 +20,7 @@
         $("#includeFooter").load("footer.html");
     });
     </script>
-
+    
     <!-- Custom js for this template -->
     <script src="../js/devices.js"></script>
     <title>weeveNetwork Demo</title>
@@ -35,9 +35,9 @@
     </header>
 
     <div class="split left" id="titlePanel">
-        <h1 style="padding-left: 20px">Devices</h1>
+        <h1 class="pageTitle">Devices</h1>
         <div class="hexRow">
-            <div style="float: right">
+            <div class="rightFloat">
                 <img class="firstHex" src="../images/deviceImg.png" alt="devicesHexagon"/>
             </div>
         </div>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="split right" id="registryPanel">
-        <div style="margin-bottom:10%">
+        <div class="infoHeader">
             <h1 class="leftFloat">Choose Registry</h1>
             <button class="rightFloat addBtn" id="addBtn">ADD NEW DEVICE</button>
         </div>
@@ -80,11 +80,11 @@
 </div>
 
 <div class="split right" id="devicesPanel">
-    <div style="margin-bottom:10%">
-        <h1 class="leftFloat" id="regName" style="padding-left:2%"> <!--name of registry --></h1>
+    <div class="infoHeader">
+        <h1 class="leftFloat headerTitle" id="regName"> <!--name of registry --></h1>
         <button class="rightFloat backBtn" id="goBack">BACK</button>
     </div>
-    <div id="deviceButtons" style="margin-left: 12px;">
+    <div class="infoMargin" id="deviceButtons">
         <!-- filled by js now
         <button class="grayNameBtn">
         <p class="leftFloat">Device 1</p>
@@ -106,11 +106,11 @@
 </div>
 
 <div class="split right" id="infoPanel">
-    <div style="margin-bottom:10%">
-        <h1 class="leftFloat" id="deviceName" style="padding-left:2%"> <!-- name of device --></h1>
+    <div class="infoHeader">
+        <h1 class="leftFloat headerTitle" id="deviceName"> <!-- name of device --></h1>
         <button class="rightFloat backBtn" id="removeBtn">REMOVE DEVICE</button>
     </div>
-    <div id="deviceInfo" style="margin-left: 12px;">
+    <div class="infoMargin" id="deviceInfo">
         <!-- filled by js now
         <div class="infoLabel">
         <p class="leftFloat">Stake</p>
@@ -124,10 +124,10 @@
 </div>
 
 <div id="createPanel">
-    <img style="opacity: 0.7" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
+    <img class="createImg" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
 
     <div class="center createBox" id="createSlides">
-        <div style="padding: 2%">
+        <div class="createHeader">
             <h1 class="leftFloat" id="slideName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
             <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
         </div>
@@ -136,58 +136,58 @@
                 <div class="split left">
                     <div class="leftFloat">
                         <p id="fieldName1"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput1" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput1" placeholder=""></input>
                     </div>
                     <div class="leftFloat">
                         <p id="fieldName2"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput2" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput2" placeholder=""></input>
                     </div>
                     <div class="leftFloat">
                         <p id="fieldName3"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput3" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput3" placeholder=""></input>
                     </div>
                 </div>
                 <div class="split right">
                     <div class="rightFloat">
                         <p id="fieldName4"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput4" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput4" placeholder=""></input>
                     </div>
                     <div class="rightFloat">
                         <p id="fieldName5"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput5" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput5" placeholder=""></input>
                     </div>
                     <div class="rightFloat">
                         <p id="fieldName6"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput6" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput6" placeholder=""></input>
                     </div>
                 </div>
             </div>
-            <div style="position: fixed; top: 47%; width: 99%; left: 50%; transform: translate(-50%, -50%)">
+            <div class="arrowBoxMulti">
                 <a>
-                    <img class="leftArrow" style="width: 6.6%" id="prevBtnMulti" src="../images/nextArrow.png" alt="backArrowImage"/>
+                    <img class="leftArrow" id="prevBtnMulti" src="../images/nextArrow.png" alt="backArrowImage"/>
                 </a>
                 <a>
-                    <img class="rightArrow" style="width: 6.6%" id="nextBtnMulti" src="../images/nextArrow.png" alt="nextArrowImage"/>
+                    <img class="rightArrow" id="nextBtnMulti" src="../images/nextArrow.png" alt="nextArrowImage"/>
                 </a>
             </div>
-            <h6 id="fieldDescriptionMulti" style="position: absolute;top: 78%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+            <h6 class="descriptionMulti" id="fieldDescriptionMulti">
                 <!-- description of the field to be specified goes here -->
             </h6>
         </div>
         <div id="singleField">
-            <div style="width: 65%;top: 35%;left: 50%;transform: translate(-50%, -50%);text-align: center;position:absolute">
-                <h3 style="margin-bottom: 5%" id="fieldNameSingle"><!-- name of the field to be specified goes here --></h3>
-                <div style="position: absolute">
+            <div class="fieldBoxSingle">
+                <h3 class="fieldNameSingle" id="fieldNameSingle"><!-- name of the field to be specified goes here --></h3>
+                <div class="arrowBoxSingle">
                     <a>
                         <img class="leftArrow" id="prevBtnSingle" src="../images/nextArrow.png" alt="backArrowImage"/>
                     </a>
-                    <input type="text" style="text-align: center" id="fieldInputSingle" placeholder=""></input>
+                    <input type="text" class="inputSingle" id="fieldInputSingle" placeholder=""></input>
                     <a>
                         <img class="rightArrow" id="nextBtnSingle" src="../images/nextArrow.png" alt="nextArrowImage"/>
                     </a>
                 </div>
             </div>
-            <h6 id="fieldDescriptionSingle" style="position: absolute;top: 65%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+            <h6 class="descriptionSingle" id="fieldDescriptionSingle">
                 <!-- description of the field to be specified goes here -->
             </h6>
         </div>
@@ -199,7 +199,7 @@
         <br>
         <h1 class="createName">Confirm New Registry</h1>
         <br>
-        <div style="overflow: auto; height: 50%; width: 95%; margin: auto" id="confirmData">
+        <div class="confirmData" id="confirmData">
         </div>
         <br>
         <span>
