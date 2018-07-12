@@ -113,33 +113,74 @@
 
 <div id="createPanel">
     <img style="opacity: 0.7" class="center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
+
     <div class="center createBox" id="createSlides">
         <div style="padding: 2%">
-            <h1 class="leftFloat" id="createName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
+            <h1 class="leftFloat" id="slideName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
             <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
         </div>
-        <div style="width: 65%;top: 35%;left: 50%;transform: translate(-50%, -50%);text-align: center;position:absolute">
-            <h3 style="margin-bottom: 5%" id="fieldName"><!-- name of the field to be specified goes here --></h3>
-            <div style="position: absolute">
+        <div id="multiField">
+            <div class="inputContainer center">
+                <div class="split left">
+                    <div class="leftFloat">
+                        <p id="fieldName1"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput1" placeholder=""></input>
+                    </div>
+                    <div class="leftFloat">
+                        <p id="fieldName2"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput2" placeholder=""></input>
+                    </div>
+                    <div class="leftFloat">
+                        <p id="fieldName3"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput3" placeholder=""></input>
+                    </div>
+                </div>
+                <div class="split right">
+                    <div class="rightFloat">
+                        <p id="fieldName4"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput4" placeholder=""></input>
+                    </div>
+                    <div class="rightFloat">
+                        <p id="fieldName5"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput5" placeholder=""></input>
+                    </div>
+                    <div class="rightFloat">
+                        <p id="fieldName6"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" style="text-align: center; margin-bottom: 15px;" id="fieldInput6" placeholder=""></input>
+                    </div>
+                </div>
+            </div>
+            <div style="position: fixed; top: 47%; width: 99%; left: 50%; transform: translate(-50%, -50%)">
                 <a>
-                    <img class="leftArrow" id="prevBtn" src="../images/nextArrow.png" alt="backArrowImage"/>
+                    <img class="leftArrow" style="width: 6.6%" id="prevBtnMulti" src="../images/nextArrow.png" alt="backArrowImage"/>
                 </a>
-                <input type="text" style="text-align: center" id="fieldInput" placeholder=""></input>
                 <a>
-                    <img class="rightArrow" id="nextBtn" src="../images/nextArrow.png" alt="nextArrowImage"/>
+                    <img class="rightArrow" style="width: 6.6%" id="nextBtnMulti" src="../images/nextArrow.png" alt="nextArrowImage"/>
                 </a>
             </div>
-            <div class="center errorPopup" id="inputAlert" style="display: none; margin-top: 60px">
-                <span class='exitBtn' onclick="closeInputError()">&times;</span>
-                <p id="alertPrompt"></p>
-            </div>
+            <h6 id="fieldDescriptionMulti" style="position: absolute;top: 78%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+                <!-- description of the field to be specified goes here -->
+            </h6>
         </div>
-        <h6 id="fieldDescription" style="position: absolute;top: 65%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
-            <!-- description of the field to be specified goes here -->
-        </h6>
+        <div id="singleField">
+            <div style="width: 65%;top: 35%;left: 50%;transform: translate(-50%, -50%);text-align: center;position:absolute">
+                <h3 style="margin-bottom: 5%" id="fieldNameSingle"><!-- name of the field to be specified goes here --></h3>
+                <div style="position: absolute">
+                    <a>
+                        <img class="leftArrow" id="prevBtnSingle" src="../images/nextArrow.png" alt="backArrowImage"/>
+                    </a>
+                    <input type="text" style="text-align: center" id="fieldInputSingle" placeholder=""></input>
+                    <a>
+                        <img class="rightArrow" id="nextBtnSingle" src="../images/nextArrow.png" alt="nextArrowImage"/>
+                    </a>
+                </div>
+            </div>
+            <h6 id="fieldDescriptionSingle" style="position: absolute;top: 65%;left: 50%;transform: translate(-50%, -50%);text-align: center; width: 55%; line-height: 20px;">
+                <!-- description of the field to be specified goes here -->
+            </h6>
+        </div>
         <div class="dotRow" id="dotRow">
             <!-- TODO add the correct amount of dots on initialization -->
-
         </div>
     </div>
     <div class="center createBox" id="finishBox">

@@ -14,7 +14,7 @@ function populateSlides() {
 	var data = [
 		{
 		    "slide1": {
-		        "title": "Add Marketplace",
+		        "title": "Add Registry",
 		        "field1": {
 		            "name": "Stake Amount",
 		            "data": "num",
@@ -23,22 +23,40 @@ function populateSlides() {
 		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
 		    },
 		    "slide2": {
-		        "title": "Add Marketplace",
+		        "title": "Add Registry",
 		        "field1": {
-		            "name": "Marketplace Name",
+		            "name": "Registry Name",
 		            "data": "str",
 		            "placeholder": "Enter name"
 		        },
-		        "description": "Provide a name to identify and describe the Marketplace"
+		        "description": "Provide a name to identify and describe the Registry"
 		    },
 		    "slide3": {
-		        "title": "Add Marketplace",
+		        "title": "Add Registry",
 		        "field1": {
-		            "name": "Commission",
+		            "name": "Stake per Registration",
 		            "data": "num",
-		            "placeholder": "Enter commission"
+		            "placeholder": "Enter stake"
 		        },
-				"description": "Set the amount that will be collected as commission on marketplace transactions to support marketplace curation"
+				"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+		    },
+            "slide4": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Validator",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+		    },
+            "slide5": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Arbiter",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
 		    }
 		}
 	]
