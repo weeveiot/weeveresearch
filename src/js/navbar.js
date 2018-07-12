@@ -1,20 +1,24 @@
 var Web3 = require('web3');
 
-var accounts;
-var userAccount;
+
+
+
+
+
+var account;
 
 var web3Provider;
 
 var contract_token;
 var contract_factory;
 
-//var token_address = '0x1cd91502f6179b6353bf6a89525183a90eca79a1';
-var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
-//var factory_address = '0xec717ba4d292ecfd2e60f2bdb65a17d86e93faa4';
-var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
+var token_address = '0xa4227b1fd67b65b579c9865780680d543ad8e294';
+//var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
+var factory_address = '0xe8c219f72fc117219bf0a7b134ff4f88f7d58a03';
+//var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 
 var balanceETH = 0;
-var weevBalance;
+var balanceToken = 0;
 
 var testTokensRequested = false;
 
@@ -22,6 +26,58 @@ var testTokensRequested = false;
 
 /************************************ Functions ***************************************************/
 
+//sets account and ethereum balance of that account
+function setAccount() {
+	//set the account display
+	account = web3.eth.accounts[0];
+	console.log(account);
+	$("#metamaskButton").text(account);
+
+	// set the ethereum balance display
+	web3.eth.getBalance(account, function(err, res) {
+		balanceETH = Number(web3.fromWei(res, 'ether'));
+		$('#balanceETH').text(balanceETH + " ETH");
+		$('#balanceETH').show();
+	});
+}
+
+//set weev balance of account, if haven't requested display button
+function setWeevBalance() {
+	//set WEEV balance display
+	contract_token.balanceOf(account, function(errCall, result) {
+		if(!errCall) {
+			if(!testTokensRequested && Number(result) == 0) {
+				$('#getTokens').show();
+			} else {
+				$('#getTokens').hide();
+			}
+			if(Number(result) != balanceToken) {
+				balanceToken = Number(result);
+				$('#balanceToken').text(web3.fromWei(balanceToken, 'ether') + " WEEV");
+				$('#balanceToken').show();
+			}
+		} else {
+			console.log(errCall);
+		}
+	});
+}
+
+function getTestTokens() {
+	web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
+		if(!errNonce) {
+			contract_factory.getTestTokens({value:0, gas: 10000, none: nonce}, function(errCall, result) {
+				if(!errCall) {
+					testTokensRequested = true;
+					$('#getTokens').hide();
+				} else {
+					testTokensRequested = true;
+					$('#getTokens').hide();
+					console.log(errCall);
+				}
+			});
+		}
+	});
+}
 
 /************************************** UI *****************************/
 
@@ -45,16 +101,16 @@ window.addEventListener('load', function() {
 	// get contract data for factory and token
 	$.getJSON('../../build/contracts/weeveToken.json', function(data) {
 		console.log("pulling token contract");
-		contract_token = new web3.eth.Contract(data.abi, token_address);
-		contract_token.setProvider(web3Provider);
-		console.log("token: " + contract_token);
+		//contract_token = new web3.eth.Contract(data.abi, token_address);
+		contract_token = web3.eth.contract(data.abi).at(token_address);
+		console.log("token: ", contract_token);
 	});
 
 	$.getJSON('../../build/contracts/weeveFactory.json', function(data) {
 		console.log("pulling factory contract");
-		contract_factory = new web3.eth.Contract(data.abi, factory_address);
-		contract_factory.setProvider(web3Provider);
-		console.log("factory: " + contract_factory);
+		//contract_factory = new web3.eth.Contract(data.abi, factory_address);
+		contract_factory = web3.eth.contract(data.abi).at(factory_address);
+		console.log("factory: ", contract_factory);
 	});
 
 
@@ -64,51 +120,18 @@ window.addEventListener('load', function() {
 	setTimeout(function(){
 		console.log("inside timeout");
 
-		//set the account display
-		accounts = web3.eth.getAccounts();
-		accounts.then(function(result) {
-			userAccount = result[0]
-			console.log(userAccount);
-			$("#metamaskButton").text(userAccount);
+		setAccount();
 
-			// set the ethereum balance display
-			web3.eth.getBalance(userAccount, function(err, res) {
-				if(Number(web3.utils.fromWei(res, 'ether')) != balanceETH) {
-					balanceETH = Number(web3.utils.fromWei(res, 'ether'));
-					$('#balanceETH').text(balanceETH + " ETH");
-					$('#balanceETH').show();
-					console.log("balance of current account: " + balanceETH);
-				}
-			});
-
-			//set WEEV balance display and button to get test WEEV
-			contract_token.methods.balanceOf(userAccount).call()
-			.then(function(result){
-				console.log(result);
-			});
-
-			if (!testTokensRequested) {
-				$('#getTokens').show();
-			}
-
-		});
+		setWeevBalance();
 
 		console.log("end of setTimeout");
 	}, 1000);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
-		contract_factory.methods.getTestTokens();
+		getTestTokens();
 
-		testTokensRequested = true;
-		$('#getTokens').hide();
-
-		//set WEEV balance display and button to get test WEEV
-		contract_token.methods.balanceOf(userAccount).call()
-		.then(function(result){
-			console.log(result.data);
-		});
-
+		setWeevBalance();
 	});
 
 });
