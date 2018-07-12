@@ -283,7 +283,19 @@ function updateMultiFields(slideArr, inputArr) {
 	}
 	for (var i = 1; i < slideArr.length - 1; i++) {
 		var fieldName = slideArr[i][0];
+		var fieldData = slideArr[i][1];
 		var fieldPH = slideArr[i][2];
+		/* TODO test with other browsers. Does every browser support input type changes?
+		if (fieldData.toLowerCase() === "str") {
+			document.getElementById("fieldInput" + i).type = "text";
+		}
+		else if (fieldData.toLowerCase() === "num") {
+			document.getElementById("fieldInput" + i).type = "number";
+		}
+		else if (fieldData.toLowerCase() === "bool") {
+			document.getElementById("fieldInput" + i).type = "checkbox";
+		}
+		*/
 		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
 		document.getElementById("fieldInput" + i).placeholder = fieldPH;
 		document.getElementById("fieldName" + i).textContent = fieldName;
@@ -355,12 +367,16 @@ function verifySingleInput(inputType, input) {
 function disablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.3;
 	document.getElementById("prevBtnMulti").style.opacity = 0.3;
+	document.getElementById("nextBtnSingle").style.opacity = 0.8;
+	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
 // enables the left arrow button
 function enablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.8;
 	document.getElementById("prevBtnMulti").style.opacity = 0.8;
+	document.getElementById("nextBtnSingle").style.opacity = 0.8;
+	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
 // handles displaying error messages in certain fields
@@ -637,26 +653,37 @@ window.onload=function() {
 	for (var i = 0; i < slideArray.length; i++) {
 		var thisDot = document.getElementById("dot" + i);
 		thisDot.addEventListener('click', function(event) {
-			if (verifyInput(slideArray[currentSlideNum])) {
-				event.target.style.opacity = 1;
-				if (event.target.id != "dot" + currentSlideNum) {
-					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				}
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = +event.target.id.split("dot")[1];
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				if (currentSlideNum === 0) {
-					disablePrevBtn();
-				}
-				else {
-					enablePrevBtn();
-				}
-			}
-			else {
-				// handle displaying error
-				inputError(slideArray[currentSlideNum]);
+			dotListener(event);
+		});
+		thisDot.addEventListener('keypress', function(event) {
+			var key = event.which || event.keyCode;
+			if (key === 13) {
+				dotListener(event);
 			}
 		});
+	}
+
+	// listener for dot focus
+	function dotListener(event) {
+		if (verifyInput(slideArray[currentSlideNum])) {
+			event.target.style.opacity = 1;
+			if (event.target.id != "dot" + currentSlideNum) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			}
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = +event.target.id.split("dot")[1];
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			if (currentSlideNum === 0) {
+				disablePrevBtn();
+			}
+			else {
+				enablePrevBtn();
+			}
+		}
+		else {
+			// handle displaying error
+			inputError(slideArray[currentSlideNum]);
+		}
 	}
 
 	// setup clickable previous buttons
