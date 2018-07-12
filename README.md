@@ -10,8 +10,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Stake Amount",
-		    "data": "num",
-		    "placeholder": "Enter stake"
+		    	"data": "num",
+		    	"placeholder": "Enter stake"
 		},
 		"description": "Some WEEV must be given as collateral to discourage malicious behavior"
 	},
@@ -19,8 +19,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Marketplace Name",
-		    "data": "str",
-		    "placeholder": "Enter name"
+		    	"data": "str",
+		    	"placeholder": "Enter name"
 		},
 		"description": "Provide a name to identify and describe the Marketplace"
 	},
@@ -28,8 +28,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Commission",
-		    "data": "num",
-		    "placeholder": "Enter commission"
+		    	"data": "num",
+		    	"placeholder": "Enter commission"
 		},
 		"description": "Set the amount that will be collected as commission on marketplace transactions to support marketplace curation"
 	},
@@ -59,7 +59,7 @@ Using these common components it's very easy to add more slides or change specif
 		"placeholder": "Field 2 Placeholder"
 	},
 	"field3": {
-	    "name": "Field 3 Name",
+	    	"name": "Field 3 Name",
 		"data": "num",
 		"placeholder": "Field 3 Placeholder"
 	},
