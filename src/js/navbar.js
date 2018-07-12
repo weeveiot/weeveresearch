@@ -1,11 +1,7 @@
 var Web3 = require('web3');
 
-
-
-
-
-
 var account;
+var FIRST_ACCOUNT = '0xE678581277CC36de3960A52DE86290872a039915';
 
 var web3Provider;
 
@@ -63,9 +59,10 @@ function setWeevBalance() {
 }
 
 function getTestTokens() {
-	web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
+	console.log("account before getTransCount: " + account);
+	web3.eth.getTransactionCount(account, function(errNonce, nonce) {
 		if(!errNonce) {
-			contract_factory.getTestTokens({value:0, gas: 10000, none: nonce}, function(errCall, result) {
+			contract_factory.getTestTokens({value:0, gas: 100000, from: FIRST_ACCOUNT, nonce: nonce}, function(errCall, result) {
 				if(!errCall) {
 					testTokensRequested = true;
 					$('#getTokens').hide();
