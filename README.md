@@ -2,7 +2,7 @@
 Experimental things we are working on.
 
 ### Adding Registries/Marketplaces and Registering Devices
-Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace:
+Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace: 
 
 ```json
 {
@@ -37,13 +37,14 @@ Currently the user interface for adding registries/marketplaces and registering 
 ```
 
 #### Slide Components
-Each slide has 3 fields :
+Each slide has 3 components:
 
  1. **"title"**:  Used to display what is being added/registered or what step in the slideshow the user is currently on.
- 2. **"field x"**: Defines the properties of the specific user input field on the slide.
- 3. **"description"**: Used to inform the user about the purpose behind the field(s) displayed on the slide. The goal of the description is to alleviate confusion for new users.
+ 2. **"fieldx"**: Defines the properties of the specific user input field on the slide. Note it's important that the field is named 'field(_x_)' where 
+ 1 $\le$ x $\le$ 6.
+ 4. **"description"**: Used to inform the user about the purpose behind the field(s) displayed on the slide. The goal of the description is to alleviate confusion for new users.
 
-Using these common components it's very easy to add more slides or change specific fields. For example, we can add a new slide to our marketplace creation by adding the following json data to our existing _marketplaceFields.json_ file displayed above:
+Using these common components it's very easy to add more slides or change specific fields **as long as the JSON key names are consistent with the ones displayed here**. For example, we can add a new slide to our marketplace creation by adding the following JSON data to our existing _marketplaceFields.json_ file displayed above:
 
 ```json
 "slide4": {
@@ -80,7 +81,17 @@ Using these common components it's very easy to add more slides or change specif
 	},
 	"description": "Slide 4 Description: Only the json file needs to change to allow for more marketplace fields!"
 }
-```
-This produces a new slide at the end with six fields displaying the following information:
+``` 
+This produces a [new slide](https://photos.app.goo.gl/Ap4MLif9MR83ihyx7) at the end with six fields displaying the following information:
 
 ![Slide Components](https://lh3.googleusercontent.com/vEq4eGOf9hz34W5u0K_8cNo-vmCiK0f0TFuT83YtKW6bDjY5nfOZcaIF3-_74lGHRz20uFwDDIaF)
+
+#### Field Components
+Each field has 3 components:
+
+ 1. **"name"**:  Used to display the name of the field over the input area to keep the user informed.
+ 2. **"data"**: Defines the desired input type. Used for error checking user inputs. Note that capitalization and leading and trailing white space in the user input does not impact the error checking process. There are **3 kinds of data values** recognized:
+	 1. _"str"_: A string of text
+	 2. _"num"_: A numeric value
+	 3.  _"bool"_: A value of either true or false
+ 3. **"placeholder"**: Gives further clarification when necessary. For example, might include an example input.
