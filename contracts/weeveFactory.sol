@@ -261,7 +261,7 @@ contract weeveFactory is Owned {
     // Development function for the test-net to get some Test-Tokens
     function getTestTokens() public {
         require(!hasWithdrawnTestWEEV[msg.sender]);
-        token.transferFrom(0x0000000000000000000000000000000000000000, msg.sender, 5000 * 10**18);
+        token.transferFrom(0xE678581277CC36de3960A52DE86290872a039915, msg.sender, 5000 * 10**18);
         hasWithdrawnTestWEEV[msg.sender] = true;
     }
 
