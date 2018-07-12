@@ -8,159 +8,347 @@
 
 /****************************Functions******************************/
 
-// used for populating fields needed to add a registry from JSON file
-function populateFields() {
+// extracts necessary inputs from json file
+function populateSlides() {
 	// TODO load in file later, focus on parsing now
 	var data = [
 		{
-			"name": "Stake Amount",
-			"data": "num",
-			"placeholder": "Enter stake",
-			"description": "Some WEEV must be given as collateral to discourage malicious behavior"
-		},
-		{
-			"name": "Registry Name",
-			"data": "str",
-			"placeholder": "Enter name",
-			"description": "Provide a name to identify and describe the registry"
-		},
-		{
-			"name": "Stake per Registration",
-			"data": "num",
-			"placeholder": "Enter stake",
-			"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
-		},
-		{
-			"name": "Stake per Validator",
-			"data": "num",
-			"placeholder": "Enter stake",
-			"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
-		},
-		{
-			"name": "Stake per Arbiter",
-			"data": "num",
-			"placeholder": "Enter stake",
-			"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
+		    "slide1": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake Amount",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
+		    },
+		    "slide2": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Registry Name",
+		            "data": "str",
+		            "placeholder": "Enter name"
+		        },
+		        "description": "Provide a name to identify and describe the Registry"
+		    },
+		    "slide3": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Registration",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+		    },
+            "slide4": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Validator",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+		    },
+            "slide5": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Arbiter",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
+		    }
 		}
 	]
+
+	// extra slow parsing
 	var retArray = [];
-	for (var key in data) {
-		var fields = data[key];
-		var fieldArray = [];
-		for (var el in fields) {
-			fieldArray.push(fields[el].replace(/^\s+|\s+$/g,''));
+	var slides = data[0];
+	for (var num in slides) {
+		var singleSlide = slides[num];
+		var slideArray = [];
+		for (var field in singleSlide) {
+			if (field == "title" || field == "description") {
+				slideArray.push(singleSlide[field]);
+			}
+			else {
+				var fieldArray = [];
+				for (var el in singleSlide[field]) {
+					fieldArray.push(singleSlide[field][el]);
+				}
+				slideArray.push(fieldArray);
+			}
 		}
-		retArray.push(fieldArray);
+		retArray.push(slideArray);
 	}
 	return retArray;
 }
 
-// updates slide to match current field data
-function updateFields(name, placeholder, description, input) {
-	document.getElementById('fieldName').textContent = name;
-	document.getElementById("fieldInput").placeholder = placeholder;
-	document.getElementById('fieldDescription').textContent = description;
-	document.getElementById("fieldInput").value = input;
+// creates and returns an array initialized with empty strings for each field
+function populateInputs(slideArr) {
+	var retArray = [];
+	for (var slide in slideArr) {
+		var slideFields = [];
+		for (var i = 1; i < slideArr[slide].length - 1; i++) {
+			slideFields.push("");
+		}
+		retArray.push(slideFields);
+	}
+	return retArray;
+}
+
+// updates the slide information
+function updateSlide(slideArr, inputArr) {
+	if (slideArr.length > 3) {
+		$('#multiField').show();
+		$('#singleField').hide();
+		updateMultiFields(slideArr, inputArr);
+	}
+	else {
+		$('#multiField').hide();
+		$('#singleField').show();
+		updateSingleFields(slideArr, inputArr[0]);
+	}
+}
+
+// TODO handle creating the fields needed, e.g. instead of standard input
+// maybe use two buttons, one yes and the other no, for bool fields
+
+// used to populate text for single field slides
+function updateSingleFields(slideArr, storedInput) {
+	var title = slideArr[0];
+	var field = slideArr[1];
+	var description = slideArr[2];
+	var fieldName = field[0];
+	var fieldPH = field[2];
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldNameSingle').textContent = fieldName;
+	document.getElementById("fieldInputSingle").placeholder = fieldPH;
+	document.getElementById("fieldInputSingle").value = storedInput;
+	document.getElementById('fieldDescriptionSingle').textContent = description;
+	$('#fieldInputSingle').removeClass("error");
+}
+
+// used to populate text for multi field slides
+function updateMultiFields(slideArr, inputArr) {
+	var title = slideArr[0];
+	var description = slideArr[slideArr.length - 1];
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldDescriptionMulti').textContent = description;
+	// can't handle more than 6 inputs on one multi field slide
+	// plus 2 for the title and description
+	if (slideArr.length > 8) {
+		// TODO more rigorous error checking here
+		console.log("Critical json format error. More than 6 fields on slide!")
+	}
+	for (var i = 1; i < slideArr.length - 1; i++) {
+		var fieldName = slideArr[i][0];
+		var fieldPH = slideArr[i][2];
+		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
+		document.getElementById("fieldInput" + i).placeholder = fieldPH;
+		document.getElementById("fieldName" + i).textContent = fieldName;
+		$('#fieldInput' + i).removeClass("error");
+	}
+}
+
+// handles storing user input values
+function updateInput(inputArr) {
+	if (inputArr.length > 1) {
+		if (inputArr.length > 6) {
+			// TODO more rigorous error checking here
+			console.log("Critical json format error. More than 6 fields on slide!")
+		}
+		else {
+			for (var i = 0; i < inputArr.length; i++) {
+				inputArr[i] = document.getElementById("fieldInput" + (i + 1)).value.replace(/^\s+|\s+$/g,'');
+			}
+		}
+	}
+	else {
+		inputArr[0] = document.getElementById("fieldInputSingle").value.replace(/^\s+|\s+$/g,'');
+	}
 }
 
 // verify user gave correct input before advancing slides and storing data
-function verifyInput(inputType) {
-	var input = document.getElementById("fieldInput");
+function verifyInput(slideArr) {
+	// loop through the slide fields
+	if (slideArr.length > 3) {
+		for (var i = 1; i < slideArr.length - 1; i++) {
+			var fieldArr = slideArr[i];
+			var inputType = fieldArr[1];
+			var input = document.getElementById("fieldInput" + i);
+			if (!verifySingleInput(inputType, input)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	else {
+		var fieldArr = slideArr[1];
+		var inputType = fieldArr[1];
+		var input = document.getElementById("fieldInputSingle");
+		return verifySingleInput(inputType, input);
+	}
+}
+
+// verify user gave correct input before advancing from a single field slide
+function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
-		return typeof input.value === typeof ""
-		|| input.value === "";
+		return typeof input.value === typeof "" || input.value === "";
 	}
 	else if (inputType.toLowerCase() === "num") {
 		return !isNaN(input.value) || input.value === "";
 	}
 	else if (inputType.toLowerCase() === "bool") {
 		return input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
-		|| input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "false"
-		|| input.value === "";
+				|| input.value.toLowerCase().replace(/^\s+|\s+$/g,'') === "false"
+				|| input.value === "";
 	}
 	else {
+		// TODO better error throwing in this case
 		console.log("Invalid input type");
 		return false;
 	}
 }
 
-// confirm stored input is of the correct type before finishing creation
-function confirmInput(storedVal, valType) {
+// disables the left arrow button
+function disablePrevBtn() {
+	document.getElementById("prevBtnSingle").style.opacity = 0.3;
+	document.getElementById("prevBtnMulti").style.opacity = 0.3;
+}
+
+// enables the left arrow button
+function enablePrevBtn() {
+	document.getElementById("prevBtnSingle").style.opacity = 0.8;
+	document.getElementById("prevBtnMulti").style.opacity = 0.8;
+}
+
+// handles displaying error messages in certain fields
+function inputError(slideArr) {
+	// loop through the slide fields
+	if (slideArr.length > 3) {
+		for (var i = 1; i < slideArr.length - 1; i++) {
+			var fieldArr = slideArr[i];
+			var inputType = fieldArr[1];
+			var input = document.getElementById("fieldInput" + i);
+			if (!verifySingleInput(inputType, input)) {
+				errorSingleInput(inputType, input);
+			}
+		}
+	}
+	else {
+		var fieldArr = slideArr[1];
+		var inputType = fieldArr[1];
+		var input = document.getElementById("fieldInputSingle");
+		errorSingleInput(inputType, input);
+	}
+}
+
+/**
+ *
+ * Handles displaying a specific error message, depending upon inputType, in
+ * the correct field, specified by the input parameter.
+ */
+function errorSingleInput(inputType, input) {
+	//var alertPrompt = document.getElementById("alertPrompt");
+	if (inputType.toLowerCase() === "str") {
+		//alertPrompt.textContent = "Please enter a string of text";
+		input.value = "";
+		input.placeholder = "Please enter some text";
+		$('#' + input.id).addClass("error");
+	}
+	else if (inputType.toLowerCase() === "num") {
+		//alertPrompt.textContent = "Please enter a number";
+		input.value = "";
+		input.placeholder = "Please enter a number";
+		$('#' + input.id).addClass("error");
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
+		input.value = "";
+		input.placeholder = "Please enter 'true' or 'false'";
+		$('#' + input.id).addClass("error");
+	}
+	else {
+		//alertPrompt.textContent = "Invalid input type given";
+		input.value = "";
+		input.placeholder = "Invalid input in json file";
+		$('#' + input.id).addClass("error");
+	}
+}
+
+// ensure all stored input values are valid
+function executeFinish(slideArr, inputArr) {
+	for (var i = 0; i < slideArr.length; i++) {
+		var slide = slideArr[i];
+		var errorArr = [];
+		for (var j = 1; j < slide.length - 1; j++) {
+			var slideField = slide[j];
+			console.log(inputArr[i][j - 1]);
+			console.log(slideField[1]);
+			if (!confirmSingleInput(inputArr[i][j - 1], slideField[1])) {
+				errorArr.push(j);
+			}
+		}
+		if (errorArr.length > 0) {
+			return [i, errorArr];
+		}
+	}
+	return -1;
+}
+
+// returns whether the stored input value is of the correct valType
+function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {
-		return typeof storedVal === typeof ""
-		&& storedVal !== "";
+		return typeof storedVal === typeof "" && storedVal !== "";
 	}
 	else if (valType.toLowerCase() === "num") {
 		return !isNaN(storedVal) && storedVal !== "";
 	}
 	else if (valType.toLowerCase() === "bool") {
 		return storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "true"
-		|| storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "false";
+				|| storedVal.toLowerCase().replace(/^\s+|\s+$/g,'') === "false";
 	}
 	else {
+		// TODO better error checking
 		console.log("Invalid input type");
 		return false;
 	}
 }
 
-// confirms the stored input for each field is valid
-// returns -1 if all are valid
-// returns index of the invalid stored input otherwise
-function executeFinish(inputArray, fieldArray) {
-	for (var i = 0; i < inputArray.length; i++) {
-		if (!confirmInput(inputArray[i], fieldArray[i][1])) {
-			return i;
+// displays errors for all fields that didn't pass input type confirmation
+function confirmInputError(slideArr, errorFields) {
+	if (slideArr.length > 3) {
+		for (var i = 0; i < errorFields.length; i++) {
+			var index = +errorFields[i];
+			var field = slideArr[index];
+			var fieldType = field[1];
+			console.log(+index + 1);
+			var input = document.getElementById("fieldInput" + index);
+			console.log(input);
+			errorSingleInput(fieldType, input);
 		}
 	}
-	return -1;
+	else {
+		var field = slideArr[1];
+		var fieldType = field[1];
+		var input = document.getElementById("fieldInputSingle");
+		errorSingleInput(fieldType, input);
+	}
 }
 
-// populate the finish display before displaying
-// assume input array and field array are the same size
-function populateFinish(inputArray, fieldArray) {
+// populates the finish box with stored user inputs
+function populateFinish(inputArr, slideArr) {
 	var newHtml = ""
-	for (var i = 0; i < inputArray.length; i++) {
-		str1 = newHtml;
-		str2 = "<div class='infoLabel confirm'><p class='leftFloat'>" + fieldArray[i][0] + "</p><p class='rightFloat'>" + inputArray[i] + "</p></div>";
-		newHtml = str1.concat(str2);
+	for (var i = 0; i < slideArr.length; i++) {
+		var slide = slideArr[i];
+		for (var j = 1; j < slide.length - 1; j++) {
+			str1 = newHtml;
+			str2 = "<div class='infoLabel confirm'><p class='leftFloat'>" + slide[j][0] + "</p><p class='rightFloat'>" + inputArr[i][j - 1] + "</p></div>";
+			newHtml = str1.concat(str2);
+		}
 	}
 	document.querySelector('#confirmData').innerHTML = newHtml;
-}
-
-// throws an error stating the desired inputType
-// uncomment alertPrompt to display error popup
-function inputError(inputType) {
-	var errorAlert = document.getElementById("inputAlert");
-	//var alertPrompt = document.getElementById("alertPrompt");
-	var input = document.getElementById("fieldInput");
-	if (inputType.toLowerCase() === "str") {
-		//alertPrompt.textContent = "Please enter a string of text";
-		input.value = "";
-		input.placeholder = "Please enter a string of text";
-	}
-	else if (inputType.toLowerCase() === "num") {
-		//alertPrompt.textContent = "Please enter a number";
-		input.value = "";
-		input.placeholder = "Please enter a number";
-	}
-	else if (inputType.toLowerCase() === "bool") {
-		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
-		input.value = "";
-		input.placeholder = "Please enter 'true' or 'false'";
-	}
-	else {
-		//alertPrompt.textContent = "Invalid input type given";
-		input.value = "";
-		input.placeholder = "Invalid input type given";
-	}
-	//$("#inputAlert").show();
-	//input.style.opacity = 0;
-}
-
-// close error prompt
-function closeInputError() {
-	$("#inputAlert").hide();
-	document.getElementById("fieldInput").style.opacity = 1;
 }
 
 /*************************************UI*******************************/
@@ -170,16 +358,33 @@ window.onload=function() {
     $('#createPanel').hide();
     $('#finishBox').hide();
 
-    //handle creating a new registry or marketplace
-	var currentFieldNum = 0;
-	var fieldArray = populateFields();
-	var inputArray = [];
+    //handle adding device
+	var addButton = document.querySelector('#addBtn');
+
+	addButton.addEventListener('click', function(event) {
+
+		//hide info panel
+		$('#infoPanel').hide();
+		$("#devicesPanel").hide();
+		$("#titlePanel").hide();
+		$('#registryPanel').hide();
+		$('#createPanel').show();
+
+		// initialize creation panel
+		updateSlide(slideArray[0], inputArray[0]);
+		disablePrevBtn();
+		document.getElementById('dot0').style.opacity = 1.0;
+	});
+
+	//handle creating a new registry
+	var currentSlideNum = 0;
+	var slideArray = populateSlides();
+	var inputArray = populateInputs(slideArray);
 
 	// generate correct number of 'slides'
-	document.getElementById('createName').textContent = "Create Registry";
 	var dotRow = document.querySelector('#dotRow');
 	var newHtml = "";
-	for (var i = 0; i < fieldArray.length; i++) {
+	for (var i = 0; i < slideArray.length; i++) {
 		str1 = newHtml;
 		str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
 		newHtml = str1.concat(str2);
@@ -188,174 +393,151 @@ window.onload=function() {
 
 	// setup listeners to handle moving through slides and updating data
 	// setup clickable dots
-	for (var i = 0; i < fieldArray.length; i++) {
+	for (var i = 0; i < slideArray.length; i++) {
 		var thisDot = document.getElementById("dot" + i);
-		var input = document.getElementById("fieldInput");
 		thisDot.addEventListener('click', function(event) {
-			if (verifyInput(fieldArray[currentFieldNum][1])) {
+			if (verifyInput(slideArray[currentSlideNum])) {
 				event.target.style.opacity = 1;
-				if (event.target.id != "dot" + currentFieldNum) {
-					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+				if (event.target.id != "dot" + currentSlideNum) {
+					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 				}
-				inputArray[currentFieldNum] = input.value.replace(/^\s+|\s+$/g,'');
-				currentFieldNum = +event.target.id.split("dot")[1];
-				updateFields(
-					fieldArray[currentFieldNum][0],
-					fieldArray[currentFieldNum][2],
-					fieldArray[currentFieldNum][3],
-					inputArray[currentFieldNum]
-				);
-				if (currentFieldNum === 0) {
-					document.getElementById("prevBtn").style.opacity = 0.3;
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = +event.target.id.split("dot")[1];
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
 				}
 				else {
-					document.getElementById("prevBtn").style.opacity = 1.0;
+					enablePrevBtn();
 				}
-				console.log(inputArray);
 			}
 			else {
-				inputError(fieldArray[currentFieldNum][1]);
+				// handle displaying error
+				inputError(slideArray[currentSlideNum]);
 			}
 		});
-		// add blank elements to input array
-		inputArray.push("");
 	}
 
-	// setup clickable previous button
-	var leftArrow = document.getElementById("prevBtn");
-	leftArrow.addEventListener('click', function(event) {
-		if (verifyInput(fieldArray[currentFieldNum][1])) {
-			if (currentFieldNum > 0) {
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
-				currentFieldNum = currentFieldNum - 1;
-				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-				updateFields(
-					fieldArray[currentFieldNum][0],
-					fieldArray[currentFieldNum][2],
-					fieldArray[currentFieldNum][3],
-					inputArray[currentFieldNum]
-				);
-				if (currentFieldNum === 0) {
-					document.getElementById("prevBtn").style.opacity = 0.3;
+	// setup clickable previous buttons
+	var leftArrowSingle = document.getElementById("prevBtnSingle");
+	var leftArrowMulti = document.getElementById("prevBtnMulti");
+	leftArrowSingle.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowMulti.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+
+	// listener for left arrow previous buttons
+	function leftArrowListener() {
+		if (verifyInput(slideArray[currentSlideNum])) {
+			if (currentSlideNum > 0) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = currentSlideNum - 1;
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+				else {
+					enablePrevBtn();
 				}
 			}
 		}
 		else {
-			inputError(fieldArray[currentFieldNum][1]);
+			// handle displaying error
+			inputError(slideArray[currentSlideNum]);
 		}
-		console.log(inputArray);
+	}
+
+
+	// setup clickable next buttons
+	var rightArrowSingle = document.getElementById("nextBtnSingle");
+	var rightArrowMulti = document.getElementById("nextBtnMulti");
+	rightArrowSingle.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowMulti.addEventListener('click', function(event) {
+		rightArrowListener();
 	});
 
-	// setup clickable next button
-	var rightArrow = document.getElementById("nextBtn");
-	rightArrow.addEventListener('click', function(event) {
-		if (verifyInput(fieldArray[currentFieldNum][1])) {
-			if (currentFieldNum === fieldArray.length - 1) {
-				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
-				var finishResult = executeFinish(inputArray, fieldArray);
-				// all stored values are correct, display the finish screen
+	// listener for right arrow next buttons
+	function rightArrowListener() {
+		if (verifyInput(slideArray[currentSlideNum])) {
+			if (currentSlideNum === slideArray.length - 1) {
+				updateInput(inputArray[currentSlideNum]);
+				// handle displaying finish box
+				var finishResult = executeFinish(slideArray, inputArray);
+				console.log("finish result:");
+				console.log(finishResult);
 				if (finishResult === -1) {
 					// populate finish screen fields to match input fields
-					populateFinish(inputArray, fieldArray);
+					populateFinish(inputArray, slideArray);
 					// display finish screen
 					$('#createSlides').hide();
 					$('#finishBox').show();
+					$('#createPanel').show();
 				}
 				else {
-					document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-					currentFieldNum = finishResult;
-					document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-					updateFields(
-						fieldArray[currentFieldNum][0],
-						fieldArray[currentFieldNum][2],
-						fieldArray[currentFieldNum][3],
-						inputArray[currentFieldNum]
-					);
-					inputError(fieldArray[currentFieldNum][1]);
-					if (currentFieldNum === 0) {
-						document.getElementById("prevBtn").style.opacity = 0.3;
+					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+					currentSlideNum = finishResult[0];
+					document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+					updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+					// display errors
+					confirmInputError(slideArray[currentSlideNum], finishResult[1]);
+					if (currentSlideNum === 0) {
+						disablePrevBtn();
 					}
 				}
 			}
-			else if (currentFieldNum < fieldArray.length - 1) {
-				document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-				inputArray[currentFieldNum] = document.getElementById("fieldInput").value.replace(/^\s+|\s+$/g,'');
-				currentFieldNum = currentFieldNum + 1;
-				document.getElementById('dot' + currentFieldNum).style.opacity = 1.0;
-				updateFields(
-					fieldArray[currentFieldNum][0],
-					fieldArray[currentFieldNum][2],
-					fieldArray[currentFieldNum][3],
-					inputArray[currentFieldNum]
-				);
-			}
-			// at the end, check to restore full opacity
-			if (currentFieldNum > 0) {
-				document.getElementById("prevBtn").style.opacity = 1.0;
+			else if (currentSlideNum < slideArray.length - 1) {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				updateInput(inputArray[currentSlideNum]);
+				currentSlideNum = currentSlideNum + 1;
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				enablePrevBtn();
 			}
 		}
 		else {
-			inputError(fieldArray[currentFieldNum][1]);
+			// handle displaying error
+			inputError(slideArray[currentSlideNum]);
 		}
-		console.log(inputArray);
-	});
+	}
 
-
-	var addButton = document.querySelector('#addRegBtn');
-	addButton.addEventListener('click', function(event) {
-
-		//hide info panel
-		$('#infoPanel').hide();
-		$('#registryPanel').hide();
-		$('#titlePanel').hide();
-		$('#createPanel').show();
-
-		// reset input array and currentField counter
-		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
-		for (var i = 0; i < inputArray.length; i++) {
-			inputArray[i] = "";
-		}
-		currentFieldNum = 0;
-		document.getElementById("fieldInput").value = "";
-		document.getElementById("prevBtn").style.opacity = 0.3;
-
-		$('#dotRow').show();
-
-		//set data for the first field
-		document.getElementById('dot0').style.opacity = 1;
-		updateFields(
-			fieldArray[currentFieldNum][0],
-			fieldArray[currentFieldNum][2],
-			fieldArray[currentFieldNum][3],
-			inputArray[currentFieldNum]
-		);
-
-	});
-
-	//handle canceling from creation and returning to mainpage
+	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
 
-	cancelAddBtn.addEventListener('click', function(event) {
+	cancelAddButton.addEventListener('click', function(event) {
 
 		//hide info panel
 		$('#infoPanel').hide();
-		$('#registryPanel').show().addClass("right").removeClass("left");
-		$('#titlePanel').show();
+		$("#devicesPanel").hide();
+		$("#titlePanel").show();
+		$('#registryPanel').show().addClass('right').removeClass('left');;
 		$('#createPanel').hide();
 
 		// reset input array and currentField counter
-		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
-			inputArray[i] = "";
+			for (var j = 0; j < inputArray[i].length; j++) {
+				inputArray[i][j] = "";
+			}
 		}
-		currentFieldNum = 0;
-		document.getElementById("fieldInput").value = "";
-
+		currentSlideNum = 0;
 	});
 
-	//handle canceling from creation and returning to mainpage
-	var finishAddButton = document.querySelector('#finishAddBtn');
+	//handle canceling from confirmation and returning to slideshow
+	var backAddButton = document.querySelector('#backAddBtn');
+
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		$('#createPanel').show();
+		$('#createSlides').show();
+		$('#finishBox').hide();
+	});
 
 	finishAddBtn.addEventListener('click', function(event) {
 
@@ -368,21 +550,15 @@ window.onload=function() {
 		$('#finishBox').hide();
 
 		// reset input array and currentField counter
-		document.getElementById('dot' + currentFieldNum).style.opacity = 0.6;
+		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
-			inputArray[i] = "";
+			for (var j = 0; j < inputArray[i].length; j++) {
+				inputArray[i][j] = "";
+			}
 		}
-		currentFieldNum = 0;
-		document.getElementById("fieldInput").value = "";
-	});
+		currentSlideNum = 0;
 
-	//handle canceling from confirmation and returning to slideshow
-	var backAddButton = document.querySelector('#backAddBtn');
-
-	backAddBtn.addEventListener('click', function(event) {
-		// hide finish screen
-		$('#createSlides').show();
-		$('#finishBox').hide();
+		// TODO update blockchain
 	});
 
 }

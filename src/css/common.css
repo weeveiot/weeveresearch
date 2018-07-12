@@ -1,3 +1,7 @@
+body * {
+    transition: 0.2s !important;
+}
+
 /***************************************************************************
 Styling classes for text floating and screen splitting
 ***************************************************************************/
@@ -45,6 +49,9 @@ Styling classes for text floating and screen splitting
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+.pageTitle {
+    padding-left: 20px;
 }
 
 /***************************************************************************
@@ -130,8 +137,17 @@ and some value (such as stake in weeve) on the right side
 /***************************************************************************
 Common label to show the name of an object on the left side
 and some value (such as stake in weeve) on the right side. confirm
-label contains a purple border.
+label contains a purple border. Header contains title and, usually, a button
 ***************************************************************************/
+.infoHeader {
+    margin-bottom: 10%;
+}
+.headerTitle {
+    padding-left: 2%;
+}
+.infoMargin {
+    margin-left: 12px;
+}
 .infoLabel {
     display: block;
     background-color:  #E4E7EA;
@@ -155,7 +171,7 @@ label contains a purple border.
 }
 
 /***************************************************************************
-A gray box used to hold information needed to create/add an Object
+A box used to hold information needed to create/add an Object
 (e.g. registry/marketplace/device)
 ***************************************************************************/
 .createBox {
@@ -165,6 +181,54 @@ A gray box used to hold information needed to create/add an Object
     border-radius: 4px;
     width: 60%;
     height: 70%;
+}
+.createHeader {
+    padding: 2%;
+}
+.createImg {
+    opacity: 0.7;
+}
+.inputSingle {
+    text-align: center;
+}
+.inputMulti {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.fieldBoxSingle {
+    width: 65%;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    position: absolute;
+}
+.fieldNameSingle {
+    margin-bottom: 5%;
+}
+.descriptionSingle {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 55%;
+    line-height: 20px;
+}
+.descriptionMulti {
+    position: absolute;
+    top: 78%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 55%;
+    line-height: 20px;
+}
+.confirmData {
+    overflow: auto;
+    height: 50%;
+    width: 95%;
+    margin: auto;
 }
 
 /***************************************************************************
@@ -264,8 +328,18 @@ Images that display next arrows
 .rightArrow {
     right: -40%;
 }
-.leftArrow:hover, .rightArrow:hover {
-    opacity: 1;
+.arrowBoxSingle {
+    position: absolute;
+}
+.arrowBoxMulti {
+    position: fixed;
+    top: 47%;
+    width: 99%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.arrowBoxMulti .leftArrow, .arrowBoxMulti .rightArrow {
+    width: 6.6%;
 }
 .createInterior {
     width: 65%;
