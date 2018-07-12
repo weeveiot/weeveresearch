@@ -283,7 +283,19 @@ function updateMultiFields(slideArr, inputArr) {
 	}
 	for (var i = 1; i < slideArr.length - 1; i++) {
 		var fieldName = slideArr[i][0];
+		var fieldData = slideArr[i][1];
 		var fieldPH = slideArr[i][2];
+		/* TODO test with other browsers. Does every browser support input type changes?
+		if (fieldData.toLowerCase() === "str") {
+			document.getElementById("fieldInput" + i).type = "text";
+		}
+		else if (fieldData.toLowerCase() === "num") {
+			document.getElementById("fieldInput" + i).type = "number";
+		}
+		else if (fieldData.toLowerCase() === "bool") {
+			document.getElementById("fieldInput" + i).type = "checkbox";
+		}
+		*/
 		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
 		document.getElementById("fieldInput" + i).placeholder = fieldPH;
 		document.getElementById("fieldName" + i).textContent = fieldName;
