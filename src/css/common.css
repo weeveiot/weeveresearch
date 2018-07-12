@@ -83,9 +83,7 @@ Common cancel button styling
     text-align: center;
     margin-right: 1%;
 }
-.cancelBtn:focus {
-    opacity: 1.0;
-}
+
 /***************************************************************************
 Common add/remove button styling (e.g. add/remove registry/marketplace/device)
 ***************************************************************************/
@@ -101,6 +99,7 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
     overflow-wrap: normal;
     margin-right: 9.5%;
 }
+
 /***************************************************************************
 Common finish button styling (e.g. confirm registry/marketplace/device)
 ***************************************************************************/
@@ -510,6 +509,7 @@ button:focus {
     -webkit-appearance:none;
     -webkit-box-shadow: none;
     box-shadow: none;
+    opacity: 1.0;
 }
 /***************************************************************************
 Basic styling inputs
