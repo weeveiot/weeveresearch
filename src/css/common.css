@@ -83,7 +83,9 @@ Common cancel button styling
     text-align: center;
     margin-right: 1%;
 }
-
+.cancelBtn:focus {
+    opacity: 1.0;
+}
 /***************************************************************************
 Common add/remove button styling (e.g. add/remove registry/marketplace/device)
 ***************************************************************************/
@@ -327,6 +329,12 @@ Images that display next arrows
 }
 .rightArrow {
     right: -40%;
+}
+.leftArrow:focus {
+    opacity: 1.0;
+}
+.rightArrow:focus {
+    opacity: 1.0;
 }
 .arrowBoxSingle {
     position: absolute;

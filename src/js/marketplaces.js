@@ -479,7 +479,7 @@ window.onload=function() {
 	var newHtml = "";
 	for (var i = 0; i < slideArray.length; i++) {
 		str1 = newHtml;
-		str2 = "<a><span class='purpleDot' id='dot" + i + "'></span></a>";
+		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
 		newHtml = str1.concat(str2);
 	}
 	dotRow.innerHTML = newHtml;
@@ -520,6 +520,18 @@ window.onload=function() {
 	leftArrowMulti.addEventListener('click', function(event) {
 		leftArrowListener();
 	});
+	leftArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+	leftArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
 
 	// listener for left arrow previous buttons
 	function leftArrowListener() {
@@ -553,6 +565,18 @@ window.onload=function() {
 	});
 	rightArrowMulti.addEventListener('click', function(event) {
 		rightArrowListener();
+	});
+	rightArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+	rightArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
 	});
 
 	// listener for right arrow next buttons
