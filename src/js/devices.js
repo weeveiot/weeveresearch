@@ -100,7 +100,6 @@ function displayDeviceInfo(id) {
 		var panel = document.querySelector('#deviceInfo');
 
 		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + deviceArray[selectedRegId][id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Device Type</p><p class='rightFloat'>" + deviceArray[selectedRegId][id][2] + "</p></div>";
-
 		console.log(newHtml);			//FIXME:debug
 
 		panel.innerHTML = newHtml;

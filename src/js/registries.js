@@ -15,7 +15,7 @@ function getRegistries() {
 
 	//TODO: update so actually pulls data from contract
 	//will probably need to take users address as an argument
-	for(var i = 0; i < 3; i++) {
+	for(var i = 0; i < 10; i++) {
 		if (i == 0) {
 			name = "Ben's Reg";
 			stake = 1500;
@@ -24,7 +24,7 @@ function getRegistries() {
 			stakePerArb = 20;
 		}
 
-		if (i == 1) {
+		else if (i == 1) {
 			name = "Braden's Reg";
 			stake = 1000;
 			stakePerReg = 15;
@@ -32,8 +32,15 @@ function getRegistries() {
 			stakePerArb = 10;
 		}
 
-		if (i == 2) {
+		else if (i == 2) {
 			name = "Martin's Reg";
+			stake = 2000;
+			stakePerReg = 40;
+			stakePerVal = 20;
+			stakePerArb = 10;
+		}
+		else {
+			name = "Testing Reg";
 			stake = 2000;
 			stakePerReg = 40;
 			stakePerVal = 20;

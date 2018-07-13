@@ -19,7 +19,7 @@ Styling classes for text floating and screen splitting
     float: right;
 }
 .split {
-    height: 100%;
+    height: 90%;
     width: 50%;
     position: fixed;
     z-index: 1;
@@ -28,6 +28,16 @@ Styling classes for text floating and screen splitting
     padding-top: 80px;
     padding-bottom: 55px !important;
     padding-left: 2%;
+}
+@media only screen and (max-width: 1100px) {
+    .split {
+        height: 85%;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .split {
+        height: 80%;
+    }
 }
 .left {
     left: 0px;
@@ -75,6 +85,15 @@ Common back button styling
     text-align: center;
     margin-right: 9.5%;
 }
+@media only screen and (max-width: 1100px) {
+    .backBtn {
+        font-size: 16px;
+        width: 90%;
+        height: 35px;
+        float: left;
+        margin-bottom: 5px;
+    }
+}
 
 /***************************************************************************
 Common cancel button styling
@@ -105,6 +124,15 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
     text-align: center;
     overflow-wrap: normal;
     margin-right: 9.5%;
+}
+@media only screen and (max-width: 1100px) {
+    .addBtn {
+        font-size: 16px;
+        width: 90%;
+        height: 35px;
+        float: left;
+        margin-bottom: 5px;
+    }
 }
 
 /***************************************************************************
@@ -141,6 +169,16 @@ and some value (such as stake in weeve) on the right side
     font-size: 22px;
     margin-bottom: 5px !important;
 }
+@media only screen and (max-width: 1100px) {
+    .grayNameBtn {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
 
 /***************************************************************************
 Common label to show the name of an object on the left side
@@ -150,11 +188,13 @@ label contains a purple border. Header contains title and, usually, a button
 .infoHeader {
     margin-bottom: 10%;
 }
+@media only screen and (min-width: 1400px) {
+    .infoHeader {
+        margin-bottom: 60px;
+    }
+}
 .headerTitle {
     padding-left: 2%;
-}
-.infoMargin {
-    margin-left: 12px;
 }
 .infoLabel {
     display: block;
@@ -176,6 +216,19 @@ label contains a purple border. Header contains title and, usually, a button
     border-bottom: 1px solid #8D51FF;
     height: 51px;
     margin: auto;
+}
+@media only screen and (max-width: 1100px) {
+    .infoLabel {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: 35px;
+        font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 /***************************************************************************
@@ -283,6 +336,15 @@ pages
     text-align: center;
     justify-content: center;
 }
+@media only screen and (max-width: 1100px) {
+    .hexRow {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        text-align: center;
+        justify-content: center;
+    }
+}
 .hexCol {
     position: relative;
     flex: 50%;
@@ -293,6 +355,7 @@ pages
     padding: 5px;
     font-size: 16px;
 }
+
 /***************************************************************************
 A purple dot for the creation slide show view
 ***************************************************************************/
