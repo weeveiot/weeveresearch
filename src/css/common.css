@@ -1,13 +1,6 @@
 body * {
     transition: 0.2s !important;
 }
-body {
-    min-height: 100%;
-    position: relative;
-}
-html {
-    height: 100%;
-}
 
 /***************************************************************************
 Styling classes for text floating and screen splitting

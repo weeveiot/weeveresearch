@@ -8,8 +8,8 @@ var web3Provider;
 var contract_token;
 var contract_factory;
 
-var token_address = '0xa4227b1fd67b65b579c9865780680d543ad8e294';
-//var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
+//var token_address = '0xa4227b1fd67b65b579c9865780680d543ad8e294';
+var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
 var factory_address = '0xe8c219f72fc117219bf0a7b134ff4f88f7d58a03';
 //var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 
@@ -83,33 +83,48 @@ window.addEventListener('load', function() {
 	// connect to web3
 	if (typeof web3 !== 'undefined') {
 		web3Provider = web3.currentProvider;
-
-		console.log("web3Provider: " + web3Provider);		//FIXME
 	} else {
+		console.log('No web3? You should consider trying MetaMask!');
 		//default to local ganache
-		console.log("ganache");
-		web3Provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
-		console.log("web3Provider: " + web3Provider);
+		web3Provider = new Web3.providers.HttpProvider("http://localhost:7454");
 	}
 
 	web3 = new Web3(web3Provider);
 	console.log("web3: " + web3);
 
 	// get contract data for factory and token
-	$.getJSON('../../build/contracts/weeveToken.json', function(data) {
-		console.log('../../build/contracts/weeveToken.json');
+	console.log("Trying with text json file");
+	$.getJSON('abi_token.txt', function(data) {
+		console.log("pulling token contract");
+		//contract_token = new web3.eth.Contract(data.abi, token_address);
+		contract_token = web3.eth.contract(data).at(token_address);
+		console.log("token: ", contract_token);
+	});
+
+	// get contract data for factory and token
+	console.log("Trying with json file in the same directory");
+	$.getJSON('weeveToken.json', function(data) {
 		console.log("pulling token contract");
 		//contract_token = new web3.eth.Contract(data.abi, token_address);
 		contract_token = web3.eth.contract(data.abi).at(token_address);
 		console.log("token: ", contract_token);
 	});
 
-	$.getJSON('../../build/contracts/weeveFactory.json', function(data) {
+	// get contract data for factory and token
+	console.log("Trying with json file in different directory");
+	$.getJSON('../../build/contracts/weeveToken.json', function(data) {
+		console.log("pulling token contract");
+		//contract_token = new web3.eth.Contract(data.abi, token_address);
+		contract_token = web3.eth.contract(data.abi).at(token_address);
+		console.log("token: ", contract_token);
+	});
+
+	/*$.getJSON('../../build/contracts/weeveFactory.json', function(data) {
 		console.log("pulling factory contract");
 		//contract_factory = new web3.eth.Contract(data.abi, factory_address);
 		contract_factory = web3.eth.contract(data.abi).at(factory_address);
 		console.log("factory: ", contract_factory);
-	});
+	});*/
 
 
 
@@ -120,16 +135,16 @@ window.addEventListener('load', function() {
 
 		setAccount();
 
-		setWeevBalance();
+		//setWeevBalance();
 
 		console.log("end of setTimeout");
-	}, 1000);
+	}, 100);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
 		getTestTokens();
 
-		setWeevBalance();
+		//setWeevBalance();
 	});
 
 });
