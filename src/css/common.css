@@ -560,6 +560,11 @@ Homepage styling for tiles and buttons
     margin-top: 6%;
     text-align: center;
 }
+@media only screen and (max-width: 1000px) {
+    .tileTitle {
+        margin-top: 8%;
+    }
+}
 .row {
     position: absolute;
     margin-left: -15px;
@@ -603,6 +608,16 @@ Homepage styling for tiles and buttons
     max-width: 50%;
     opacity: 0.7;
 }
+@media only screen and (max-width: 1200px) {
+    .tile > img {
+        width: 30%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .tile {
+        padding-top: 10px;
+    }
+}
 .tileHeading {
     text-align: center;
     margin-top: 4%;
@@ -611,11 +626,29 @@ Homepage styling for tiles and buttons
     color: black;
     text-shadow: 0.5px 0.5px black;
 }
+@media only screen and (max-width: 1000px) {
+    .tileHeading {
+        font-size: 16px;
+        text-shadow: 0.2px 0.2px black;
+    }
+}
 .tileTextArea {
     padding: 30px;
     background-color: #E4E7EA;
     opacity: 0.8;
     font-size: 14px;
+}
+@media only screen and (max-width: 1200px) {
+    .tileTextArea {
+        padding: 15px;
+        font-size: 12px;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .tileTextArea {
+        padding: 15px;
+        font-size: 10px;
+    }
 }
 
 /***************************************************************************
