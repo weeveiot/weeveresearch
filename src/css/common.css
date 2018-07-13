@@ -1,6 +1,13 @@
 body * {
     transition: 0.2s !important;
 }
+body {
+    min-height: 100%;
+    position: relative;
+}
+html {
+    height: 100%;
+}
 
 /***************************************************************************
 Styling classes for text floating and screen splitting
@@ -19,7 +26,7 @@ Styling classes for text floating and screen splitting
     top: 0;
     overflow-x: hidden;
     padding-top: 80px;
-    margin-bottom: 55px !important;
+    padding-bottom: 55px !important;
     padding-left: 2%;
 }
 .left {

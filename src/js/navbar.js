@@ -97,6 +97,7 @@ window.addEventListener('load', function() {
 
 	// get contract data for factory and token
 	$.getJSON('../../build/contracts/weeveToken.json', function(data) {
+		console.log('../../build/contracts/weeveToken.json');
 		console.log("pulling token contract");
 		//contract_token = new web3.eth.Contract(data.abi, token_address);
 		contract_token = web3.eth.contract(data.abi).at(token_address);
