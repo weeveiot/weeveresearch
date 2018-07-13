@@ -109,6 +109,14 @@ Common cancel button styling
     text-align: center;
     margin-right: 1%;
 }
+@media only screen and (max-width: 1000px) {
+    .cancelBtn {
+        font-size: 16px;
+        width: 20%;
+        height: 35px;
+        float: right;
+    }
+}
 
 /***************************************************************************
 Common add/remove button styling (e.g. add/remove registry/marketplace/device)
@@ -246,11 +254,22 @@ A box used to hold information needed to create/add an Object
 .createHeader {
     padding: 2%;
 }
+@media only screen and (max-width: 1000px) {
+    .createHeader h1 {
+        font-size: 28px;
+    }
+}
 .createImg {
     opacity: 0.7;
+    width: 100%;
 }
 .inputSingle {
     text-align: center;
+}
+@media only screen and (max-width: 1000px) {
+    .inputSingle {
+        width: 150px;
+    }
 }
 .inputMulti {
     text-align: center;
@@ -264,8 +283,18 @@ A box used to hold information needed to create/add an Object
     text-align: center;
     position: absolute;
 }
+@media only screen and (max-width: 1000px) {
+    .fieldBoxSingle {
+        width: 55%;
+    }
+}
 .fieldNameSingle {
     margin-bottom: 5%;
+}
+@media only screen and (max-width: 1000px) {
+    .fieldNameSingle {
+        font-size: 18px;
+    }
 }
 .descriptionSingle {
     position: absolute;
@@ -284,6 +313,13 @@ A box used to hold information needed to create/add an Object
     text-align: center;
     width: 55%;
     line-height: 20px;
+}
+@media only screen and (max-width: 1000px) {
+    .descriptionSingle, .descriptionMulti {
+        padding-top: 20px;
+        font-size: 12px;
+        width: 80%;
+    }
 }
 .confirmData {
     overflow: auto;
