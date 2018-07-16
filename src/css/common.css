@@ -51,10 +51,10 @@ Styling classes for text floating and screen splitting
     .left {
         height: 55%;
         left: 0px;
-        top: 0px;
+        top: 50px;
         bottom: 50%;
         background-color: #FFFFFF;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
     .right {
         height: 50%;
@@ -288,6 +288,12 @@ A box used to hold information needed to create/add an Object
     border-radius: 4px;
     width: 60%;
     height: 70%;
+}
+@media only screen and (max-width: 489px) {
+    .createBox {
+        width: 90%;
+        opacity: 0.9;
+    }
 }
 .createHeader {
     padding: 2%;
