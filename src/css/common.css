@@ -126,6 +126,11 @@ Common back button styling
         margin-bottom: 5px;
     }
 }
+@media only screen and (max-width: 489px) {
+    .backBtn {
+        width: 950%;
+    }
+}
 
 /***************************************************************************
 Common cancel button styling
@@ -181,6 +186,11 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
         margin-bottom: 5px;
     }
 }
+@media only screen and (max-width: 489px) {
+    .addBtn {
+        width: 95%;
+    }
+}
 
 /***************************************************************************
 Common finish button styling (e.g. confirm registry/marketplace/device)
@@ -234,7 +244,7 @@ and some value (such as stake in weeve) on the right side
 }
 @media only screen and (max-width: 489px) {
     .grayNameBtn {
-        width: 100%;
+        width: 95%;
     }
 }
 
@@ -299,7 +309,7 @@ label contains a purple border. Header contains title and, usually, a button
 }
 @media only screen and (max-width: 489px) {
     .infoLabel {
-        width: 100%;
+        width: 95%;
     }
 }
 
