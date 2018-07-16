@@ -94,7 +94,7 @@ function displayRegistryInfo(id) {
 // extracts necessary inputs from json file
 function populateSlides() {
 	// TODO load in file later, focus on parsing now
-	var data = [
+	var tdata = [
 		{
 		    "slide1": {
 		        "title": "Add Registry",
@@ -143,10 +143,33 @@ function populateSlides() {
 		    }
 		}
 	]
-
-	// extra slow parsing
+	$.getJSON('json/registryFields.json', {}, function(data) {
+		console.log(data);
+		console.log(tdata);
+		var retArray = [];
+		for (var num in data) {
+			var singleSlide = data[num];
+			var slideArray = [];
+			for (var field in singleSlide) {
+				if (field == "title" || field == "description") {
+					slideArray.push(singleSlide[field]);
+				}
+				else {
+					var fieldArray = [];
+					for (var el in singleSlide[field]) {
+						fieldArray.push(singleSlide[field][el]);
+					}
+					slideArray.push(fieldArray);
+				}
+			}
+			retArray.push(slideArray);
+		}
+		console.log(retArray);
+		return retArray;
+	});
+	/* extra slow parsing
 	var retArray = [];
-	var slides = data[0];
+	var slides = tdata[0];
 	for (var num in slides) {
 		var singleSlide = slides[num];
 		var slideArray = [];
@@ -163,8 +186,8 @@ function populateSlides() {
 			}
 		}
 		retArray.push(slideArray);
-	}
-	return retArray;
+	}*/
+	//return retArray;
 }
 
 // creates and returns an array initialized with empty strings for each field
