@@ -17319,6 +17319,60 @@ function displayRegistryInfo(id) {
 // extracts necessary inputs from json file
 function populateSlides() {
 	$.getJSON('json/registryFields.json', {}, function(data) {
+	// TODO load in file later, focus on parsing now
+	var tdata = [
+		{
+		    "slide1": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake Amount",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
+		    },
+		    "slide2": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Registry Name",
+		            "data": "str",
+		            "placeholder": "Enter name"
+		        },
+		        "description": "Provide a name to identify and describe the Registry"
+		    },
+		    "slide3": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Registration",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
+		    },
+            "slide4": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Validator",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
+		    },
+            "slide5": {
+		        "title": "Add Registry",
+		        "field1": {
+		            "name": "Stake per Arbiter",
+		            "data": "num",
+		            "placeholder": "Enter stake"
+		        },
+				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
+		    }
+		}
+	]
+	/*$.getJSON('json/registryFields.json', {}, function(data) {
+		console.log(data);
+		console.log(tdata);
+>>>>>>> 25e1224313d3cc66417b37e39c9cb39eb5218281
 		var retArray = [];
 		for (var num in data) {
 			var singleSlide = data[num];
@@ -17338,6 +17392,29 @@ function populateSlides() {
 		}
 		return retArray;
 	});
+	});*/
+	// extra slow parsing
+	var retArray = [];
+	var slides = tdata[0];
+	for (var num in slides) {
+		var singleSlide = slides[num];
+		var slideArray = [];
+		for (var field in singleSlide) {
+			if (field == "title" || field == "description") {
+				slideArray.push(singleSlide[field]);
+			}
+			else {
+				var fieldArray = [];
+				for (var el in singleSlide[field]) {
+					fieldArray.push(singleSlide[field][el]);
+				}
+				slideArray.push(fieldArray);
+			}
+		}
+		retArray.push(slideArray);
+	}
+	return retArray;
+>>>>>>> 25e1224313d3cc66417b37e39c9cb39eb5218281
 }
 
 // creates and returns an array initialized with empty strings for each field
