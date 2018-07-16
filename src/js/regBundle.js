@@ -17318,10 +17318,6 @@ function displayRegistryInfo(id) {
 
 // extracts necessary inputs from json file
 function populateSlides() {
-<<<<<<< HEAD
-	$.getJSON('json/registryFields.json', {}, function(data) {
-=======
-	// TODO load in file later, focus on parsing now
 	var data = [
 		{
 		    "slide1": {
@@ -17370,11 +17366,12 @@ function populateSlides() {
 				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
 		    }
 		}
-	]
-	/*$.getJSON('json/registryFields.json', {}, function(data) {
+	];
+
+	/* TODO read in from actual json files
+	$.getJSON('json/registryFields.json', {}, function(data) {
 		console.log(data);
 		console.log(tdata);
->>>>>>> c4a95df461745856f0d99844f31f49d64eb47842
 		var retArray = [];
 		for (var num in data) {
 			var singleSlide = data[num];
@@ -17392,11 +17389,10 @@ function populateSlides() {
 			}
 			retArray.push(slideArray);
 		}
+		console.log(retArray);
 		return retArray;
-<<<<<<< HEAD
-	});
-=======
 	});*/
+
 	// extra slow parsing
 	var retArray = [];
 	var slides = data[0];
@@ -17418,7 +17414,6 @@ function populateSlides() {
 		retArray.push(slideArray);
 	}
 	return retArray;
->>>>>>> c4a95df461745856f0d99844f31f49d64eb47842
 }
 
 // creates and returns an array initialized with empty strings for each field
