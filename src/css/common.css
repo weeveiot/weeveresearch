@@ -49,14 +49,15 @@ Styling classes for text floating and screen splitting
 }
 @media only screen and (max-width: 489px) {
     .left {
-        height: 60%;
+        height: 55%;
         left: 0px;
         top: 0px;
         bottom: 50%;
         background-color: #FFFFFF;
+        margin-bottom: 10px;
     }
     .right {
-        max-height: 50%;
+        height: 50%;
         top: 50%;
         bottom: 0%;
         margin-bottom: 60px;
@@ -95,6 +96,7 @@ Styling classes for text floating and screen splitting
     .pageTitle {
         font-size: 32px;
         padding-left: 0px;
+        padding-top: 10px;
     }
 }
 
@@ -439,7 +441,7 @@ pages
 @media only screen and (max-width: 489px) {
      /* start of phone styles */
      .firstHex, .secondHex, .thirdHex {
-         max-width: 100px;
+         max-width: 125px;
      }
      .secondHex, .thirdHex {
          margin-top: 0%;
