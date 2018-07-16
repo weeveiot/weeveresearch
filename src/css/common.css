@@ -128,7 +128,7 @@ Common back button styling
 }
 @media only screen and (max-width: 489px) {
     .backBtn {
-        width: 950%;
+        width: 95%;
     }
 }
 
