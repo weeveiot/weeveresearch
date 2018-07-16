@@ -1,6 +1,14 @@
 // arrays to hold test data
 var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 
+var Web3 = require('web3');
+var web3Provider;
+var contract_factory;
+var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
+var contract_token;
+var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
+
+
 /****************************Functions******************************/
 
 function getRegistries() {
@@ -15,42 +23,18 @@ function getRegistries() {
 
 	//TODO: update so actually pulls data from contract
 	//will probably need to take users address as an argument
-	for(var i = 0; i < 10; i++) {
-		if (i == 0) {
-			name = "Ben's Reg";
-			stake = 1500;
-			stakePerReg = 10;
-			stakePerVal = 5;
-			stakePerArb = 20;
-		}
-
-		else if (i == 1) {
-			name = "Braden's Reg";
-			stake = 1000;
-			stakePerReg = 15;
-			stakePerVal = 10;
-			stakePerArb = 10;
-		}
-
-		else if (i == 2) {
-			name = "Martin's Reg";
-			stake = 2000;
-			stakePerReg = 40;
-			stakePerVal = 20;
-			stakePerArb = 10;
-		}
-		else {
-			name = "Testing Reg";
-			stake = 2000;
-			stakePerReg = 40;
-			stakePerVal = 20;
-			stakePerArb = 10;
-		}
-
-		//fill array
-		regArray[i] = [name, stake, stakePerReg, stakePerVal, stakePerArb];
-		console.log(regArray[i][0] + " " + regArray[i][4]);		//FIXME:debug
+	for(var i = 0; i < contract_factory.length; i++) {
+		contract_factory.allRegistries(i, function(errCall, result) {
+			if(result.owner == web3.eth.accounts[0]) {
+				name = result.name;
+				stake = result.
+				//fill array
+				regArray[i] = [name, stake];
+				console.log(regArray[i][0] + " " + regArray[i][1]);		//FIXME:debug
+			}
+		});
 	}
+	console.log("finished filling array");
 }
 
 function displayRegistries() {
@@ -465,9 +449,35 @@ function populateFinish(inputArr, slideArr) {
 
 
 window.onload=function() {
+	//connect to web3 and load contracts
+	if(typeof web3 !== 'undefined') {
+		web3Provider = web3.currentProvider;
+	} else {
+		console.log('No web3? Use metamask');
+	}
+
+	web3 = new Web3(web3Provider);
+	console.log(web3);
+
+	$.getJSON('json/weeveFactory.json', function(data) {
+		console.log("pulling factory contract");
+		contract_factory = web3.eth.contract(data.abi).at(factory_address);
+		console.log(contract_factory);
+	});
+
+	$.getJSON('json/weeveToken.json', function(data) {
+		console.log("pulling token contract");
+		contract_token = web3.eth.contract(data.abi).at(factory_address);
+		console.log(contract_token);
+	});
+
+	//wait a little
+	setTimeout(function() {
+		getRegistries();
+		displayRegistries();
+	}, 100);
+
 	// immediately load registries into array
-	getRegistries();
-	displayRegistries();
 
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
@@ -757,6 +767,11 @@ window.onload=function() {
 		currentSlideNum = 0;
 
 		// TODO update blockchain
+		var regName = inputArray[0];
+		var regStake = inputArray[1];
+		var regStakeArb = inputArray[2];
+		var regStakeVal = inputArray[3];
+		var regCode = // paste here
 	});
 
 }
