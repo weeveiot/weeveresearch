@@ -32,8 +32,29 @@ Styling classes for text floating and screen splitting
         height: 80%;
     }
 }
+@media only screen and (max-width: 489px) {
+     /* start of phone styles */
+     body {
+         height: 100%;
+     }
+     .split {
+         height: 50%;
+         width: 100%;
+         margin: auto;
+     }
+}
 .left {
     left: 0px;
+}
+@media only screen and (max-width: 489px) {
+    .left {
+        left: auto;
+        top: 0px;
+    }
+    .right {
+        right: auto;
+        bottom: 0px;
+    }
 }
 .right {
     right: 0px;
@@ -393,6 +414,12 @@ pages
     margin-left: 0px;
     text-align: center;
 }
+@media only screen and (max-width: 489px) {
+     /* start of phone styles */
+     .firstHex, .secondHex, .thirdHex {
+         max-width: 125px;
+     }
+ }
 .hexRow {
     display: flex;
     align-content: center;
@@ -417,6 +444,11 @@ pages
 .hexTxt {
     padding: 5px;
     font-size: 16px;
+}
+@media only screen and (max-width: 489px) {
+    .hexTxt {
+        font-size: 8px;
+    }
 }
 
 /***************************************************************************
@@ -565,6 +597,12 @@ Homepage styling for tiles and buttons
         margin-top: 8%;
     }
 }
+@media only screen and (max-width: 489px) {
+    .tileTitle {
+        margin-top: 70px;
+        font-size: 32px;
+    }
+}
 .row {
     position: absolute;
     margin-left: -15px;
@@ -582,12 +620,36 @@ Homepage styling for tiles and buttons
 .row:after {
     clear: both;
 }
+@media only screen and (max-width: 489px) {
+    .row {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-content: center;
+        width: 100%;
+        margin-bottom: 80px;
+        left: 4%;
+    }
+    .row .leftFloat {
+        float: auto;
+    }
+    .row .rightFloat {
+        float: auto;
+    }
+}
 .col {
     position: relative;
     min-height: 1px;
     padding-left: 15px;
     padding-right: 15px;
     margin-top: 3%;
+}
+@media only screen and (max-width: 489px) {
+    .col {
+        margin-bottom: auto;
+        display: inline-table;
+    }
 }
 .tile {
     padding-top: 35px;
@@ -616,6 +678,11 @@ Homepage styling for tiles and buttons
 @media only screen and (max-width: 1000px) {
     .tile {
         padding-top: 10px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .tile {
+        margin-bottom: 10px;
     }
 }
 .tileHeading {

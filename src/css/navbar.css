@@ -34,6 +34,18 @@ Styling for footer information
     z-index: 9999;
 }
 
+@media only screen and (max-width: 400px) {
+    .footercontainer .text {
+        font-size: 12px;
+        position: absolute;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+}
+
 #metamaskButton, #balanceETH, #balanceToken, #getTokens {
     font-size: 0.9em;
     text-align: center;
