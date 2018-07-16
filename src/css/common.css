@@ -48,14 +48,16 @@ Styling classes for text floating and screen splitting
     left: 0px;
 }
 @media only screen and (max-width: 489px) {
+    /* Turn the left panel into the 'top' panel */
     .left {
         height: 55%;
         left: 0px;
-        top: 50px;
+        top: 55px;
         bottom: 50%;
         background-color: #FFFFFF;
         margin-bottom: 5px;
     }
+    /* Turn the right panel into the 'bottom' panel */
     .right {
         height: 50%;
         top: 50%;
@@ -146,6 +148,13 @@ Common cancel button styling
         float: right;
     }
 }
+@media only screen and (max-width: 489px) {
+    .cancelBtn {
+        font-size: 12px;
+        text-align: center;
+        width: 30%;
+    }
+}
 
 /***************************************************************************
 Common add/remove button styling (e.g. add/remove registry/marketplace/device)
@@ -184,6 +193,12 @@ Common finish button styling (e.g. confirm registry/marketplace/device)
     font-size: 16px;
     text-align: center;
     overflow-wrap: normal;
+}
+@media only screen and (max-width: 489px) {
+    .finishBtn {
+        width: 75px;
+        height: 35px;
+    }
 }
 
 /***************************************************************************
@@ -294,6 +309,9 @@ A box used to hold information needed to create/add an Object
         width: 90%;
         opacity: 0.9;
     }
+    .createBox h1 {
+        font-size: 22px;
+    }
 }
 .createHeader {
     padding: 2%;
@@ -301,6 +319,11 @@ A box used to hold information needed to create/add an Object
 @media only screen and (max-width: 1000px) {
     .createHeader h1 {
         font-size: 28px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .createHeader h1 {
+        font-size: 18px;
     }
 }
 .createImg {
@@ -313,6 +336,15 @@ A box used to hold information needed to create/add an Object
 @media only screen and (max-width: 1000px) {
     .inputSingle {
         width: 150px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .inputSingle {
+        width: 100px;
+        font-size: 12px;
+    }
+    .inputSingle::placeholder {
+        font-size: 10px;
     }
 }
 .inputMulti {
@@ -341,9 +373,26 @@ A box used to hold information needed to create/add an Object
 @media only screen and (max-width: 800px) {
     .inputMulti {
         max-width: 100px;
+        font-size: 10px;
     }
     .inputMulti::placeholder {
         font-size: 8px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .inputMulti {
+        width: 100px !important;
+    }
+    .inputMulti::placeholder {
+        font-size: 10px;
+    }
+}
+@media only screen and (max-width: 360px) {
+    .inputMulti {
+        width: 85px !important;
+    }
+    .inputMulti::placeholder {
+        font-size: 9px;
     }
 }
 .fieldBoxSingle {
@@ -404,6 +453,14 @@ A box used to hold information needed to create/add an Object
     height: 50%;
     width: 95%;
     margin: auto;
+}
+@media only screen and (max-width: 1200px) {
+    .confirmData .rightFloat {
+        font-size: 14px;
+    }
+    .confirmData .leftFloat {
+        font-size: 12px;
+    }
 }
 
 /***************************************************************************
@@ -819,6 +876,36 @@ Basic styling inputs
 @media only screen and (max-width: 800px) {
     .inputContainer p {
         font-size: 10px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .inputContainer .split {
+        height: 90%;
+        width: 50%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 80px;
+        padding-bottom: 55px !important;
+        padding-left: 2%;
+        background-color: none !important;
+    }
+    .inputContainer .left {
+        height: 75%;
+        left: 0px;
+        top: 125px;
+        bottom: 10%;
+        background-color: transparent;
+        margin-bottom: 5px;
+    }
+    .inputContainer .right {
+        height: 75%;
+        right: 0px;
+        top: 125px;
+        bottom: 10%;
+        background-color: transparent;
+        margin-bottom: 5px;
     }
 }
 .inputContainer input {
