@@ -17368,7 +17368,7 @@ function populateSlides() {
 		    }
 		}
 	]
-	$.getJSON('json/registryFields.json', {}, function(data) {
+	/*$.getJSON('json/registryFields.json', {}, function(data) {
 		console.log(data);
 		console.log(tdata);
 		var retArray = [];
@@ -17390,8 +17390,8 @@ function populateSlides() {
 		}
 		console.log(retArray);
 		return retArray;
-	});
-	/* extra slow parsing
+	});*/
+	// extra slow parsing
 	var retArray = [];
 	var slides = tdata[0];
 	for (var num in slides) {
@@ -17410,8 +17410,8 @@ function populateSlides() {
 			}
 		}
 		retArray.push(slideArray);
-	}*/
-	//return retArray;
+	}
+	return retArray;
 }
 
 // creates and returns an array initialized with empty strings for each field
