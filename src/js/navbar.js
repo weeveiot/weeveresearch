@@ -129,9 +129,7 @@ window.addEventListener('load', function() {
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
 		getTestTokens();
-		/*setTimeout(function() {
-			setWeevBalance();
-		}, 15000); */
+
 	});
 
 });
