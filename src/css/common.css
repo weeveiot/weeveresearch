@@ -195,7 +195,7 @@ Common finish button styling (e.g. confirm registry/marketplace/device)
     text-align: center;
     overflow-wrap: normal;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 1000px) {
     .finishBtn {
         width: 75px;
         height: 35px;
