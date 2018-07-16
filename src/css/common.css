@@ -232,6 +232,11 @@ and some value (such as stake in weeve) on the right side
         font-size: 16px;
     }
 }
+@media only screen and (max-width: 489px) {
+    .grayNameBtn {
+        width: 100%;
+    }
+}
 
 /***************************************************************************
 Common label to show the name of an object on the left side
@@ -290,6 +295,11 @@ label contains a purple border. Header contains title and, usually, a button
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .infoLabel {
+        width: 100%;
     }
 }
 
