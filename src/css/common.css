@@ -38,6 +38,7 @@ Styling classes for text floating and screen splitting
          height: 100%;
      }
      .split {
+         position: fixed;
          height: 50%;
          width: 100%;
          margin: auto;
@@ -48,12 +49,18 @@ Styling classes for text floating and screen splitting
 }
 @media only screen and (max-width: 489px) {
     .left {
-        left: auto;
+        height: 60%;
+        left: 0px;
         top: 0px;
+        bottom: 50%;
+        background-color: #FFFFFF;
     }
     .right {
-        right: auto;
-        bottom: 0px;
+        max-height: 50%;
+        top: 50%;
+        bottom: 0%;
+        margin-bottom: 60px;
+        z-index: 0;
     }
 }
 .right {
@@ -83,6 +90,12 @@ Styling classes for text floating and screen splitting
 }
 .pageTitle {
     padding-left: 20px;
+}
+@media only screen and (max-width: 489px) {
+    .pageTitle {
+        font-size: 32px;
+        padding-left: 0px;
+    }
 }
 
 /***************************************************************************
@@ -213,6 +226,15 @@ label contains a purple border. Header contains title and, usually, a button
 @media only screen and (min-width: 1400px) {
     .infoHeader {
         margin-bottom: 60px;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .infoHeader {
+        margin-bottom: 0px;
+        margin-top: 5px;
+    }
+    .infoHeader h1 {
+        font-size: 32px;
     }
 }
 .headerTitle {
@@ -417,7 +439,10 @@ pages
 @media only screen and (max-width: 489px) {
      /* start of phone styles */
      .firstHex, .secondHex, .thirdHex {
-         max-width: 125px;
+         max-width: 100px;
+     }
+     .secondHex, .thirdHex {
+         margin-top: 0%;
      }
  }
 .hexRow {
@@ -430,6 +455,15 @@ pages
     .hexRow {
         display: flex;
         flex-direction: column;
+        align-content: center;
+        text-align: center;
+        justify-content: center;
+    }
+}
+@media only screen and (max-width: 489px) {
+    .hexRow {
+        display: flex;
+        flex-direction: row;
         align-content: center;
         text-align: center;
         justify-content: center;
