@@ -52,10 +52,11 @@ Styling classes for text floating and screen splitting
     .left {
         height: 55%;
         left: 0px;
-        top: 80px;
+        top: 0px;
         bottom: 50%;
         background-color: #FFFFFF;
         margin-bottom: 5px;
+        padding-top: 95px;
     }
     /* Turn the right panel into the 'bottom' panel */
     .right {
