@@ -17319,7 +17319,7 @@ function displayRegistryInfo(id) {
 // extracts necessary inputs from json file
 function populateSlides() {
 	// TODO load in file later, focus on parsing now
-	var tdata = [
+	var data = [
 		{
 		    "slide1": {
 		        "title": "Add Registry",
@@ -17393,7 +17393,7 @@ function populateSlides() {
 	});*/
 	// extra slow parsing
 	var retArray = [];
-	var slides = tdata[0];
+	var slides = data[0];
 	for (var num in slides) {
 		var singleSlide = slides[num];
 		var slideArray = [];
