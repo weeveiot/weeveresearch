@@ -341,8 +341,10 @@ A box used to hold information needed to create/add an Object
 }
 @media only screen and (max-width: 489px) {
     .inputSingle {
-        width: 100px;
+        width: 115px;
         font-size: 12px;
+        border: 1px solid #8D51FF;
+        border-radius: 4px;
     }
     .inputSingle::placeholder {
         font-size: 10px;
