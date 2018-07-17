@@ -462,7 +462,7 @@ window.onload=function() {
 			let string  = event.target.innerHTML;
 
 			let beginning = string.search(">") + 1;
-			let end = string.search("</p>");
+			let end = string.search("</span>");
 
 			let selectedMarket = string.slice(beginning, end);
 			let msg = "Selected " + selectedMarket;
