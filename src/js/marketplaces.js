@@ -1,3 +1,8 @@
+/****************************Variables******************************/
+/*
+/* State variables used to by the marketplaces.html page
+/*
+/*********************************************************************/
 //global variables
 var marketArray = []	//name, stake, commission
 
@@ -13,6 +18,10 @@ var inputArray = [];
 var currentSlideNum = 0;
 
 /************************************Functions*****************************/
+/*
+/* Functions used to by the marketplaces.html page
+/*
+/*********************************************************************/
 
 function getMarkets() {
 

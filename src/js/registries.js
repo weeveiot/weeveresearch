@@ -1,3 +1,9 @@
+/****************************Variables******************************/
+/*
+/* State variables used to by the registries.html page
+/*
+/*********************************************************************/
+
 // arrays to hold test data
 var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 
@@ -14,6 +20,10 @@ var currentSlideNum = 0;
 
 
 /****************************Functions******************************/
+/*
+/* Functions used to by the registries.html page
+/*
+/*********************************************************************/
 
 function getRegistries() {
 

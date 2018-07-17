@@ -21,6 +21,19 @@ var testTokensRequested = false;
 
 /************************************ Functions ***************************************************/
 
+function initializeAccount() {
+	return function() {
+		console.log("inside timeout");
+
+		setAccount();
+
+		setWeevBalance();
+
+		console.log("end of setTimeout");
+	}
+}
+
+
 //sets account and ethereum balance of that account
 function setAccount() {
 	//make sure using rinkeby
@@ -116,15 +129,7 @@ window.addEventListener('load', function() {
 
 
 	//do rest of things in timeout so that contract objects are loaded
-	setTimeout(function(){
-		console.log("inside timeout");
-
-		setAccount();
-
-		setWeevBalance();
-
-		console.log("end of setTimeout");
-	}, 500);
+	setTimeout(initializeAccount(), 1000);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
