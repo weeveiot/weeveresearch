@@ -569,7 +569,7 @@ window.onload=function() {
 			let string  = event.target.innerHTML;
 
 			let beginning = string.search(">") + 1;
-			let end = string.search("</p>");
+			let end = string.search("</span>");
 
 			let selectedReg = string.slice(beginning, end);
 			let msg = "Selected " + selectedReg;
@@ -602,7 +602,7 @@ window.onload=function() {
 			let string  = event.target.innerHTML;
 
 			let beginning = string.search(">") + 1;
-			let end = string.search("</p>");
+			let end = string.search("</span>");
 
 			let selectedDevice = string.slice(beginning, end);
 			let msg = "Selected " + selectedDevice;
