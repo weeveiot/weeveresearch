@@ -124,7 +124,7 @@ window.addEventListener('load', function() {
 		setWeevBalance();
 
 		console.log("end of setTimeout");
-	}, 500);
+	}, 2000);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {

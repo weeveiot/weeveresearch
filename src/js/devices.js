@@ -1,3 +1,9 @@
+/****************************Variables******************************/
+/*
+/* State variables used to by the devices.html page
+/*
+/*********************************************************************/
+
 // hold info about devices for user
 var regArray = [];			//[regName, regStake]
 var deviceArray = [];		//[regIndex][deviceName, devStake, devType]
@@ -16,7 +22,15 @@ var inputArray = [];
 var currentSlideNum = 0;
 
 /******************************Functions******************************/
+/*
+/* Functions used to by the devices.html page
+/*
+/*********************************************************************/
 
+/**
+ *	Accesses contract factory to determine the devices registered by this
+ *	address.
+ */
 function getDevices() {
 	console.log("please put on your 3d glasses (this array is gross)");		//FIXME:debug
 
@@ -67,6 +81,14 @@ function getDevices() {
 
 }
 
+/**
+ *	TODO revise documentation
+ *	Takes the data from the state variable regArray and populates the
+ *	appropriate area of the html to display information on a button pertaining
+ *	to the registries, including the registry name and the stake set.
+ *
+ * @param regArray a 2D array with elements of the form [registry name, registry stake]
+ */
 function displayRegistries() {
 	if(regArray.length != 0) {
 		//fill registryButtons
@@ -86,6 +108,15 @@ function displayRegistries() {
 	}
 }
 
+/**
+ * TODO revise documentation
+ *	Takes the data from the state variable deviceArray and populates the
+ *	appropriate area of the html to display information on a button pertaining to the
+ *	devices, including the registry the device is registered with, the device name,
+ *	and the device stake
+ *
+ * @param deviceArray an array with each element as an array of length 2 of the form [[regIndex], [deviceName, devStake, devType]]
+ */
 function displayDevices(id) {
 	if(deviceArray[id].length != 0) {
 		//fill deviceButtons
@@ -105,6 +136,15 @@ function displayDevices(id) {
 	}
 }
 
+/**
+ * TODO revise documentation
+ *	Takes the data from the state variable deviceArray and populates the
+ *	appropriate area of the html to display information in a div pertaining to the
+ *	devices, including the registry the device is registered with, the device name,
+ *	the device stake, and the device data.
+ *
+ * @param deviceArray an array with each element as an array of length 2 of the form [[regIndex], [deviceName, devStake, devType]]
+ */
 function displayDeviceInfo(id) {
 	if(deviceArray[selectedRegId].length != 0) {
 		//fill deviceInfo
@@ -117,7 +157,22 @@ function displayDeviceInfo(id) {
 	}
 }
 
-// extracts necessary inputs from json file
+/***********************Registering a Device**************************/
+/*
+/* Functions specific to the process of registering a device with the network
+/*
+/*********************************************************************/
+
+/**
+ *	Takes the data from the deviceFields.json file and uses it to populate
+ *	the slides where the user can register a new device. See the README for more
+ *	information about customizing the required fields with the JSON file.
+ *
+ *	@return retArray an arry containing the data from the JSON file. The array is of
+ *	the form [[slide title, [field name, field data, field placeholder], slide description], ...]
+ *	Each index refers to a different slide defined in the JSON file, so the above element
+ *	contains all of the information to populate 1 slide.
+ */
 function populateSlides() {
 	// TODO load in file later, focus on parsing now
 	var data = [
@@ -211,16 +266,18 @@ function populateSlides() {
 		}
 	]
 
-	// extra slow parsing
+	// extra slow parsing puts the JSON data into an array
 	var retArray = [];
 	var slides = data[0];
 	for (var num in slides) {
 		var singleSlide = slides[num];
 		var slideArray = [];
 		for (var field in singleSlide) {
+			// add the title and description as string elements
 			if (field == "title" || field == "description") {
 				slideArray.push(singleSlide[field]);
 			}
+			// add the field to array containing field information
 			else {
 				var fieldArray = [];
 				for (var el in singleSlide[field]) {
@@ -234,11 +291,20 @@ function populateSlides() {
 	return retArray;
 }
 
-// creates and returns an array initialized with empty strings for each field
+/**
+ *	Takes the data from the deviceFields.json file, which is stored in the
+ *	slideArr parameter, and uses this to initialize an array to store user
+ *	inputted values for each field in the slideshow.
+ *
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ *	@return retArray a 2D array, where retArray[i][j] is the user input for the
+ *	j-th field on the i-th slide in the slideshow.
+ */
 function populateInputs(slideArr) {
 	var retArray = [];
 	for (var slide in slideArr) {
 		var slideFields = [];
+		// don't add positions for the slide title and description, only fields
 		for (var i = 1; i < slideArr[slide].length - 1; i++) {
 			slideFields.push("");
 		}
@@ -247,13 +313,21 @@ function populateInputs(slideArr) {
 	return retArray;
 }
 
-// updates the slide information
+/**
+ *	Takes the slideArray and inputArray parameters and calls the appropriate
+ *	function to update the slide to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param inputArr an array containing the user input for a single slide
+ */
 function updateSlide(slideArr, inputArr) {
+	// the slide contains more than one input field
 	if (slideArr.length > 3) {
 		$('#multiField').show();
 		$('#singleField').hide();
 		updateMultiFields(slideArr, inputArr);
 	}
+	// the slide contains just one input field
 	else {
 		$('#multiField').hide();
 		$('#singleField').show();
@@ -261,16 +335,35 @@ function updateSlide(slideArr, inputArr) {
 	}
 }
 
-// TODO handle creating the fields needed, e.g. instead of standard input
-// maybe use two buttons, one yes and the other no, for bool fields
-
-// used to populate text for single field slides
+/**
+ *	Takes the slideArray and inputArray parameters and updates the slide
+ *	to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param storedInput the user input stored for the single field on the slide
+ */
 function updateSingleFields(slideArr, storedInput) {
 	var title = slideArr[0];
 	var field = slideArr[1];
 	var description = slideArr[2];
 	var fieldName = field[0];
+	var fieldData = field[1];
 	var fieldPH = field[2];
+
+	// TODO handle displaying different input types here
+
+	/* TODO test with other browsers. Does every browser support input type changes?
+	if (fieldData.toLowerCase() === "str") {
+		document.getElementById("fieldInputSingle").type = "text";
+	}
+	else if (fieldData.toLowerCase() === "num") {
+		document.getElementById("fieldInputSingle").type = "number";
+	}
+	else if (fieldData.toLowerCase() === "bool") {
+		document.getElementById("fieldInputSingle").type = "checkbox";
+	}
+	*/
+
 	document.getElementById('slideName').textContent = title;
 	document.getElementById('fieldNameSingle').textContent = fieldName;
 	document.getElementById("fieldInputSingle").placeholder = fieldPH;
@@ -279,14 +372,19 @@ function updateSingleFields(slideArr, storedInput) {
 	$('#fieldInputSingle').removeClass("error");
 }
 
-// used to populate text for multi field slides
+/**
+ *	Takes the slideArray and inputArray parameters and updates the slide
+ *	to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param inputArr the user input stored for the multiple fields on the slide
+ */
 function updateMultiFields(slideArr, inputArr) {
 	var title = slideArr[0];
 	var description = slideArr[slideArr.length - 1];
 	document.getElementById('slideName').textContent = title;
 	document.getElementById('fieldDescriptionMulti').textContent = description;
-	// can't handle more than 6 inputs on one multi field slide
-	// plus 2 for the title and description
+	// can't handle more than 6 inputs on one multi field slide, plus 2 for the title and description
 	if (slideArr.length > 8) {
 		// TODO more rigorous error checking here
 		console.log("Critical json format error. More than 6 fields on slide!")
@@ -295,6 +393,9 @@ function updateMultiFields(slideArr, inputArr) {
 		var fieldName = slideArr[i][0];
 		var fieldData = slideArr[i][1];
 		var fieldPH = slideArr[i][2];
+
+		// TODO handle displaying different input types here
+
 		/* TODO test with other browsers. Does every browser support input type changes?
 		if (fieldData.toLowerCase() === "str") {
 			document.getElementById("fieldInput" + i).type = "text";
@@ -306,6 +407,7 @@ function updateMultiFields(slideArr, inputArr) {
 			document.getElementById("fieldInput" + i).type = "checkbox";
 		}
 		*/
+
 		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
 		document.getElementById("fieldInput" + i).placeholder = fieldPH;
 		document.getElementById("fieldName" + i).textContent = fieldName;
@@ -313,8 +415,14 @@ function updateMultiFields(slideArr, inputArr) {
 	}
 }
 
-// handles storing user input values
+/**
+ *	Stores the user input in the inputArray. Takes the data from the input
+ *	fields in the html.
+ *
+ *	@param inputArr the user input stored for the slide
+ */
 function updateInput(inputArr) {
+	// store input for a slide with multiple fields
 	if (inputArr.length > 1) {
 		if (inputArr.length > 6) {
 			// TODO more rigorous error checking here
@@ -326,14 +434,19 @@ function updateInput(inputArr) {
 			}
 		}
 	}
+	// store input for a slide with a single field
 	else {
 		inputArr[0] = document.getElementById("fieldInputSingle").value.replace(/^\s+|\s+$/g,'');
 	}
 }
 
-// verify user gave correct input before advancing slides and storing data
+/**
+ *	Verifies the user inputted a valid type in each field on the slide
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ */
 function verifyInput(slideArr) {
-	// loop through the slide fields
+	// loop through the slide fields if the slide contains multiple fields
 	if (slideArr.length > 3) {
 		for (var i = 1; i < slideArr.length - 1; i++) {
 			var fieldArr = slideArr[i];
@@ -345,6 +458,7 @@ function verifyInput(slideArr) {
 		}
 		return true;
 	}
+	// slide contains a single field
 	else {
 		var fieldArr = slideArr[1];
 		var inputType = fieldArr[1];
@@ -353,7 +467,14 @@ function verifyInput(slideArr) {
 	}
 }
 
-// verify user gave correct input before advancing from a single field slide
+/**
+ *	Verifies the user input matches the field's expected inputType. Empty strings
+ *	are always considered valid inputs to allow for the user to skip through the
+ *	the slideshow and input values out of order.
+ *
+ *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
+ *	@param input the actual user inputted value in the field
+ */
 function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
 		return typeof input.value === typeof "" || input.value === "";
@@ -373,7 +494,7 @@ function verifySingleInput(inputType, input) {
 	}
 }
 
-// disables the left arrow button
+// visually 'disables' the left arrow button
 function disablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.3;
 	document.getElementById("prevBtnMulti").style.opacity = 0.3;
@@ -381,7 +502,7 @@ function disablePrevBtn() {
 	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
-// enables the left arrow button
+// visually 'enables' the left arrow button
 function enablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.8;
 	document.getElementById("prevBtnMulti").style.opacity = 0.8;
@@ -389,9 +510,13 @@ function enablePrevBtn() {
 	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
-// handles displaying error messages in certain fields
+/**
+ *	Displays error messages in all fields with malformed inputs on a single slide
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ */
 function inputError(slideArr) {
-	// loop through the slide fields
+	// loop through the slide fields if the slide contains multiple fields
 	if (slideArr.length > 3) {
 		for (var i = 1; i < slideArr.length - 1; i++) {
 			var fieldArr = slideArr[i];
@@ -402,6 +527,7 @@ function inputError(slideArr) {
 			}
 		}
 	}
+	// handle single field
 	else {
 		var fieldArr = slideArr[1];
 		var inputType = fieldArr[1];
@@ -411,39 +537,45 @@ function inputError(slideArr) {
 }
 
 /**
+ *	Displays an error message in the input parameter. The message displayed
+ *	is specific to the expected inputType.
  *
- * Handles displaying a specific error message, depending upon inputType, in
- * the correct field, specified by the input parameter.
+ *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
+ *	@param input the actual input html object to display the error in
  */
 function errorSingleInput(inputType, input) {
-	//var alertPrompt = document.getElementById("alertPrompt");
 	if (inputType.toLowerCase() === "str") {
-		//alertPrompt.textContent = "Please enter a string of text";
 		input.value = "";
 		input.placeholder = "Please enter some text";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "num") {
-		//alertPrompt.textContent = "Please enter a number";
 		input.value = "";
 		input.placeholder = "Please enter a number";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "bool") {
-		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
 		input.value = "";
 		input.placeholder = "Please enter 'true' or 'false'";
 		$('#' + input.id).addClass("error");
 	}
 	else {
-		//alertPrompt.textContent = "Invalid input type given";
 		input.value = "";
 		input.placeholder = "Invalid input in json file";
 		$('#' + input.id).addClass("error");
 	}
 }
 
-// ensure all stored input values are valid
+/**
+ *	After the last slide, before displaying the stored inputs, confirm the stored user
+ *	input values are not empty and conform to the expected data types.
+ *
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ *	@param inputArr an array containing all of the user input stored in the slideshow
+ * 	@return -1 if all of the stored input values are confirmed and valid
+ *	@return an array of the form [i, [j, k, l]] if there is an error with the
+ *	user input on slide i in fields j, k, and l.
+ */
 function executeFinish(slideArr, inputArr) {
 	for (var i = 0; i < slideArr.length; i++) {
 		var slide = slideArr[i];
@@ -463,7 +595,13 @@ function executeFinish(slideArr, inputArr) {
 	return -1;
 }
 
-// returns whether the stored input value is of the correct valType
+/**
+ *	Confirms the storedVal user input matches the field's expected valType.
+ *	Empty strings are not allowed.
+ *
+ *	@param storedVal the stored user input
+ *	@param valType the expected data type to be inputted in the field, taken from the JSON file
+ */
 function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {
 		return typeof storedVal === typeof "" && storedVal !== "";
@@ -482,7 +620,14 @@ function confirmSingleInput(storedVal, valType) {
 	}
 }
 
-// displays errors for all fields that didn't pass input type confirmation
+/**
+ *	Displays input errors on all fields with errors on the slide defined by
+ *	the slideArr parameter .
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param errorFields an array containing the numbers of all fields containing errors
+ *	on a single slide in the slideshow
+ */
 function confirmInputError(slideArr, errorFields) {
 	if (slideArr.length > 3) {
 		for (var i = 0; i < errorFields.length; i++) {
@@ -503,7 +648,13 @@ function confirmInputError(slideArr, errorFields) {
 	}
 }
 
-// populates the finish box with stored user inputs
+/**
+ *	Populates a final, confirmation view that displays the fields and the user
+ *	inputs from the slideshow
+ *
+ *	@param inputArr an arry containing all of the stored user inputs for the slides in the slideshow
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ */
 function populateFinish(inputArr, slideArr) {
 	var newHtml = ""
 	for (var i = 0; i < slideArr.length; i++) {
