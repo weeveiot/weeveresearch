@@ -1,6 +1,7 @@
 // arrays to hold test data
 var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 
+// web3 and contract data
 var Web3 = require('web3');
 var web3Provider;
 var contract_factory;
@@ -681,8 +682,6 @@ window.onload=function() {
 				updateInput(inputArray[currentSlideNum]);
 				// handle displaying finish box
 				var finishResult = executeFinish(slideArray, inputArray);
-				console.log("finish result:");
-				console.log(finishResult);
 				if (finishResult === -1) {
 					// populate finish screen fields to match input fields
 					populateFinish(inputArray, slideArray);
