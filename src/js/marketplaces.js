@@ -453,8 +453,9 @@ window.onload=function() {
 		console.log("click");
 		console.log(event.target.parentNode);
 		console.log(event.target.parentNode.parentNode);
+		console.log($(event.target).hasClass('grayNameBtn'));
 		//check if creator of event is child of the panel
-		if(event.target.parentNode === marketButtons) {
+		if(event.target.parentNode === registryButtons) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
