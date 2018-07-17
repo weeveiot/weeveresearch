@@ -453,6 +453,7 @@ window.onload=function() {
 		console.log("click");
 		console.log(event.target.parentNode);
 		console.log(event.target.parentNode.parentNode);
+		console.log($(event.target).hasClass('grayNameBtn'));
 		//check if creator of event is child of the panel
 		if(event.target.parentNode === marketButtons) {
 			// get rid of left panel
@@ -461,7 +462,7 @@ window.onload=function() {
 			let string  = event.target.innerHTML;
 
 			let beginning = string.search(">") + 1;
-			let end = string.search("</p>");
+			let end = string.search("</span>");
 
 			let selectedMarket = string.slice(beginning, end);
 			let msg = "Selected " + selectedMarket;
