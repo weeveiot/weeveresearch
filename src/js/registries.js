@@ -1,7 +1,7 @@
 // arrays to hold test data
 var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 
-var Web3 = require('web3');
+//var Web3 = require('web3');
 var web3Provider;
 var contract_factory;
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
@@ -479,7 +479,7 @@ window.onload=function() {
 	setTimeout(function() {
 		getRegistries();
 		displayRegistries();
-	}, 100);
+	}, 200);
 
 	// immediately load registries into array
 

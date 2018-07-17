@@ -1,4 +1,4 @@
-var Web3 = require('web3');
+//var Web3 = require('web3');
 
 var account;
 
@@ -124,7 +124,7 @@ window.addEventListener('load', function() {
 		setWeevBalance();
 
 		console.log("end of setTimeout");
-	}, 100);
+	}, 200);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
