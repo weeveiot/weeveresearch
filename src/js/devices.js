@@ -11,6 +11,10 @@ var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 var contract_token;
 var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
 
+var slideArray = [];
+var inputArray = [];
+var currentSlideNum = 0;
+
 /******************************Functions******************************/
 
 function getDevices() {
@@ -666,9 +670,9 @@ window.onload=function() {
 	});
 
 	//handle creating a new registry
-	var currentSlideNum = 0;
-	var slideArray = populateSlides();
-	var inputArray = populateInputs(slideArray);
+	currentSlideNum = 0;
+	slideArray = populateSlides();
+	inputArray = populateInputs(slideArray);
 
 	// generate correct number of 'slides'
 	var dotRow = document.querySelector('#dotRow');

@@ -9,7 +9,8 @@ var contract_token;
 var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
 
 var slideArray = [];
-
+var inputArray = [];
+var currentSlideNum = 0;
 
 
 /****************************Functions******************************/
@@ -554,9 +555,9 @@ window.onload=function() {
 	});
 
 	//handle creating a new registry
-	var currentSlideNum = 0;
-	var slideArray = populateSlides();
-	var inputArray = populateInputs(slideArray);
+	currentSlideNum = 0;
+	slideArray = populateSlides();
+	inputArray = populateInputs(slideArray);
 
 	// generate correct number of 'slides'
 	var dotRow = document.querySelector('#dotRow');
