@@ -55,7 +55,7 @@ function displayMarkets() {
 
 		for(var i = 0; i < marketArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + marketArray[i][0] + "</p><p class='rightFloat'>" + marketArray[i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + marketArray[i][0] + "</span><span class='rightFloat'>" + marketArray[i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 

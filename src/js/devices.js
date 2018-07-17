@@ -73,7 +73,7 @@ function displayRegistries() {
 		var str2;
 		for (var i = 0; i < regArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + regArray[i][0] + "</p><p class='rightFloat'>" + regArray[i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][0] + "</span><span class='rightFloat'>" + regArray[i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
@@ -92,7 +92,7 @@ function displayDevices(id) {
 		var str2;
 		for (var i = 0; i < deviceArray[id].length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + deviceArray[id][i][0] + "</p><p class='rightFloat'>" + deviceArray[id][i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + deviceArray[id][i][0] + "</span><span class='rightFloat'>" + deviceArray[id][i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 

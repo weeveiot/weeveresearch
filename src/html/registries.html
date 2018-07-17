@@ -10,8 +10,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
     <title>weeveNetwork Demo</title>
 
     <!-- Custom styles for this template -->
@@ -24,12 +22,11 @@
         <div id="includeNav"></div>
     </header>
 
-    <!-- Add possible background image later
+    <!-- TODO Add possible background image later
     <img src="../images/hexagonBorder.png" style="z-index: 0; width: 100%; opacity: 0.5"/> -->
 
     <div class="split left" id="titlePanel">
         <h1 class="pageTitle">Registries</h1>
-        <!--<img class="descriptionImage" src="../images/registryImg.png" alt="registryImage"/>-->
         <div class="hexRow">
             <div class="rightFloat">
                 <img class="firstHex" src="../images/registryImg.png" alt="registryHexagon"/>
@@ -55,20 +52,20 @@
         <div id="registryButtons">
             <!-- is now filled with the js, leaving template here for ease of reading
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 1</p>
-                <p class="rightFloat"> 1000 WEEV</p>
+                <span class="leftFloat"> Test Registry 1</span>
+                <span class="rightFloat"> 1000 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 2</p>
-                <p class="rightFloat"> 1000 WEEV</p>
+                <span class="leftFloat"> Test Registry 2</span>
+                <span class="rightFloat"> 1000 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 3</p>
-                <p class="rightFloat"> 1000 WEEV</p>
+                <span class="leftFloat"> Test Registry 3</span>
+                <span class="rightFloat"> 1000 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Registry 4</p>
-                <p class="rightFloat"> 1000 WEEV</p>
+                <span class="leftFloat"> Test Registry 4</span>
+                <span class="rightFloat"> 1000 WEEV</span>
             </button>   -->
         </div>
     </div>
@@ -81,22 +78,22 @@
     <div id="registryInfo">
         <!-- now being filled with js, leaving template here
         <div class="infoLabel">
-        <p class="leftFloat">Stake</p>
-        <p class="rightFloat">1000 WEEV</p>
+            <p class="leftFloat">Stake</p>
+            <p class="rightFloat">1000 WEEV</p>
+        </div>
+        <div class="infoLabel">
+            <p class="leftFloat">Stake per Registration</p>
+            <p class="rightFloat">10 WEEV</p>
+        </div>
+        <div class="infoLabel">
+            <p class="leftFloat">Stake per Validator</p>
+            <p class="rightFloat">15 WEEV</p>
+        </div>
+        <div class="infoLabel">
+            <p class="leftFloat">Stake per Arbiter</p>
+            <p class="rightFloat">20 WEEV</p>
+        </div> -->
     </div>
-    <div class="infoLabel">
-    <p class="leftFloat">Stake per Registration</p>
-    <p class="rightFloat">10 WEEV</p>
-</div>
-<div class="infoLabel">
-<p class="leftFloat">Stake per Validator</p>
-<p class="rightFloat">15 WEEV</p>
-</div>
-<div class="infoLabel">
-<p class="leftFloat">Stake per Arbiter</p>
-<p class="rightFloat">20 WEEV</p>
-</div> -->
-</div>
 </div>
 
 <div id="createPanel">
@@ -112,29 +109,29 @@
                 <div class="split left">
                     <div class="leftFloat">
                         <p id="fieldName1"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput1" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput1" placeholder="">
                     </div>
                     <div class="leftFloat">
                         <p id="fieldName2"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput2" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput2" placeholder="">
                     </div>
                     <div class="leftFloat">
                         <p id="fieldName3"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput3" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput3" placeholder="">
                     </div>
                 </div>
                 <div class="split right">
                     <div class="rightFloat">
                         <p id="fieldName4"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput4" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput4" placeholder="">
                     </div>
                     <div class="rightFloat">
                         <p id="fieldName5"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput5" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput5" placeholder="">
                     </div>
                     <div class="rightFloat">
                         <p id="fieldName6"><!-- name of the field to be specified goes here --></p>
-                        <input type="text" class="inputMulti" id="fieldInput6" placeholder=""></input>
+                        <input type="text" class="inputMulti" id="fieldInput6" placeholder="">
                     </div>
                 </div>
             </div>
@@ -157,7 +154,7 @@
                     <a>
                         <img class="leftArrow" id="prevBtnSingle" src="../images/nextArrow.png" alt="backArrowImage" role="button" tabindex="0"/>
                     </a>
-                    <input type="text" class="inputSingle" id="fieldInputSingle" placeholder=""></input>
+                    <input type="text" class="inputSingle" id="fieldInputSingle" placeholder="">
                     <a>
                         <img class="rightArrow" id="nextBtnSingle" src="../images/nextArrow.png" alt="nextArrowImage" role="button" tabindex="0"/>
                     </a>
@@ -168,7 +165,7 @@
             </h6>
         </div>
         <div class="dotRow" id="dotRow">
-            <!-- TODO add the correct amount of dots on initialization -->
+            <!-- add the correct amount of dots on initialization -->
         </div>
     </div>
     <div class="center createBox" id="finishBox">
