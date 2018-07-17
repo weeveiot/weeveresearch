@@ -116,6 +116,7 @@ window.addEventListener('load', function() {
 		console.log("pulling token contract");
 		contract_token = web3.eth.contract(data.abi).at(token_address);
 		console.log("token: ", contract_token);
+		// TODO setWeevBalance now at the end, once token is initialized
 	});
 
 
