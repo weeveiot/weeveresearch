@@ -4,6 +4,14 @@ var deviceArray = [];		//[regIndex][deviceName, devStake, devType]
 
 var selectedRegId;			//track which reg we're in
 
+// web3 and contract data
+var Web3 = require('web3');
+var web3Provider;
+var contract_factory;
+var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
+var contract_token;
+var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
+
 /******************************Functions******************************/
 
 function getDevices() {
@@ -65,7 +73,7 @@ function displayRegistries() {
 		var str2;
 		for (var i = 0; i < regArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + regArray[i][0] + "</p><p class='rightFloat'>" + regArray[i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][0] + "</span><span class='rightFloat'>" + regArray[i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
@@ -84,7 +92,7 @@ function displayDevices(id) {
 		var str2;
 		for (var i = 0; i < deviceArray[id].length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + deviceArray[id][i][0] + "</p><p class='rightFloat'>" + deviceArray[id][i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + deviceArray[id][i][0] + "</span><span class='rightFloat'>" + deviceArray[id][i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
@@ -518,6 +526,32 @@ window.onload=function() {
 	$('#infoPanel').hide();
 	$('#createPanel').hide();
 	$('#finishBox').hide();
+
+	// connect to web3
+	if (typeof web3 !== 'undefined') {
+		web3Provider = web3.currentProvider;
+	} else {
+		console.log('No web3? You should consider trying MetaMask!');
+		//default to local ganache
+		web3Provider = new Web3.providers.HttpProvider("http://localhost:7454");
+	}
+
+	web3 = new Web3(web3Provider);
+	console.log("web3: " + web3);
+
+	// get contract data for factory and token
+	$.getJSON('json/weeveToken.json', function(data) {
+		console.log("pulling token contract");
+		contract_token = web3.eth.contract(data.abi).at(token_address);
+		console.log("token: ", contract_token);
+	});
+
+
+	$.getJSON('json/weeveFactory.json', function(data) {
+		console.log("pulling factory contract");
+		contract_factory = web3.eth.contract(data.abi).at(factory_address);
+		console.log("factory: ", contract_factory);
+	});
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');

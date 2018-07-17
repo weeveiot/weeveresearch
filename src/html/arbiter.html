@@ -10,18 +10,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- Load in header and footer navigation bars -->
-    <script>
-    $(function(){
-        $("#includeNav").load("navbar.html");
-    });
-    $(function(){
-        $("#includeFooter").load("footer.html");
-    });
-    </script>
-
-    <!-- Custom js for this template -->
-    <script src="js/script.js"></script>
     <title>weeveNetwork Demo</title>
 
     <!-- Custom styles for this template -->
@@ -56,25 +44,39 @@
         </div>
         <div>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Conflict 1</p>
-                <p class="rightFloat"> 1000 WEEV</p>
+                <span class="leftFloat"> Test Conflict 1</span>
+                <span class="rightFloat"> 1000 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Conflict 2</p>
-                <p class="rightFloat"> 800 WEEV</p>
+                <span class="leftFloat"> Test Conflict 2</span>
+                <span class="rightFloat"> 800 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Conflict 3</p>
-                <p class="rightFloat"> 1500 WEEV</p>
+                <span class="leftFloat"> Test Conflict 3</span>
+                <span class="rightFloat"> 1500 WEEV</span>
             </button>
             <button class="grayNameBtn">
-                <p class="leftFloat"> Test Conflict 4</p>
-                <p class="rightFloat"> 10 WEEV</p>
+                <span class="leftFloat"> Test Conflict 4</span>
+                <span class="rightFloat"> 10 WEEV</span>
             </button>
         </div>
     </div>
     <footer>
         <div id="includeFooter"></div>
     </footer>
+
+    <!-- Load in header and footer navigation bars -->
+    <script>
+    $(function() {
+        $("#includeNav").load("navbar.html");
+    });
+    $(function() {
+        $("#includeFooter").load("footer.html");
+    });
+    </script>
+
+    <!-- Custom js for this template -->
+    <!-- script src="js/script.js"></script -->
+
 </body>
 </html>

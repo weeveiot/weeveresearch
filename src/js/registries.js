@@ -1,7 +1,7 @@
 // arrays to hold test data
 var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
 
-//var Web3 = require('web3');
+// web3 and contract data
 var web3Provider;
 var contract_factory;
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
@@ -49,7 +49,7 @@ function displayRegistries() {
 		var str2;
 		for (var i = 0; i < regArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><p class='leftFloat'>" + regArray[i][0] + "</p><p class='rightFloat'>" + regArray[i][1] + " WEEV</p></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][0] + "</span><span class='rightFloat'>" + regArray[i][1] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
@@ -681,8 +681,6 @@ window.onload=function() {
 				updateInput(inputArray[currentSlideNum]);
 				// handle displaying finish box
 				var finishResult = executeFinish(slideArray, inputArray);
-				console.log("finish result:");
-				console.log(finishResult);
 				if (finishResult === -1) {
 					// populate finish screen fields to match input fields
 					populateFinish(inputArray, slideArray);

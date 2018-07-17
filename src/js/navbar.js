@@ -8,7 +8,7 @@ var contract_token;
 var contract_factory;
 
 //var token_address = '0xa4227b1fd67b65b579c9865780680d543ad8e294';
-var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7'
+var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
 //var factory_address = '0xe8c219f72fc117219bf0a7b134ff4f88f7d58a03';
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 
