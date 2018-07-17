@@ -2,7 +2,6 @@
 var marketArray = []	//name, stake, commission
 
 // web3 and contract data
-var Web3 = require('web3');
 var web3Provider;
 var contract_factory;
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
