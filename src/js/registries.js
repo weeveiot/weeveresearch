@@ -110,7 +110,7 @@ function displayRegistryInfo(id) {
 
 /***********************Creating a Registry**************************/
 /*
-/* Functions specific to the process of creating a new marketplace
+/* Functions specific to the process of creating a new registry
 /*
 /*********************************************************************/
 
@@ -716,7 +716,7 @@ window.onload=function() {
 	$('#createPanel').hide();
 	$('#finishBox').hide();
 	$('#loadingScreen').hide();
-	
+
 	currentSlideNum = 0;
 	populateArrays();
 
@@ -742,11 +742,17 @@ window.onload=function() {
 		console.log(contract_token);
 	});
 
-	//wait a little
+	//wait a little before displaying data to ensure DOM objects loaded
 	setTimeout(function() {
 		getRegistries();
 		displayRegistries();
 	}, 1000);
+
+	/*************************Attach listeners****************************/
+	/*
+	/* Attach listeners to html buttons
+	/*
+	/*********************************************************************/
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -801,7 +807,6 @@ window.onload=function() {
 		// initialize creation panel
 		updateSlide(slideArray[0], inputArray[0]);
 		disablePrevBtn();
-		console.log("error timing of course");
 		document.getElementById('dot0').style.opacity = 1.0;
 	});
 
@@ -824,7 +829,7 @@ window.onload=function() {
 		currentSlideNum = 0;
 	});
 
-	//handle canceling from confirmation and returning to slideshow
+	//handle canceling from confirmation view and returning to edit slideshow
 	var backAddButton = document.querySelector('#backAddBtn');
 	backAddBtn.addEventListener('click', function(event) {
 		// hide finish screen
@@ -834,6 +839,7 @@ window.onload=function() {
 		$('#finishBox').hide();
 	});
 
+	// handle taking user input and updating network state with a new registry
 	finishAddBtn.addEventListener('click', function(event) {
 		//hide info panel
 		$('#infoPanel').hide();

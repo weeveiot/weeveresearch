@@ -724,7 +724,7 @@ window.onload=function() {
 	$('#createPanel').hide();
     $('#finishBox').hide();
 	$('#loadingScreen').hide();
-	
+
 	currentSlideNum = 0;
 	populateArrays();
 
@@ -754,9 +754,14 @@ window.onload=function() {
 		console.log("factory: ", contract_factory);
 	});
 
+	/*************************Attach listeners****************************/
+	/*
+	/* Attach listeners to html buttons
+	/*
+	/*********************************************************************/
+
 	// handle clicking of a marketplace
 	var marketButtons = document.querySelector('#marketButtons');
-
 	marketButtons.addEventListener('click', function(event) {
 		console.log("click");
 		console.log(event.target.parentNode);
@@ -768,10 +773,8 @@ window.onload=function() {
 			$('#titlePanel').hide();
 
 			let string  = event.target.innerHTML;
-
 			let beginning = string.search(">") + 1;
 			let end = string.search("</span>");
-
 			let selectedMarket = string.slice(beginning, end);
 			let msg = "Selected " + selectedMarket;
 			console.log(msg);
@@ -794,27 +797,20 @@ window.onload=function() {
 
 	//handle closing marketplace
 	var closeButton = document.querySelector('#closeBtn');
-
 	closeButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
-
 		//TODO: eventually logic to delete marketplace goes here
-
 	});
 
 	//handle adding device
 	var addButton = document.querySelector('#addMPBtn');
-
 	addButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$("#titlePanel").hide();
 		$('#marketPanel').hide();
 		$('#createPanel').show();
-
 		// initialize creation panel
 		updateSlide(slideArray[0], inputArray[0]);
 		disablePrevBtn();
@@ -823,15 +819,12 @@ window.onload=function() {
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
-
 	cancelAddButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$("#titlePanel").show();
 		$('#marketPanel').show().addClass('right').removeClass('left');;
 		$('#createPanel').hide();
-
 		// reset input array and currentField counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
@@ -842,9 +835,8 @@ window.onload=function() {
 		currentSlideNum = 0;
 	});
 
-	//handle canceling from confirmation and returning to slideshow
+	//handle canceling from confirmation view and returning to edit slideshow
 	var backAddButton = document.querySelector('#backAddBtn');
-
 	backAddBtn.addEventListener('click', function(event) {
 		// hide finish screen
 		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
@@ -853,8 +845,8 @@ window.onload=function() {
 		$('#finishBox').hide();
 	});
 
+	// handle taking user input and updating network state with a new marketplace
 	finishAddBtn.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$('#marketPanel').show().addClass("right").removeClass("left");
@@ -862,7 +854,6 @@ window.onload=function() {
 		$('#createSlides').show();
 		$('#createPanel').hide();
 		$('#finishBox').hide();
-
 		// reset input array and currentField counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
