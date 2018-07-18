@@ -130,7 +130,7 @@ window.addEventListener('load', function() {
 
 
 	//do rest of things in timeout so that contract objects are loaded
-	setTimeout(initializeAccount(), 1000);
+	setTimeout(initializeAccount(), 1500);
 
 	let tokenButton = document.querySelector('#getTokens');
 	tokenButton.addEventListener('click', function() {
