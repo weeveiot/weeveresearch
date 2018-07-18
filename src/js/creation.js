@@ -1,120 +1,20 @@
-/******************************Variables******************************/
+/****************************Variables*******************************/
 /*
-/* State variables used to by the marketplaces.html page
+/* State variables used to by the registries.html page
 /*
 /*********************************************************************/
-//global variables
-var marketArray = []	//name, stake, commission
-
-// web3 and contract data
-var web3Provider;
-var contract_factory;
-var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
-var contract_token;
-var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
-
 var slideArray = [];
 var inputArray = [];
 var currentSlideNum = 0;
 
-/*******************************Functions*****************************/
+/***********************Creating a Registry**************************/
 /*
-/* Functions used to by the marketplaces.html page
-/*
-/*********************************************************************/
-
-/**
- *	Accesses contract factory to determine the marketplaces to display
- */
-function getMarkets() {
-
-	console.log("filling market array");		//FIXME:debug
-
-	var name;
-	var stake;
-	var commission;
-
-	//TODO: update to actually pull from contract
-	for(var i = 0; i < 3; i++) {
-		if (i == 0) {
-			name = "Ben's Market";
-			stake = 1000;
-			commission = 5;
-		}
-
-		if (i == 1) {
-			name = "Braden's Market";
-			stake = 1500;
-			commission = 20;
-		}
-
-		if (i == 2) {
-			name = "Martin's Market";
-			stake = 3000;
-			commission = 30;
-		}
-
-		marketArray[i] = [name, stake, commission];
-
-		console.log(marketArray[i][0] + " " + marketArray[i][2]);		//FIXME: debug
-
-	}
-}
-
-/**
- *	TODO revise documentation
- *	Takes the data from the state variable marketArray and populates the
- *	appropriate area of the html to display information on a button pertaining
- *	to the marketplaces, including the marketplace name and the stake set.
- *
- * @param marketArray a 2D array with elements of the form [name, stake, commission]
- */
-function displayMarkets() {
-	if(marketArray.length != 0) {
-		var panel = document.querySelector('#marketButtons');
-		var newHtml = "";
-		var str1;
-		var str2;
-
-		for(var i = 0; i < marketArray.length; i++) {
-			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + marketArray[i][0] + "</span><span class='rightFloat'>" + marketArray[i][1] + " WEEV</span></button>";
-			newHtml = str1.concat(str2);
-		}
-
-		console.log(newHtml);		//FIXME: debug
-
-		panel.innerHTML = newHtml;
-	}
-}
-
-/**
- * TODO revise documentation
- *	Takes the data from the state variable marketArray and populates the
- *	appropriate area of the html to display information in a div pertaining to the
- *	marketplace, including the marketplace name, stake, and commission
- *
- * @param marketArray a 2D array with elements of the form [name, stake, commission]
- */
-function displayMarketInfo(id) {
-	if(marketArray.length != 0) {
-		var panel = document.querySelector('#marketInfo');
-		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + marketArray[id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Commission</p><p class='rightFloat'>" + marketArray[id][2] + " WEEV</p></div>";
-
-		console.log(newHtml);		//FIXME: debug
-
-		panel.innerHTML = newHtml;
-	}
-}
-
-/***********************Creating a Marketplace************************/
-/*
-/* Functions specific to the process of creating a new marketplace
+/* Functions specific to the process of creating a new registry
 /*
 /*********************************************************************/
 
 /**
- *	Takes the data from the marketplaceFields.json file and uses it to populate
+ *	Takes the data from the json file and uses it to populate
  *	the slides where the user can add a new marketplace. See the README for more
  *	information about customizing the required fields with the JSON file.
  *
@@ -123,36 +23,50 @@ function displayMarketInfo(id) {
  *	Each index refers to a different slide defined in the JSON file, so the above element
  *	contains all of the information to populate 1 slide.
  */
- function populateArrays() {
- 	$.getJSON('json/marketplaceFields.json', {}, function(data) {
- 		var retArray = [];
- 		for (var num in data) {
- 			var singleSlide = data[num];
- 			var singleSlideArr = [];
- 			for (var field in singleSlide) {
- 				if (field == "title" || field == "description") {
- 					singleSlideArr.push(singleSlide[field]);
- 				}
- 				else {
- 					var fieldArray = [];
- 					for (var el in singleSlide[field]) {
- 						fieldArray.push(singleSlide[field][el]);
- 					}
- 					singleSlideArr.push(fieldArray);
- 				}
- 			}
- 			retArray.push(singleSlideArr);
- 		}
- 		slideArray = retArray;
- 		populateInputs(slideArray);
- 		initializeDots();
- 		initializeArrows();
- 		return true;
- 	});
- }
+function populateArrays() {
+    var htmlPage = location.pathname.split('/').pop();
+    var file = "";
+    if (htmlPage === "registries.html") {
+        file = 'json/registryFields.json';
+    }
+    else if (htmlPage === "marketplaces.html") {
+        file = 'json/marketplaceFields.json';
+    }
+    else if (htmlPage === "devices.html") {
+        file = 'json/deviceFields.json';
+    }
+    else {
+        console.log("Error determining html page calling the function");
+    }
+	$.getJSON(file, {}, function(data) {
+		var retArray = [];
+		for (var num in data) {
+			var singleSlide = data[num];
+			var singleSlideArr = [];
+			for (var field in singleSlide) {
+				if (field == "title" || field == "description") {
+					singleSlideArr.push(singleSlide[field]);
+				}
+				else {
+					var fieldArray = [];
+					for (var el in singleSlide[field]) {
+						fieldArray.push(singleSlide[field][el]);
+					}
+					singleSlideArr.push(fieldArray);
+				}
+			}
+			retArray.push(singleSlideArr);
+		}
+		slideArray = retArray;
+		populateInputs(slideArray);
+		initializeDots();
+		initializeArrows();
+		return true;
+	});
+}
 
 /**
- *	Takes the data from the marketplaceFields.json file, which is stored in the
+ *	Takes the data from the json file, which is stored in the
  *	slideArr parameter, and uses this to initialize an array to store user
  *	inputted values for each field in the slideshow.
  *
@@ -360,13 +274,11 @@ function rightArrowListener() {
  *	@param inputArr an array containing the user input for a single slide
  */
 function updateSlide(slideArr, inputArr) {
-	// the slide contains more than one input field
 	if (slideArr.length > 3) {
 		$('#multiField').show();
 		$('#singleField').hide();
 		updateMultiFields(slideArr, inputArr);
 	}
-	// the slide contains just one input field
 	else {
 		$('#multiField').hide();
 		$('#singleField').show();
@@ -461,7 +373,6 @@ function updateMultiFields(slideArr, inputArr) {
  *	@param inputArr the user input stored for the slide
  */
 function updateInput(inputArr) {
-	// store input for a slide with multiple fields
 	if (inputArr.length > 1) {
 		if (inputArr.length > 6) {
 			// TODO more rigorous error checking here
@@ -473,7 +384,6 @@ function updateInput(inputArr) {
 			}
 		}
 	}
-	// store input for a slide with a single field
 	else {
 		inputArr[0] = document.getElementById("fieldInputSingle").value.replace(/^\s+|\s+$/g,'');
 	}
@@ -485,7 +395,7 @@ function updateInput(inputArr) {
  *	@param slideArr an array containing the data for a single slide in the slideshow
  */
 function verifyInput(slideArr) {
-	// loop through the slide fields if the slide contains multiple fields
+	// loop through the slide fields
 	if (slideArr.length > 3) {
 		for (var i = 1; i < slideArr.length - 1; i++) {
 			var fieldArr = slideArr[i];
@@ -497,7 +407,6 @@ function verifyInput(slideArr) {
 		}
 		return true;
 	}
-	// slide contains a single field
 	else {
 		var fieldArr = slideArr[1];
 		var inputType = fieldArr[1];
@@ -555,7 +464,7 @@ function enablePrevBtn() {
  *	@param slideArr an array containing the data for a single slide in the slideshow
  */
 function inputError(slideArr) {
-	// loop through the slide fields if the slide contains multiple fields
+	// loop through the slide fields
 	if (slideArr.length > 3) {
 		for (var i = 1; i < slideArr.length - 1; i++) {
 			var fieldArr = slideArr[i];
@@ -566,7 +475,6 @@ function inputError(slideArr) {
 			}
 		}
 	}
-	// handle single field
 	else {
 		var fieldArr = slideArr[1];
 		var inputType = fieldArr[1];
@@ -710,160 +618,4 @@ function populateFinish(inputArr, slideArr) {
 		}
 	}
 	document.querySelector('#confirmData').innerHTML = newHtml;
-}
-
-/*************************************UI*******************************/
-
-window.onload=function() {
-
-	//immediately fill array and display
-	getMarkets();
-	displayMarkets();
-
-	$("#infoPanel").hide();
-	$('#createPanel').hide();
-    $('#finishBox').hide();
-	$('#loadingScreen').hide();
-
-	currentSlideNum = 0;
-	populateArrays();
-
-	// connect to web3
-	if (typeof web3 !== 'undefined') {
-		web3Provider = web3.currentProvider;
-	} else {
-		console.log('No web3? You should consider trying MetaMask!');
-		//default to local ganache
-		web3Provider = new Web3.providers.HttpProvider("http://localhost:7454");
-	}
-
-	web3 = new Web3(web3Provider);
-	console.log("web3: " + web3);
-
-	// get contract data for factory and token
-	$.getJSON('json/weeveToken.json', function(data) {
-		console.log("pulling token contract");
-		contract_token = web3.eth.contract(data.abi).at(token_address);
-		console.log("token: ", contract_token);
-	});
-
-
-	$.getJSON('json/weeveFactory.json', function(data) {
-		console.log("pulling factory contract");
-		contract_factory = web3.eth.contract(data.abi).at(factory_address);
-		console.log("factory: ", contract_factory);
-	});
-
-	/*************************Attach listeners****************************/
-	/*
-	/* Attach listeners to html buttons
-	/*
-	/*********************************************************************/
-
-	// handle clicking of a marketplace
-	var marketButtons = document.querySelector('#marketButtons');
-	marketButtons.addEventListener('click', function(event) {
-		console.log("click");
-		console.log(event.target.parentNode);
-		console.log(event.target.parentNode.parentNode);
-		console.log($(event.target).hasClass('grayNameBtn'));
-		//check if creator of event is child of the panel
-		if(event.target.parentNode === marketButtons) {
-			// get rid of left panel
-			$('#titlePanel').hide();
-
-			let string  = event.target.innerHTML;
-			let beginning = string.search(">") + 1;
-			let end = string.search("</span>");
-			let selectedMarket = string.slice(beginning, end);
-			let msg = "Selected " + selectedMarket;
-			console.log(msg);
-
-			//move list of registers from right to left
-			$('#marketPanel').addClass("left").removeClass("right");
-
-			//load info for chosen marketplace
-			let buttonId = $('.grayNameBtn').index(event.target);
-			displayMarketInfo(buttonId);
-
-			//show info panel on right side
-			document.getElementById("marketName").textContent = selectedMarket;
-			$("#infoPanel").show();
-
-			//TODO: eventually will pull actual info about markets and display that
-
-		}
-	});
-
-	//handle closing marketplace
-	var closeButton = document.querySelector('#closeBtn');
-	closeButton.addEventListener('click', function(event) {
-		//hide info panel
-		$('#infoPanel').hide();
-		//TODO: eventually logic to delete marketplace goes here
-	});
-
-	//handle adding device
-	var addButton = document.querySelector('#addMPBtn');
-	addButton.addEventListener('click', function(event) {
-		//hide info panel
-		$('#infoPanel').hide();
-		$("#titlePanel").hide();
-		$('#marketPanel').hide();
-		$('#createPanel').show();
-		// initialize creation panel
-		updateSlide(slideArray[0], inputArray[0]);
-		disablePrevBtn();
-		document.getElementById('dot0').style.opacity = 1.0;
-	});
-
-	//handle canceling during adding device
-	var cancelAddButton = document.querySelector('#cancelAddBtn');
-	cancelAddButton.addEventListener('click', function(event) {
-		//hide info panel
-		$('#infoPanel').hide();
-		$("#titlePanel").show();
-		$('#marketPanel').show().addClass('right').removeClass('left');;
-		$('#createPanel').hide();
-		// reset input array and currentField counter
-		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-		for (var i = 0; i < inputArray.length; i++) {
-			for (var j = 0; j < inputArray[i].length; j++) {
-				inputArray[i][j] = "";
-			}
-		}
-		currentSlideNum = 0;
-	});
-
-	//handle canceling from confirmation view and returning to edit slideshow
-	var backAddButton = document.querySelector('#backAddBtn');
-	backAddBtn.addEventListener('click', function(event) {
-		// hide finish screen
-		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-		$('#createPanel').show();
-		$('#createSlides').show();
-		$('#finishBox').hide();
-	});
-
-	// handle taking user input and updating network state with a new marketplace
-	finishAddBtn.addEventListener('click', function(event) {
-		//hide info panel
-		$('#infoPanel').hide();
-		$('#marketPanel').show().addClass("right").removeClass("left");
-		$('#titlePanel').show();
-		$('#createSlides').show();
-		$('#createPanel').hide();
-		$('#finishBox').hide();
-		// reset input array and currentField counter
-		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-		for (var i = 0; i < inputArray.length; i++) {
-			for (var j = 0; j < inputArray[i].length; j++) {
-				inputArray[i][j] = "";
-			}
-		}
-		currentSlideNum = 0;
-
-		// TODO update blockchain
-	});
-
 }

@@ -1,4 +1,4 @@
-/****************************Variables******************************/
+/****************************Variables*******************************/
 /*
 /* State variables used to by the registries.html page
 /*
@@ -123,7 +123,7 @@ function displayRegistryInfo(id) {
 
 /***********************Creating a Registry**************************/
 /*
-/* Functions specific to the process of creating a new marketplace
+/* Functions specific to the process of creating a new registry
 /*
 /*********************************************************************/
 
@@ -728,6 +728,8 @@ window.onload=function() {
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
 	$('#finishBox').hide();
+	$('#loadingScreen').hide();
+
 	currentSlideNum = 0;
 	populateArrays();
 
@@ -753,20 +755,20 @@ window.onload=function() {
 		console.log(contract_token);
 	});
 
-	//wait a little
+	//wait a little before displaying data to ensure DOM objects loaded
 	setTimeout(function() {
 		getRegistries();
 		displayRegistries();
 	}, 1000);
 
-
-	$("#infoPanel").hide();
-	$('#createPanel').hide();
-	$('#finishBox').hide();
+	/*************************Attach listeners****************************/
+	/*
+	/* Attach listeners to html buttons
+	/*
+	/*********************************************************************/
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
-
 	registryButtons.addEventListener('click', function(event) {
 
 		//check if creator of event is child of the panel
@@ -775,10 +777,8 @@ window.onload=function() {
 			$('#titlePanel').hide();
 
 			let string  = event.target.innerHTML;
-
 			let beginning = string.search(">") + 1;
 			let end = string.search("</span>");
-
 			let selectedReg = string.slice(beginning, end);
 			let msg = "Selected " + selectedReg;
 			console.log(msg);
@@ -802,47 +802,36 @@ window.onload=function() {
 
 	//handle closing registry
 	var closeButton = document.querySelector('#closeBtn');
-
 	closeButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
-
 		//TODO: eventually logic to delete registry goes here
-
 	});
 
 	//handle creating a registry
 	var addButton = document.querySelector('#addRegBtn');
-
 	addButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$("#devicesPanel").hide();
 		$("#titlePanel").hide();
 		$('#registryPanel').hide();
 		$('#createPanel').show();
-
 		// initialize creation panel
 		updateSlide(slideArray[0], inputArray[0]);
 		disablePrevBtn();
-		console.log("error timing of course");
 		document.getElementById('dot0').style.opacity = 1.0;
 	});
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
-
 	cancelAddButton.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$("#devicesPanel").hide();
 		$("#titlePanel").show();
 		$('#registryPanel').show().addClass('right').removeClass('left');;
 		$('#createPanel').hide();
-
 		// reset input array and currentField counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
@@ -853,9 +842,8 @@ window.onload=function() {
 		currentSlideNum = 0;
 	});
 
-	//handle canceling from confirmation and returning to slideshow
+	//handle canceling from confirmation view and returning to edit slideshow
 	var backAddButton = document.querySelector('#backAddBtn');
-
 	backAddBtn.addEventListener('click', function(event) {
 		// hide finish screen
 		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
@@ -864,8 +852,8 @@ window.onload=function() {
 		$('#finishBox').hide();
 	});
 
+	// handle taking user input and updating network state with a new registry
 	finishAddBtn.addEventListener('click', function(event) {
-
 		//hide info panel
 		$('#infoPanel').hide();
 		$('#registryPanel').show().addClass("right").removeClass("left");
@@ -873,8 +861,6 @@ window.onload=function() {
 		$('#createSlides').show();
 		$('#createPanel').hide();
 		$('#finishBox').hide();
-
-
 		var regName = inputArray[1][0];
 		var regStake = web3.toWei(inputArray[0][0], 'ether');
 		var regStakeReg = web3.toWei(inputArray[2][0], 'ether');
