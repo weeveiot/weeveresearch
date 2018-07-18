@@ -4,7 +4,7 @@ _Ben Hodgson_, _Braden Meyerhoefer_
 Experimental things we are working on regarding the weeveNetwork demo.
 
 ### Adding Registries/Marketplaces and Registering Devices
-Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace:
+Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace: 
 
 ```json
 {
@@ -42,7 +42,7 @@ Currently the user interface for adding registries/marketplaces and registering 
 Each slide has 3 components:
 
  1. **"title"**:  Used to display what is being added/registered or what step in the slideshow the user is currently on.
- 2. **"fieldx"**: Defines the properties of the specific user input field on the slide. Note it's important that the field is named 'field(_x_)' where
+ 2. **"fieldx"**: Defines the properties of the specific user input field on the slide. Note it's important that the field is named 'field(_x_)' where 
  1 $\le$ x $\le$ 6.
  4. **"description"**: Used to inform the user about the purpose behind the field(s) displayed on the slide. The goal of the description is to alleviate confusion for new users.
 
@@ -83,7 +83,7 @@ Using these common components it's very easy to add more slides or change specif
 	},
 	"description": "Slide 4 Description: Only the json file needs to change to allow for more marketplace fields!"
 }
-```
+``` 
 This produces a [new slide](https://photos.app.goo.gl/Ap4MLif9MR83ihyx7) at the end with six fields displaying the following information:
 
 ![Slide Components](https://lh3.googleusercontent.com/vEq4eGOf9hz34W5u0K_8cNo-vmCiK0f0TFuT83YtKW6bDjY5nfOZcaIF3-_74lGHRz20uFwDDIaF)
@@ -141,8 +141,146 @@ However, even with the common functions each separate html page still needs to a
 
  - Add button: the button to start the slideshow and hide other page elements
  - Cancel button: the button to cancel out of a slideshow and show other page elements
- - Finish button: the button to update the contract state, close the slideshow, and show other page elements
+ - Finish button: the button to update the contract state, close the slideshow, and show other page elements 
 
-The `creation.html` page also has the common html objects used to display the slideshow, _except for the button to initially display the slideshow_. This duplication was less of a concern because all pages could be changed at the same time by editing the `common.css` file.
+The `creation.html` page also has the common html objects used to display the slideshow, _except for the button to initially display the slideshow_. This duplication was less of a concern because all pages could be changed at the same time by editing the `common.css` file. 
 
 In the end we decided to keep the duplication in the `registries.js`, `marketplaces.js`, and `devices.js` files because we were running into bugs loading multiple external scripts into the html pages. We also reasoned it would be better to limit the number of external files to decrease loading times. However, the `creation.js` and `creation.html` files should be ready to use if it seems more beneficial to load these into all 3 pages.
+
+#### Support for multiple input field types
+
+It would streamline the process of registering devices and adding registries/marketplaces if the input field types were specialized to the datatype required from the user. For example, for fields that require yes/no or true/false responses a checkbox offers more ease than a text input field. We considered implementing this but feared we wouldn't have enough time to sufficiently test it because some browsers don't fully support changing the input field type in javascript. To implement this functionality the following changes need to be made:
+
+ 1. First, the input field types would need be changed depending upon the datatype expected. This would need to happen in the below 2 functions in the same place as the added if statements.
+```javascript
+function updateSingleFields(slideArr, storedInput) {
+	var title = slideArr[0];
+	var field = slideArr[1];
+	var description = slideArr[2];
+	var fieldName = field[0];
+	var fieldData = field[1];
+	var fieldPH = field[2];
+
+	// handle displaying different input types here
+	// TODO test with other browsers. Does every browser support input type changes?
+	if (fieldData.toLowerCase() === "str") {
+		document.getElementById("fieldInputSingle").type = "text";
+		document.getElementById("fieldInputSingle").placeholder = fieldPH;
+	}
+	else if (fieldData.toLowerCase() === "num") {
+		document.getElementById("fieldInputSingle").type = "number";
+		document.getElementById("fieldInputSingle").placeholder = fieldPH;
+	}
+	else if (fieldData.toLowerCase() === "bool") {
+		document.getElementById("fieldInputSingle").type = "checkbox";
+	}
+
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldNameSingle').textContent = fieldName;
+	document.getElementById("fieldInputSingle").value = storedInput;
+	document.getElementById('fieldDescriptionSingle').textContent = description;
+	$('#fieldInputSingle').removeClass("error");
+}
+```
+```javascript
+function updateMultiFields(slideArr, inputArr) {
+	var title = slideArr[0];
+	var description = slideArr[slideArr.length - 1];
+	document.getElementById('slideName').textContent = title;
+	document.getElementById('fieldDescriptionMulti').textContent = description;
+	// can't handle more than 6 inputs on one multi field slide, plus 2 for the title and description
+	if (slideArr.length > 8) {
+		console.log("Critical json format error. More than 6 fields on slide!")
+	}
+	for (var i = 1; i < slideArr.length - 1; i++) {
+		var fieldName = slideArr[i][0];
+		var fieldData = slideArr[i][1];
+		var fieldPH = slideArr[i][2];
+
+		// handle displaying different input types here
+		// TODO test with other browsers. Does every browser support input type changes?
+		if (fieldData.toLowerCase() === "str") {
+			document.getElementById("fieldInput" + i).type = "text";
+		}
+		else if (fieldData.toLowerCase() === "num") {
+			document.getElementById("fieldInput" + i).type = "number";
+		}
+		else if (fieldData.toLowerCase() === "bool") {
+			document.getElementById("fieldInput" + i).type = "checkbox";
+		}
+
+		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
+		document.getElementById("fieldInput" + i).placeholder = fieldPH;
+		document.getElementById("fieldName" + i).textContent = fieldName;
+		$('#fieldInput' + i).removeClass("error");
+	}
+}
+```
+
+ 2. Second, the process for verifying the user input before changing slides would need to change slightly, specifically for bool types with a checkbox or non text input field:
+```javascript
+function verifySingleInput(inputType, input) {
+	...
+	else if (inputType.toLowerCase() === "bool") {
+		// check the checkbox or other input field type
+	}
+	...
+}
+```
+
+ 3. Then the error display needs to be changed to indicate errors for other input field types. Currently some text is displayed with an error message in the input field, but this wouldn't work with inputs like a checkbox that don't contain text.
+```javascript
+function errorSingleInput(inputType, input) {
+	if (inputType.toLowerCase() === "str") {
+		input.value = "";
+		input.placeholder = "Please enter some text";
+		$('#' + input.id).addClass("error");
+	}
+	else if (inputType.toLowerCase() === "bool") {
+		input.value = "";
+		// display error somehow, perhaps changing css to display a red outline around inputs of a certain type
+		$('#' + input.id).addClass("error");
+	}
+	...
+}
+```
+Note that if a new "error" css class is used with a name other than "error", then these classes need to be removed in the following two functions to remove the error displays when the user navigates to a different slide:
+```javascript
+function updateSingleFields(slideArr, storedInput) {
+	...
+	$('#fieldInputSingle').removeClass("error");
+	// change the above or remove any other error classes
+}
+```
+```javascript
+function updateMultiFields(slideArr, storedInput) {
+	...
+	for (var i = 1; i < slideArr.length - 1; i++) {
+		...
+		$('#fieldInput' + i).removeClass("error");
+		// change the above or remove any other error classes
+	}
+}
+```
+
+ 4. The function that handles storing user input would also need slight change to properly store inputs from different input field types. 
+```javascript
+ function updateInput(inputArr) {
+	for (var i = 0; i < inputArr.length; i++) {
+		inputArr[i] = document.getElementById("fieldInput" + (i + 1)).value.replace(/^\s+|\s+$/g,'');
+		// Change needs to occur here. Do all input fields have a value property? 
+	}
+}
+```
+ 5. Finally, the function to confirm the user input at the end of the slideshow must also be changed to properly error check for different input types. This is very similar to the rework needed in the `verifySingleInput()` function from step 2, but for this function _every field must have user input_.
+```javascript
+function confirmSingleInput(storedVal, valType) {
+	if (valType.toLowerCase() === "str") {
+		return typeof storedVal === typeof "" && storedVal !== "";
+	}
+	else if (valType.toLowerCase() === "bool") {
+		// is any check needed? Just treat empty checkbox as false/no
+	}
+	...
+}
+```
