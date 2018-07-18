@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>weeveNetwork Demo</title>
+
+    <!-- Custom styles for this template -->
+    <link href="../css/common.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="createPanel">
+    <img class="createImg center" src="../images/hexagonBorder.png" alt="hexagonBackgroundImage"/>
+
+    <div class="center createBox" id="createSlides">
+        <div class="createHeader">
+            <h1 class="leftFloat" id="slideName"><!-- title to be displayed goes here (Create Registry/Marketplace or Add Device) --></h1>
+            <button class="rightFloat cancelBtn" id="cancelAddBtn">CANCEL</button>
+        </div>
+        <div id="multiField">
+            <div class="inputContainer center">
+                <div class="split left">
+                    <div class="leftFloat">
+                        <p id="fieldName1"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput1" placeholder="">
+                    </div>
+                    <div class="leftFloat">
+                        <p id="fieldName2"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput2" placeholder="">
+                    </div>
+                    <div class="leftFloat">
+                        <p id="fieldName3"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput3" placeholder="">
+                    </div>
+                </div>
+                <div class="split right">
+                    <div class="rightFloat">
+                        <p id="fieldName4"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput4" placeholder="">
+                    </div>
+                    <div class="rightFloat">
+                        <p id="fieldName5"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput5" placeholder="">
+                    </div>
+                    <div class="rightFloat">
+                        <p id="fieldName6"><!-- name of the field to be specified goes here --></p>
+                        <input type="text" class="inputMulti" id="fieldInput6" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="arrowBoxMulti">
+                <a>
+                    <img class="leftArrow" id="prevBtnMulti" src="../images/nextArrow.png" alt="backArrowImage" role="button" tabindex="0"/>
+                </a>
+                <a>
+                    <img class="rightArrow" id="nextBtnMulti" src="../images/nextArrow.png" alt="nextArrowImage" role="button" tabindex="0"/>
+                </a>
+            </div>
+            <h6 class="descriptionMulti" id="fieldDescriptionMulti">
+                <!-- description of the field to be specified goes here -->
+            </h6>
+        </div>
+        <div id="singleField">
+            <div class="fieldBoxSingle">
+                <h3 class="fieldNameSingle" id="fieldNameSingle"><!-- name of the field to be specified goes here --></h3>
+                <div class="arrowBoxSingle">
+                    <a>
+                        <img class="leftArrow" id="prevBtnSingle" src="../images/nextArrow.png" alt="backArrowImage" role="button" tabindex="0"/>
+                    </a>
+                    <input type="text" class="inputSingle" id="fieldInputSingle" placeholder="">
+                    <a>
+                        <img class="rightArrow" id="nextBtnSingle" src="../images/nextArrow.png" alt="nextArrowImage" role="button" tabindex="0"/>
+                    </a>
+                </div>
+            </div>
+            <h6 class="descriptionSingle" id="fieldDescriptionSingle">
+                <!-- description of the field to be specified goes here -->
+            </h6>
+        </div>
+        <div class="dotRow" id="dotRow">
+            <!-- add the correct amount of dots on initialization -->
+        </div>
+    </div>
+    <div class="center createBox" id="finishBox">
+        <br>
+        <h1 class="createName">Confirm New Registry</h1>
+        <br>
+        <div class="confirmData" id="confirmData">
+        </div>
+        <br>
+        <span>
+            <button class="finishBtn" id="backAddBtn">Back</button>
+            <button class="finishBtn" id="finishAddBtn">Finish</button>
+        </span>
+        <br>
+    </div>
+</div>
+
+    <!-- Custom js for this template -->
+    <script type="text/javascript" src="../js/creation.js"></script>
+
+</body>
+</html>

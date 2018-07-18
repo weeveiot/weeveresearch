@@ -174,6 +174,7 @@ function displayDeviceInfo(id) {
  *	contains all of the information to populate 1 slide.
  */
  function populateArrays() {
+	 currentSlideNum = 0;
  	$.getJSON('json/deviceFields.json', {}, function(data) {
  		var retArray = [];
  		for (var num in data) {
@@ -197,6 +198,7 @@ function displayDeviceInfo(id) {
  		populateInputs(slideArray);
  		initializeDots();
  		initializeArrows();
+		initializeBack();
  		return true;
  	});
  }
@@ -402,6 +404,21 @@ function rightArrowListener() {
 }
 
 /**
+ *  Assigns an event listener to the back button on the finish/confirmation
+ *  display to return to edit the slideshow on click
+ */
+function initializeBack() {
+	var backAddButton = document.querySelector('#backAddBtn');
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		$('#createPanel').show();
+		$('#createSlides').show();
+		$('#finishBox').hide();
+	});
+}
+
+/**
  *	Takes the slideArray and inputArray parameters and calls the appropriate
  *	function to update the slide to display the appropriate data
  *
@@ -562,6 +579,7 @@ function verifyInput(slideArr) {
  *
  *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
  *	@param input the actual user inputted value in the field
+ *	@return true if the input is valid, matches the expected inputType, and false otherwise.
  */
 function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
@@ -689,6 +707,7 @@ function executeFinish(slideArr, inputArr) {
  *
  *	@param storedVal the stored user input
  *	@param valType the expected data type to be inputted in the field, taken from the JSON file
+ *	@return true if the input is confirmed, matches the expected valType and isn't empty, and false otherwise.
  */
 function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {
@@ -770,7 +789,7 @@ window.onload=function() {
 	$('#finishBox').hide();
 	$('#loadingScreen').hide();
 
-	currentSlideNum = 0;
+	// initialize slides for creating registries
 	populateArrays();
 
 	// connect to web3
@@ -919,16 +938,6 @@ window.onload=function() {
 			}
 		}
 		currentSlideNum = 0;
-	});
-
-	//handle canceling from confirmation view and returning to edit slideshow
-	var backAddButton = document.querySelector('#backAddBtn');
-	backAddBtn.addEventListener('click', function(event) {
-		// hide finish screen
-		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-		$('#createPanel').show();
-		$('#createSlides').show();
-		$('#finishBox').hide();
 	});
 
 	// handle taking user input and updating network state with a new device

@@ -1,15 +1,16 @@
 /****************************Variables*******************************/
 /*
-/* State variables used to by the registries.html page
+/* State variables used to store user input and slide display information
 /*
 /*********************************************************************/
 var slideArray = [];
 var inputArray = [];
 var currentSlideNum = 0;
 
-/***********************Creating a Registry**************************/
+/******************Creating/Registering Functions*********************/
 /*
-/* Functions specific to the process of creating a new registry
+/* Functions specific to the process of creating a marketplace/registry
+/* and registering a device with the network
 /*
 /*********************************************************************/
 
@@ -24,6 +25,7 @@ var currentSlideNum = 0;
  *	contains all of the information to populate 1 slide.
  */
 function populateArrays() {
+    currentSlideNum = 0;
     var htmlPage = location.pathname.split('/').pop();
     var file = "";
     if (htmlPage === "registries.html") {
@@ -36,7 +38,7 @@ function populateArrays() {
         file = 'json/deviceFields.json';
     }
     else {
-        console.log("Error determining html page calling the function");
+        console.log("Error determining html page");
     }
 	$.getJSON(file, {}, function(data) {
 		var retArray = [];
@@ -61,6 +63,7 @@ function populateArrays() {
 		populateInputs(slideArray);
 		initializeDots();
 		initializeArrows();
+        initializeBack();
 		return true;
 	});
 }
@@ -267,6 +270,21 @@ function rightArrowListener() {
 }
 
 /**
+ *  Assigns an event listener to the back button on the finish/confirmation
+ *  display to return to edit the slideshow on click
+ */
+function initializeBack() {
+	var backAddButton = document.querySelector('#backAddBtn');
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		$('#createPanel').show();
+		$('#createSlides').show();
+		$('#finishBox').hide();
+	});
+}
+
+/**
  *	Takes the slideArray and inputArray parameters and calls the appropriate
  *	function to update the slide to display the appropriate data
  *
@@ -422,6 +440,7 @@ function verifyInput(slideArr) {
  *
  *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
  *	@param input the actual user inputted value in the field
+ *  @return true if the input is valid, matches the expected inputType, and false otherwise.
  */
 function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
@@ -491,27 +510,22 @@ function inputError(slideArr) {
  *	@param input the actual input html object to display the error in
  */
 function errorSingleInput(inputType, input) {
-	//var alertPrompt = document.getElementById("alertPrompt");
-	if (inputType.toLowerCase() === "str") {
-		//alertPrompt.textContent = "Please enter a string of text";
+	if (inputType.toLowerCase() === "str") {;
 		input.value = "";
 		input.placeholder = "Please enter some text";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "num") {
-		//alertPrompt.textContent = "Please enter a number";
 		input.value = "";
 		input.placeholder = "Please enter a number";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "bool") {
-		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
 		input.value = "";
 		input.placeholder = "Please enter 'true' or 'false'";
 		$('#' + input.id).addClass("error");
 	}
 	else {
-		//alertPrompt.textContent = "Invalid input type given";
 		input.value = "";
 		input.placeholder = "Invalid input in json file";
 		$('#' + input.id).addClass("error");
@@ -553,6 +567,7 @@ function executeFinish(slideArr, inputArr) {
  *
  *	@param storedVal the stored user input
  *	@param valType the expected data type to be inputted in the field, taken from the JSON file
+ *  @return true if the input is confirmed, matches the expected valType and isn't empty, and false otherwise.
  */
 function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {

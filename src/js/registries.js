@@ -133,6 +133,7 @@ function displayRegistryInfo(id) {
  *	contains all of the information to populate 1 slide.
  */
 function populateArrays() {
+	currentSlideNum = 0;
 	$.getJSON('json/registryFields.json', {}, function(data) {
 		var retArray = [];
 		for (var num in data) {
@@ -156,6 +157,7 @@ function populateArrays() {
 		populateInputs(slideArray);
 		initializeDots();
 		initializeArrows();
+		initializeBack();
 		return true;
 	});
 }
@@ -362,6 +364,21 @@ function rightArrowListener() {
 }
 
 /**
+ *  Assigns an event listener to the back button on the finish/confirmation
+ *  display to return to edit the slideshow on click
+ */
+function initializeBack() {
+	var backAddButton = document.querySelector('#backAddBtn');
+	backAddBtn.addEventListener('click', function(event) {
+		// hide finish screen
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		$('#createPanel').show();
+		$('#createSlides').show();
+		$('#finishBox').hide();
+	});
+}
+
+/**
  *	Takes the slideArray and inputArray parameters and calls the appropriate
  *	function to update the slide to display the appropriate data
  *
@@ -517,6 +534,7 @@ function verifyInput(slideArr) {
  *
  *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
  *	@param input the actual user inputted value in the field
+ *	@return true if the input is valid, matches the expected inputType, and false otherwise.
  */
 function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
@@ -586,27 +604,22 @@ function inputError(slideArr) {
  *	@param input the actual input html object to display the error in
  */
 function errorSingleInput(inputType, input) {
-	//var alertPrompt = document.getElementById("alertPrompt");
 	if (inputType.toLowerCase() === "str") {
-		//alertPrompt.textContent = "Please enter a string of text";
 		input.value = "";
 		input.placeholder = "Please enter some text";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "num") {
-		//alertPrompt.textContent = "Please enter a number";
 		input.value = "";
 		input.placeholder = "Please enter a number";
 		$('#' + input.id).addClass("error");
 	}
 	else if (inputType.toLowerCase() === "bool") {
-		//alertPrompt.textContent = "Please enter either 'true' or 'false'";
 		input.value = "";
 		input.placeholder = "Please enter 'true' or 'false'";
 		$('#' + input.id).addClass("error");
 	}
 	else {
-		//alertPrompt.textContent = "Invalid input type given";
 		input.value = "";
 		input.placeholder = "Invalid input in json file";
 		$('#' + input.id).addClass("error");
@@ -648,6 +661,7 @@ function executeFinish(slideArr, inputArr) {
  *
  *	@param storedVal the stored user input
  *	@param valType the expected data type to be inputted in the field, taken from the JSON file
+ *	@return true if the input is confirmed, matches the expected valType and isn't empty, and false otherwise.
  */
 function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {
@@ -725,7 +739,7 @@ window.onload=function() {
 	$('#finishBox').hide();
 	$('#loadingScreen').hide();
 
-	currentSlideNum = 0;
+	// initialize slides for creating registries
 	populateArrays();
 
 	//connect to web3 and load contracts
@@ -835,16 +849,6 @@ window.onload=function() {
 			}
 		}
 		currentSlideNum = 0;
-	});
-
-	//handle canceling from confirmation view and returning to edit slideshow
-	var backAddButton = document.querySelector('#backAddBtn');
-	backAddBtn.addEventListener('click', function(event) {
-		// hide finish screen
-		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-		$('#createPanel').show();
-		$('#createSlides').show();
-		$('#finishBox').hide();
 	});
 
 	// handle taking user input and updating network state with a new registry
