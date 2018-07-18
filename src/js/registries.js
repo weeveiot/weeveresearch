@@ -43,7 +43,7 @@ function getRegistries() {
 	//TODO: update so actually pulls data from contract
 	//will probably need to take users address as an argument
 	var i = 0;
-	while(true) {
+	while(false) {
 		console.log("top of while");
 		contract_factory.allRegistries(i, function(errCall, result) {
 			ownerAddress = result[2];
