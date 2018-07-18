@@ -929,4 +929,6 @@ window.onload=function() {
 
 	});
 
+	$('#loadingScreen').hide();
+
 }

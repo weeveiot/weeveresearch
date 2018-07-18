@@ -873,5 +873,6 @@ window.onload=function() {
 		// TODO update blockchain
 	});
 
+	$('#loadingScreen').hide();
 
 }
