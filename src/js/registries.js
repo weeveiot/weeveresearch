@@ -25,6 +25,9 @@ var currentSlideNum = 0;
 /*
 /*********************************************************************/
 
+/**
+ *	Accesses contract factory to determine the registries to display
+ */
 function getRegistries() {
 
 	console.log("filling registry array");		//FIXME:debug
@@ -51,6 +54,14 @@ function getRegistries() {
 	console.log("finished filling array");
 }
 
+/**
+ *	TODO revise documentation
+ *	Takes the data from the state variable regArray and populates the
+ *	appropriate area of the html to display information on a button pertaining
+ *	to the registries, including the name and the stake set.
+ *
+ * @param regArray an array storing registry data
+ */
 function displayRegistries() {
 	if(regArray.length != 0) {
 		//fill registryButtons
@@ -73,6 +84,14 @@ function displayRegistries() {
 	}
 }
 
+/**
+ * TODO revise documentation
+ *	Takes the data from the state variable regArray and populates the
+ *	appropriate area of the html to display information in a div pertaining to the
+ *	registry, including the registry name, stake, and all other properties
+ *
+ * @param marketArray an array storing registry data
+ */
 function displayRegistryInfo(id) {
 	if(regArray.length != 0) {
 		//fill registryButtons
@@ -89,107 +108,59 @@ function displayRegistryInfo(id) {
 	}
 }
 
-// extracts necessary inputs from json file
-function populateSlides() {
-	var data = [
-		{
-		    "slide1": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake Amount",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
-		    },
-		    "slide2": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Registry Name",
-		            "data": "str",
-		            "placeholder": "Enter name"
-		        },
-		        "description": "Provide a name to identify and describe the Registry"
-		    },
-		    "slide3": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Registration",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
-		    },
-            "slide4": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Validator",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
-		    },
-            "slide5": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Arbiter",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
-		    }
-		}
-	];
+/***********************Creating a Registry**************************/
+/*
+/* Functions specific to the process of creating a new marketplace
+/*
+/*********************************************************************/
 
-	/* TODO read in from actual json files
+/**
+ *	Takes the data from the registryFields.json file and uses it to populate
+ *	the slides where the user can add a new marketplace. See the README for more
+ *	information about customizing the required fields with the JSON file.
+ *
+ *	@return retArray an arry containing the data from the JSON file. The array is of
+ *	the form [[slide title, [field name, field data, field placeholder], slide description], ...]
+ *	Each index refers to a different slide defined in the JSON file, so the above element
+ *	contains all of the information to populate 1 slide.
+ */
+function populateArrays() {
 	$.getJSON('json/registryFields.json', {}, function(data) {
-		console.log(data);
-		console.log(tdata);
 		var retArray = [];
 		for (var num in data) {
 			var singleSlide = data[num];
+			var singleSlideArr = [];
 			for (var field in singleSlide) {
 				if (field == "title" || field == "description") {
-					slideArray.push(singleSlide[field]);
+					singleSlideArr.push(singleSlide[field]);
 				}
 				else {
 					var fieldArray = [];
 					for (var el in singleSlide[field]) {
 						fieldArray.push(singleSlide[field][el]);
 					}
-					slideArray.push(fieldArray);
+					singleSlideArr.push(fieldArray);
 				}
 			}
-			retArray.push(slideArray);
+			retArray.push(singleSlideArr);
 		}
-		console.log(retArray);
-		return retArray;
-	});*/
-
-	// extra slow parsing
-	var retArray = [];
-	var slides = data[0];
-	for (var num in slides) {
-		var singleSlide = slides[num];
-		var slideArray = [];
-		for (var field in singleSlide) {
-			if (field == "title" || field == "description") {
-				slideArray.push(singleSlide[field]);
-			}
-			else {
-				var fieldArray = [];
-				for (var el in singleSlide[field]) {
-					fieldArray.push(singleSlide[field][el]);
-				}
-				slideArray.push(fieldArray);
-			}
-		}
-		retArray.push(slideArray);
-	}
-	return retArray;
+		slideArray = retArray;
+		populateInputs(slideArray);
+		initializeDots();
+		initializeArrows();
+		return true;
+	});
 }
 
-// creates and returns an array initialized with empty strings for each field
+/**
+ *	Takes the data from the registryFields.json file, which is stored in the
+ *	slideArr parameter, and uses this to initialize an array to store user
+ *	inputted values for each field in the slideshow.
+ *
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ *	@return retArray a 2D array, where retArray[i][j] is the user input for the
+ *	j-th field on the i-th slide in the slideshow.
+ */
 function populateInputs(slideArr) {
 	var retArray = [];
 	for (var slide in slideArr) {
@@ -199,10 +170,196 @@ function populateInputs(slideArr) {
 		}
 		retArray.push(slideFields);
 	}
-	return retArray;
+	inputArray = retArray;
 }
 
-// updates the slide information
+/**
+ *	Creates dots to navigate through slides in the slideshow and
+ *	adds click listener events.
+ */
+function initializeDots() {
+	// generate correct number of 'slides'
+	var dotRow = document.querySelector('#dotRow');
+	var newHtml = "";
+	for (var i = 0; i < slideArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
+		newHtml = str1.concat(str2);
+	}
+	dotRow.innerHTML = newHtml;
+
+	// setup listeners to handle moving through slides and updating data
+	// setup clickable dots
+	for (var i = 0; i < slideArray.length; i++) {
+		var thisDot = document.getElementById("dot" + i);
+		thisDot.addEventListener('click', function(event) {
+			dotListener(event);
+		});
+		thisDot.addEventListener('keypress', function(event) {
+			var key = event.which || event.keyCode;
+			if (key === 13) {
+				dotListener(event);
+			}
+		});
+	}
+}
+
+/**
+ *	Function triggered when a 'dot' is clicked. Handle updating slide Information
+ *	to display a new slide and storing user input from previous slide.
+ */
+function dotListener(event) {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		event.target.style.opacity = 1;
+		if (event.target.id != "dot" + currentSlideNum) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+		}
+		updateInput(inputArray[currentSlideNum]);
+		currentSlideNum = +event.target.id.split("dot")[1];
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		if (currentSlideNum === 0) {
+			disablePrevBtn();
+		}
+		else {
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+/**
+ *	Adds click listener events to both the previous, left arrow, and next, right
+ *	arrow, buttons to support navigating through the slideshow
+ */
+function initializeArrows() {
+	// setup clickable previous buttons
+	var leftArrowSingle = document.getElementById("prevBtnSingle");
+	var leftArrowMulti = document.getElementById("prevBtnMulti");
+	leftArrowSingle.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowMulti.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+	leftArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+
+	// setup clickable next buttons
+	var rightArrowSingle = document.getElementById("nextBtnSingle");
+	var rightArrowMulti = document.getElementById("nextBtnMulti");
+	rightArrowSingle.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowMulti.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+	rightArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+}
+
+/**
+ *	Function triggered when the previous button is clicked. Handles
+ *	moving back through the slideshow by updating slide display and storing
+ *	any user input.
+ */
+function leftArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum > 0) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum - 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			if (currentSlideNum === 0) {
+				disablePrevBtn();
+			}
+			else {
+				enablePrevBtn();
+			}
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+/**
+ *	Function triggered when the next button is clicked. Handles
+ *	moving forward through the slideshow by updating slide display and storing
+ *	any user input.
+ */
+function rightArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum === slideArray.length - 1) {
+			updateInput(inputArray[currentSlideNum]);
+			// handle displaying finish box
+			var finishResult = executeFinish(slideArray, inputArray);
+			if (finishResult === -1) {
+				// populate finish screen fields to match input fields
+				populateFinish(inputArray, slideArray);
+				// display finish screen
+				$('#createSlides').hide();
+				$('#finishBox').show();
+				$('#createPanel').show();
+			}
+			else {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				currentSlideNum = finishResult[0];
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				// display errors
+				confirmInputError(slideArray[currentSlideNum], finishResult[1]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+			}
+		}
+		else if (currentSlideNum < slideArray.length - 1) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum + 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+/**
+ *	Takes the slideArray and inputArray parameters and calls the appropriate
+ *	function to update the slide to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param inputArr an array containing the user input for a single slide
+ */
 function updateSlide(slideArr, inputArr) {
 	if (slideArr.length > 3) {
 		$('#multiField').show();
@@ -216,16 +373,35 @@ function updateSlide(slideArr, inputArr) {
 	}
 }
 
-// TODO handle creating the fields needed, e.g. instead of standard input
-// maybe use two buttons, one yes and the other no, for bool fields
-
-// used to populate text for single field slides
+/**
+ *	Takes the slideArray and inputArray parameters and updates the slide
+ *	to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param storedInput the user input stored for the single field on the slide
+ */
 function updateSingleFields(slideArr, storedInput) {
 	var title = slideArr[0];
 	var field = slideArr[1];
 	var description = slideArr[2];
 	var fieldName = field[0];
+	var fieldData = field[1];
 	var fieldPH = field[2];
+
+	// TODO handle displaying different input types here
+
+	/* TODO test with other browsers. Does every browser support input type changes?
+	if (fieldData.toLowerCase() === "str") {
+		document.getElementById("fieldInputSingle").type = "text";
+	}
+	else if (fieldData.toLowerCase() === "num") {
+		document.getElementById("fieldInputSingle").type = "number";
+	}
+	else if (fieldData.toLowerCase() === "bool") {
+		document.getElementById("fieldInputSingle").type = "checkbox";
+	}
+	*/
+
 	document.getElementById('slideName').textContent = title;
 	document.getElementById('fieldNameSingle').textContent = fieldName;
 	document.getElementById("fieldInputSingle").placeholder = fieldPH;
@@ -234,21 +410,42 @@ function updateSingleFields(slideArr, storedInput) {
 	$('#fieldInputSingle').removeClass("error");
 }
 
-// used to populate text for multi field slides
+/**
+ *	Takes the slideArray and inputArray parameters and updates the slide
+ *	to display the appropriate data
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param inputArr the user input stored for the multiple fields on the slide
+ */
 function updateMultiFields(slideArr, inputArr) {
 	var title = slideArr[0];
 	var description = slideArr[slideArr.length - 1];
 	document.getElementById('slideName').textContent = title;
 	document.getElementById('fieldDescriptionMulti').textContent = description;
-	// can't handle more than 6 inputs on one multi field slide
-	// plus 2 for the title and description
+	// can't handle more than 6 inputs on one multi field slide, plus 2 for the title and description
 	if (slideArr.length > 8) {
 		// TODO more rigorous error checking here
 		console.log("Critical json format error. More than 6 fields on slide!")
 	}
 	for (var i = 1; i < slideArr.length - 1; i++) {
 		var fieldName = slideArr[i][0];
+		var fieldData = slideArr[i][1];
 		var fieldPH = slideArr[i][2];
+
+		// TODO handle displaying different input types here
+
+		/* TODO test with other browsers. Does every browser support input type changes?
+		if (fieldData.toLowerCase() === "str") {
+			document.getElementById("fieldInput" + i).type = "text";
+		}
+		else if (fieldData.toLowerCase() === "num") {
+			document.getElementById("fieldInput" + i).type = "number";
+		}
+		else if (fieldData.toLowerCase() === "bool") {
+			document.getElementById("fieldInput" + i).type = "checkbox";
+		}
+		*/
+
 		document.getElementById("fieldInput" + i).value = inputArr[i - 1];
 		document.getElementById("fieldInput" + i).placeholder = fieldPH;
 		document.getElementById("fieldName" + i).textContent = fieldName;
@@ -256,7 +453,12 @@ function updateMultiFields(slideArr, inputArr) {
 	}
 }
 
-// handles storing user input values
+/**
+ *	Stores the user input in the inputArray. Takes the data from the input
+ *	fields in the html.
+ *
+ *	@param inputArr the user input stored for the slide
+ */
 function updateInput(inputArr) {
 	if (inputArr.length > 1) {
 		if (inputArr.length > 6) {
@@ -274,7 +476,11 @@ function updateInput(inputArr) {
 	}
 }
 
-// verify user gave correct input before advancing slides and storing data
+/**
+ *	Verifies the user inputted a valid type in each field on the slide
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ */
 function verifyInput(slideArr) {
 	// loop through the slide fields
 	if (slideArr.length > 3) {
@@ -296,7 +502,14 @@ function verifyInput(slideArr) {
 	}
 }
 
-// verify user gave correct input before advancing from a single field slide
+/**
+ *	Verifies the user input matches the field's expected inputType. Empty strings
+ *	are always considered valid inputs to allow for the user to skip through the
+ *	the slideshow and input values out of order.
+ *
+ *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
+ *	@param input the actual user inputted value in the field
+ */
 function verifySingleInput(inputType, input) {
 	if (inputType.toLowerCase() === "str") {
 		return typeof input.value === typeof "" || input.value === "";
@@ -316,7 +529,7 @@ function verifySingleInput(inputType, input) {
 	}
 }
 
-// disables the left arrow button
+// visually 'disables' the left arrow button
 function disablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.3;
 	document.getElementById("prevBtnMulti").style.opacity = 0.3;
@@ -324,7 +537,7 @@ function disablePrevBtn() {
 	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
-// enables the left arrow button
+// visually 'enables' the left arrow button
 function enablePrevBtn() {
 	document.getElementById("prevBtnSingle").style.opacity = 0.8;
 	document.getElementById("prevBtnMulti").style.opacity = 0.8;
@@ -332,7 +545,11 @@ function enablePrevBtn() {
 	document.getElementById("nextBtnMulti").style.opacity = 0.8;
 }
 
-// handles displaying error messages in certain fields
+/**
+ *	Displays error messages in all fields with malformed inputs on a single slide
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ */
 function inputError(slideArr) {
 	// loop through the slide fields
 	if (slideArr.length > 3) {
@@ -354,9 +571,11 @@ function inputError(slideArr) {
 }
 
 /**
+ *	Displays an error message in the input parameter. The message displayed
+ *	is specific to the expected inputType.
  *
- * Handles displaying a specific error message, depending upon inputType, in
- * the correct field, specified by the input parameter.
+ *	@param inputType the expected data type to be inputted in the field, taken from the JSON file
+ *	@param input the actual input html object to display the error in
  */
 function errorSingleInput(inputType, input) {
 	//var alertPrompt = document.getElementById("alertPrompt");
@@ -386,7 +605,16 @@ function errorSingleInput(inputType, input) {
 	}
 }
 
-// ensure all stored input values are valid
+/**
+ *	After the last slide, before displaying the stored inputs, confirm the stored user
+ *	input values are not empty and conform to the expected data types.
+ *
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ *	@param inputArr an array containing all of the user input stored in the slideshow
+ * 	@return -1 if all of the stored input values are confirmed and valid
+ *	@return an array of the form [i, [j, k, l]] if there is an error with the
+ *	user input on slide i in fields j, k, and l.
+ */
 function executeFinish(slideArr, inputArr) {
 	for (var i = 0; i < slideArr.length; i++) {
 		var slide = slideArr[i];
@@ -406,7 +634,13 @@ function executeFinish(slideArr, inputArr) {
 	return -1;
 }
 
-// returns whether the stored input value is of the correct valType
+/**
+ *	Confirms the storedVal user input matches the field's expected valType.
+ *	Empty strings are not allowed.
+ *
+ *	@param storedVal the stored user input
+ *	@param valType the expected data type to be inputted in the field, taken from the JSON file
+ */
 function confirmSingleInput(storedVal, valType) {
 	if (valType.toLowerCase() === "str") {
 		return typeof storedVal === typeof "" && storedVal !== "";
@@ -425,7 +659,14 @@ function confirmSingleInput(storedVal, valType) {
 	}
 }
 
-// displays errors for all fields that didn't pass input type confirmation
+/**
+ *	Displays input errors on all fields with errors on the slide defined by
+ *	the slideArr parameter .
+ *
+ *	@param slideArr an array containing the data for a single slide in the slideshow
+ *	@param errorFields an array containing the numbers of all fields containing errors
+ *	on a single slide in the slideshow
+ */
 function confirmInputError(slideArr, errorFields) {
 	if (slideArr.length > 3) {
 		for (var i = 0; i < errorFields.length; i++) {
@@ -446,7 +687,13 @@ function confirmInputError(slideArr, errorFields) {
 	}
 }
 
-// populates the finish box with stored user inputs
+/**
+ *	Populates a final, confirmation view that displays the fields and the user
+ *	inputs from the slideshow
+ *
+ *	@param inputArr an arry containing all of the stored user inputs for the slides in the slideshow
+ *	@param slideArr an array containing all of the data for the slides in the slideshow
+ */
 function populateFinish(inputArr, slideArr) {
 	var newHtml = ""
 	for (var i = 0; i < slideArr.length; i++) {
@@ -464,6 +711,13 @@ function populateFinish(inputArr, slideArr) {
 
 
 window.onload=function() {
+
+	$("#infoPanel").hide();
+	$('#createPanel').hide();
+	$('#finishBox').hide();
+	currentSlideNum = 0;
+	populateArrays();
+
 	//connect to web3 and load contracts
 	if(typeof web3 !== 'undefined') {
 		web3Provider = web3.currentProvider;
@@ -545,7 +799,7 @@ window.onload=function() {
 
 	});
 
-	//handle adding device
+	//handle creating a registry
 	var addButton = document.querySelector('#addRegBtn');
 
 	addButton.addEventListener('click', function(event) {
@@ -560,171 +814,9 @@ window.onload=function() {
 		// initialize creation panel
 		updateSlide(slideArray[0], inputArray[0]);
 		disablePrevBtn();
+		console.log("error timing of course");
 		document.getElementById('dot0').style.opacity = 1.0;
 	});
-
-	//handle creating a new registry
-	currentSlideNum = 0;
-	slideArray = populateSlides();
-	inputArray = populateInputs(slideArray);
-
-	// generate correct number of 'slides'
-	var dotRow = document.querySelector('#dotRow');
-	var newHtml = "";
-	for (var i = 0; i < slideArray.length; i++) {
-		str1 = newHtml;
-		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
-		newHtml = str1.concat(str2);
-	}
-	dotRow.innerHTML = newHtml;
-
-	// setup listeners to handle moving through slides and updating data
-	// setup clickable dots
-	for (var i = 0; i < slideArray.length; i++) {
-		var thisDot = document.getElementById("dot" + i);
-		thisDot.addEventListener('click', function(event) {
-			dotListener(event);
-		});
-		thisDot.addEventListener('keypress', function(event) {
-			var key = event.which || event.keyCode;
-			if (key === 13) {
-				dotListener(event);
-			}
-		});
-	}
-
-	// listener for dot focus
-	function dotListener(event) {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			event.target.style.opacity = 1;
-			if (event.target.id != "dot" + currentSlideNum) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-			}
-			updateInput(inputArray[currentSlideNum]);
-			currentSlideNum = +event.target.id.split("dot")[1];
-			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-			if (currentSlideNum === 0) {
-				disablePrevBtn();
-			}
-			else {
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-	// setup clickable previous buttons
-	var leftArrowSingle = document.getElementById("prevBtnSingle");
-	var leftArrowMulti = document.getElementById("prevBtnMulti");
-	leftArrowSingle.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowMulti.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-	leftArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-
-	// listener for left arrow previous buttons
-	function leftArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum > 0) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum - 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				if (currentSlideNum === 0) {
-					disablePrevBtn();
-				}
-				else {
-					enablePrevBtn();
-				}
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-
-	// setup clickable next buttons
-	var rightArrowSingle = document.getElementById("nextBtnSingle");
-	var rightArrowMulti = document.getElementById("nextBtnMulti");
-	rightArrowSingle.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowMulti.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-	rightArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-
-	// listener for right arrow next buttons
-	function rightArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum === slideArray.length - 1) {
-				updateInput(inputArray[currentSlideNum]);
-				// handle displaying finish box
-				var finishResult = executeFinish(slideArray, inputArray);
-				if (finishResult === -1) {
-					// populate finish screen fields to match input fields
-					populateFinish(inputArray, slideArray);
-					// display finish screen
-					$('#createSlides').hide();
-					$('#finishBox').show();
-					$('#createPanel').show();
-				}
-				else {
-					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-					currentSlideNum = finishResult[0];
-					document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-					updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-					// display errors
-					confirmInputError(slideArray[currentSlideNum], finishResult[1]);
-					if (currentSlideNum === 0) {
-						disablePrevBtn();
-					}
-				}
-			}
-			else if (currentSlideNum < slideArray.length - 1) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum + 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
