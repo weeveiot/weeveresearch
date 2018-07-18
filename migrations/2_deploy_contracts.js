@@ -1,6 +1,6 @@
 var Token = artifacts.require("../contracts/weeveToken.sol");
 var Voting = artifacts.require("../contracts/weeveVoting.sol");
-var Factory = artifacts.require("../contracts/weeveFactory.sol");
+var Factory = artifacts.require("../contracts/weeveNetwork.sol");
 var DLL = artifacts.require("../contracts/libraries/DLL.sol");
 var AttributeStore = artifacts.require("../contracts/libraries/AttributeStore.sol");
 

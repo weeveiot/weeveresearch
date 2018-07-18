@@ -490,9 +490,8 @@ window.onload=function() {
 	setTimeout(function() {
 		getRegistries();
 		displayRegistries();
-	}, 200);
+	}, 1000);
 
-	// immediately load registries into array
 
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
@@ -802,7 +801,7 @@ window.onload=function() {
 			var contract_call_data = contract_factory.createRegistry.getData(regName, regStakeReg, regStakeArb, regStakeVal, regCode);
 
 			console.log("estimating gas");
-			web3.eth.estimateGas({data: contract_call_data, to: factory_address}, function(errEstimate, estimatedGas) {
+			web3.eth.estimateGas({data: contract_call_data, to: factory_address, from: web3.eth.accounts[0]}, function(errEstimate, estimatedGas) {
 				console.log("beginning estimate gas callback");
 				if(!errEstimate) {
 					console.log("getting transaction count");
@@ -818,18 +817,20 @@ window.onload=function() {
 							});
 						}
 					});
+				} else {
+					console.log("errEstimate");
 				}
 			});
-		}, 60000);
+		}, 50000);
 
 		// reset input array and currentField counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-		for (var i = 0; i < inputArray.length; i++) {
+/*		for (var i = 0; i < inputArray.length; i++) {
 			for (var j = 0; j < inputArray[i].length; j++) {
 				inputArray[i][j] = "";
 			}
 		}
-		currentSlideNum = 0;
+		currentSlideNum = 0;*/
 
 		// TODO update blockchain
 
