@@ -1,8 +1,8 @@
 {
     "slide1": {
-        "title": "Add Registry HHHHHHHHH",
+        "title": "Add Registry",
         "field1": {
-            "name": "Stake Amount PLS",
+            "name": "Stake Amount",
             "data": "num",
             "placeholder": "Enter stake"
         },

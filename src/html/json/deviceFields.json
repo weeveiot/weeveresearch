@@ -2,16 +2,16 @@
     "slide1": {
         "title": "Select Registry",
         "field1": {
-            "name": "",
+            "name": "Registry Name",
             "data": "str",
             "placeholder": "Enter registry name"
         },
         "description": "Select a registry to register the device to"
     },
     "slide2": {
-        "title": "Stake Amount",
+        "title": "Set Stake Amount",
         "field1": {
-            "name": "",
+            "name": "Stake Amount",
             "data": "num",
             "placeholder": "Enter stake"
         },

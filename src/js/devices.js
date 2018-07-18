@@ -173,123 +173,33 @@ function displayDeviceInfo(id) {
  *	Each index refers to a different slide defined in the JSON file, so the above element
  *	contains all of the information to populate 1 slide.
  */
-function populateSlides() {
-	// TODO load in file later, focus on parsing now
-	var data = [
-		{
-		    "slide1": {
-		        "title": "Register Device",
-		        "field1": {
-		            "name": "Select Registry",
-		            "data": "str",
-		            "placeholder": "Enter registry name"
-		        },
-		        "description": "Select a registry to register the device to"
-		    },
-		    "slide2": {
-		        "title": "Register Device",
-		        "field1": {
-		            "name": "Stake Amount",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
-		    },
-		    "slide3": {
-		        "title": "Device Information",
-		        "field1": {
-		            "name": "Device Name",
-		            "data": "str",
-		            "placeholder": "E.g. Device_0d87"
-		        },
-		        "field2": {
-		            "name": "Device ID",
-		            "data": "str",
-		            "placeholder": "E.g. '4aa0c302c6138118'"
-		        },
-		        "field3": {
-		            "name": "Device Product Name",
-		            "data": "str",
-		            "placeholder": "E.g. 'CHARGE_SENS_1_8'"
-		        },
-		        "field4": {
-		            "name": "Device Version",
-		            "data": "str",
-		            "placeholder": "E.g. '1.50.361A'"
-		        },
-		        "field5": {
-		            "name": "Device Serial",
-		            "data": "str",
-		            "placeholder": "E.g. 'LR04M1CA'"
-		        },
-		        "field6": {
-		            "name": "Device Description",
-		            "data": "str",
-		            "placeholder": "E.g. 'Small thermal sensor'"
-		        },
-				"description": "Provide device information useful for identification purposes"
-		    },
-		    "slide4": {
-		        "title": "Device Specifications",
-				"field1": {
-		            "name": "Device Manufacturer",
-		            "data": "str",
-		            "placeholder": "E.g. 'Sensor HW Ltd.'"
-		        },
-		        "field2": {
-		            "name": "Device CPU",
-		            "data": "str",
-		            "placeholder": "E.g. 'ARM Cortex-A53'"
-		        },
-		        "field3": {
-		            "name": "Device has TrustZone",
-		            "data": "bool",
-		            "placeholder": "'true' or 'false'"
-		        },
-		        "field4": {
-		            "name": "Device has WiFi",
-		            "data": "bool",
-		            "placeholder": "'true' or 'false'"
-		        },
-		        "field5": {
-		            "name": "Device Sensors",
-		            "data": "str",
-		            "placeholder": "E.g. 'electricity, current'"
-		        },
-		        "field6": {
-		            "name": "Device Datatype",
-		            "data": "str",
-		            "placeholder": "E.g. 'numeric'"
-		        },
-				"description": "Provide device specifications to ensure it conforms to the selected registry standards"
-		    }
-		}
-	]
-
-	// extra slow parsing puts the JSON data into an array
-	var retArray = [];
-	var slides = data[0];
-	for (var num in slides) {
-		var singleSlide = slides[num];
-		var slideArray = [];
-		for (var field in singleSlide) {
-			// add the title and description as string elements
-			if (field == "title" || field == "description") {
-				slideArray.push(singleSlide[field]);
-			}
-			// add the field to array containing field information
-			else {
-				var fieldArray = [];
-				for (var el in singleSlide[field]) {
-					fieldArray.push(singleSlide[field][el]);
-				}
-				slideArray.push(fieldArray);
-			}
-		}
-		retArray.push(slideArray);
-	}
-	return retArray;
-}
+ function populateArrays() {
+ 	$.getJSON('json/deviceFields.json', {}, function(data) {
+ 		var retArray = [];
+ 		for (var num in data) {
+ 			var singleSlide = data[num];
+ 			var singleSlideArr = [];
+ 			for (var field in singleSlide) {
+ 				if (field == "title" || field == "description") {
+ 					singleSlideArr.push(singleSlide[field]);
+ 				}
+ 				else {
+ 					var fieldArray = [];
+ 					for (var el in singleSlide[field]) {
+ 						fieldArray.push(singleSlide[field][el]);
+ 					}
+ 					singleSlideArr.push(fieldArray);
+ 				}
+ 			}
+ 			retArray.push(singleSlideArr);
+ 		}
+ 		slideArray = retArray;
+ 		populateInputs(slideArray);
+ 		initializeDots();
+ 		initializeArrows();
+ 		return true;
+ 	});
+ }
 
 /**
  *	Takes the data from the deviceFields.json file, which is stored in the
@@ -304,13 +214,191 @@ function populateInputs(slideArr) {
 	var retArray = [];
 	for (var slide in slideArr) {
 		var slideFields = [];
-		// don't add positions for the slide title and description, only fields
 		for (var i = 1; i < slideArr[slide].length - 1; i++) {
 			slideFields.push("");
 		}
 		retArray.push(slideFields);
 	}
-	return retArray;
+	inputArray = retArray;
+}
+
+/**
+ *	Creates dots to navigate through slides in the slideshow and
+ *	adds click listener events.
+ */
+function initializeDots() {
+	// generate correct number of 'slides'
+	var dotRow = document.querySelector('#dotRow');
+	var newHtml = "";
+	for (var i = 0; i < slideArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
+		newHtml = str1.concat(str2);
+	}
+	dotRow.innerHTML = newHtml;
+
+	// setup listeners to handle moving through slides and updating data
+	for (var i = 0; i < slideArray.length; i++) {
+		var thisDot = document.getElementById("dot" + i);
+		thisDot.addEventListener('click', function(event) {
+			dotListener(event);
+		});
+		thisDot.addEventListener('keypress', function(event) {
+			var key = event.which || event.keyCode;
+			if (key === 13) {
+				dotListener(event);
+			}
+		});
+	}
+}
+
+/**
+ *	Function triggered when a 'dot' is clicked. Handle updating slide Information
+ *	to display a new slide and storing user input from previous slide.
+ */
+function dotListener(event) {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		event.target.style.opacity = 1;
+		if (event.target.id != "dot" + currentSlideNum) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+		}
+		updateInput(inputArray[currentSlideNum]);
+		currentSlideNum = +event.target.id.split("dot")[1];
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		if (currentSlideNum === 0) {
+			disablePrevBtn();
+		}
+		else {
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+/**
+ *	Adds click listener events to both the previous, left arrow, and next, right
+ *	arrow, buttons to support navigating through the slideshow
+ */
+function initializeArrows() {
+	// setup clickable previous buttons
+	var leftArrowSingle = document.getElementById("prevBtnSingle");
+	var leftArrowMulti = document.getElementById("prevBtnMulti");
+	leftArrowSingle.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowMulti.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+	leftArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+
+	// setup clickable next buttons
+	var rightArrowSingle = document.getElementById("nextBtnSingle");
+	var rightArrowMulti = document.getElementById("nextBtnMulti");
+	rightArrowSingle.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowMulti.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+	rightArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+}
+
+/**
+ *	Function triggered when the previous button is clicked. Handles
+ *	moving back through the slideshow by updating slide display and storing
+ *	any user input.
+ */
+function leftArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum > 0) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum - 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			if (currentSlideNum === 0) {
+				disablePrevBtn();
+			}
+			else {
+				enablePrevBtn();
+			}
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+/**
+ *	Function triggered when the next button is clicked. Handles
+ *	moving forward through the slideshow by updating slide display and storing
+ *	any user input.
+ */
+function rightArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum === slideArray.length - 1) {
+			updateInput(inputArray[currentSlideNum]);
+			// handle displaying finish box
+			var finishResult = executeFinish(slideArray, inputArray);
+			if (finishResult === -1) {
+				// populate finish screen fields to match input fields
+				populateFinish(inputArray, slideArray);
+				// display finish screen
+				$('#createSlides').hide();
+				$('#finishBox').show();
+				$('#createPanel').show();
+			}
+			else {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				currentSlideNum = finishResult[0];
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				// display errors
+				confirmInputError(slideArray[currentSlideNum], finishResult[1]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+			}
+		}
+		else if (currentSlideNum < slideArray.length - 1) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum + 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
 }
 
 /**
@@ -681,6 +769,9 @@ window.onload=function() {
 	$('#createPanel').hide();
 	$('#finishBox').hide();
 
+	currentSlideNum = 0;
+	populateArrays();
+
 	// connect to web3
 	if (typeof web3 !== 'undefined') {
 		web3Provider = web3.currentProvider;
@@ -819,171 +910,6 @@ window.onload=function() {
 		disablePrevBtn();
 		document.getElementById('dot0').style.opacity = 1.0;
 	});
-
-	//handle creating a new registry
-	currentSlideNum = 0;
-	slideArray = populateSlides();
-	inputArray = populateInputs(slideArray);
-
-	// generate correct number of 'slides'
-	var dotRow = document.querySelector('#dotRow');
-	var newHtml = "";
-	for (var i = 0; i < slideArray.length; i++) {
-		str1 = newHtml;
-		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
-		newHtml = str1.concat(str2);
-	}
-	dotRow.innerHTML = newHtml;
-
-	// setup listeners to handle moving through slides and updating data
-	// setup clickable dots
-	for (var i = 0; i < slideArray.length; i++) {
-		var thisDot = document.getElementById("dot" + i);
-		thisDot.addEventListener('click', function(event) {
-			dotListener(event);
-		});
-		thisDot.addEventListener('keypress', function(event) {
-			var key = event.which || event.keyCode;
-			if (key === 13) {
-				dotListener(event);
-			}
-		});
-	}
-
-	// listener for dot focus
-	function dotListener(event) {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			event.target.style.opacity = 1;
-			if (event.target.id != "dot" + currentSlideNum) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-			}
-			updateInput(inputArray[currentSlideNum]);
-			currentSlideNum = +event.target.id.split("dot")[1];
-			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-			if (currentSlideNum === 0) {
-				disablePrevBtn();
-			}
-			else {
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-	// setup clickable previous buttons
-	var leftArrowSingle = document.getElementById("prevBtnSingle");
-	var leftArrowMulti = document.getElementById("prevBtnMulti");
-	leftArrowSingle.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowMulti.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-	leftArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-
-	// listener for left arrow previous buttons
-	function leftArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum > 0) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum - 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				if (currentSlideNum === 0) {
-					disablePrevBtn();
-				}
-				else {
-					enablePrevBtn();
-				}
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-
-	// setup clickable next buttons
-	var rightArrowSingle = document.getElementById("nextBtnSingle");
-	var rightArrowMulti = document.getElementById("nextBtnMulti");
-	rightArrowSingle.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowMulti.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-	rightArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-
-	// listener for right arrow next buttons
-	function rightArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum === slideArray.length - 1) {
-				updateInput(inputArray[currentSlideNum]);
-				// handle displaying finish box
-				var finishResult = executeFinish(slideArray, inputArray);
-				console.log("finish result:");
-				console.log(finishResult);
-				if (finishResult === -1) {
-					// populate finish screen fields to match input fields
-					populateFinish(inputArray, slideArray);
-					// display finish screen
-					$('#createSlides').hide();
-					$('#finishBox').show();
-					$('#createPanel').show();
-				}
-				else {
-					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-					currentSlideNum = finishResult[0];
-					document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-					updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-					// display errors
-					confirmInputError(slideArray[currentSlideNum], finishResult[1]);
-					if (currentSlideNum === 0) {
-						disablePrevBtn();
-					}
-				}
-			}
-			else if (currentSlideNum < slideArray.length - 1) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum + 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');

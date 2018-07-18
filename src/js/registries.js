@@ -90,103 +90,32 @@ function displayRegistryInfo(id) {
 }
 
 // extracts necessary inputs from json file
-function populateSlides() {
-	var data = [
-		{
-		    "slide1": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake Amount",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-		        "description": "Some WEEV must be given as collateral to discourage malicious behavior"
-		    },
-		    "slide2": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Registry Name",
-		            "data": "str",
-		            "placeholder": "Enter name"
-		        },
-		        "description": "Provide a name to identify and describe the Registry"
-		    },
-		    "slide3": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Registration",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV device owners must stake as collateral when registering a device. This helps ensure the data can be trusted"
-		    },
-            "slide4": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Validator",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV validator's must stake as collateral. Validator's check that devices conform to registry standards"
-		    },
-            "slide5": {
-		        "title": "Add Registry",
-		        "field1": {
-		            "name": "Stake per Arbiter",
-		            "data": "num",
-		            "placeholder": "Enter stake"
-		        },
-				"description": "Set the amount in WEEV arbiter's must stake as collateral. Arbiters serve the purpose of dispute resolution on specific transaction types"
-		    }
-		}
-	];
-
-	/* TODO read in from actual json files
+function populateArrays() {
 	$.getJSON('json/registryFields.json', {}, function(data) {
-		console.log(data);
-		console.log(tdata);
 		var retArray = [];
 		for (var num in data) {
 			var singleSlide = data[num];
+			var singleSlideArr = [];
 			for (var field in singleSlide) {
 				if (field == "title" || field == "description") {
-					slideArray.push(singleSlide[field]);
+					singleSlideArr.push(singleSlide[field]);
 				}
 				else {
 					var fieldArray = [];
 					for (var el in singleSlide[field]) {
 						fieldArray.push(singleSlide[field][el]);
 					}
-					slideArray.push(fieldArray);
+					singleSlideArr.push(fieldArray);
 				}
 			}
-			retArray.push(slideArray);
+			retArray.push(singleSlideArr);
 		}
-		console.log(retArray);
-		return retArray;
-	});*/
-
-	// extra slow parsing
-	var retArray = [];
-	var slides = data[0];
-	for (var num in slides) {
-		var singleSlide = slides[num];
-		var slideArray = [];
-		for (var field in singleSlide) {
-			if (field == "title" || field == "description") {
-				slideArray.push(singleSlide[field]);
-			}
-			else {
-				var fieldArray = [];
-				for (var el in singleSlide[field]) {
-					fieldArray.push(singleSlide[field][el]);
-				}
-				slideArray.push(fieldArray);
-			}
-		}
-		retArray.push(slideArray);
-	}
-	return retArray;
+		slideArray = retArray;
+		populateInputs(slideArray);
+		initializeDots();
+		initializeArrows();
+		return true;
+	});
 }
 
 // creates and returns an array initialized with empty strings for each field
@@ -199,7 +128,168 @@ function populateInputs(slideArr) {
 		}
 		retArray.push(slideFields);
 	}
-	return retArray;
+	inputArray = retArray;
+}
+
+function initializeDots() {
+	// generate correct number of 'slides'
+	var dotRow = document.querySelector('#dotRow');
+	var newHtml = "";
+	for (var i = 0; i < slideArray.length; i++) {
+		str1 = newHtml;
+		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
+		newHtml = str1.concat(str2);
+	}
+	dotRow.innerHTML = newHtml;
+
+	// setup listeners to handle moving through slides and updating data
+	// setup clickable dots
+	for (var i = 0; i < slideArray.length; i++) {
+		var thisDot = document.getElementById("dot" + i);
+		thisDot.addEventListener('click', function(event) {
+			dotListener(event);
+		});
+		thisDot.addEventListener('keypress', function(event) {
+			var key = event.which || event.keyCode;
+			if (key === 13) {
+				dotListener(event);
+			}
+		});
+	}
+}
+
+// listener for dot focus
+function dotListener(event) {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		event.target.style.opacity = 1;
+		if (event.target.id != "dot" + currentSlideNum) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+		}
+		updateInput(inputArray[currentSlideNum]);
+		currentSlideNum = +event.target.id.split("dot")[1];
+		updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+		if (currentSlideNum === 0) {
+			disablePrevBtn();
+		}
+		else {
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+function initializeArrows() {
+	// setup clickable previous buttons
+	var leftArrowSingle = document.getElementById("prevBtnSingle");
+	var leftArrowMulti = document.getElementById("prevBtnMulti");
+	leftArrowSingle.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowMulti.addEventListener('click', function(event) {
+		leftArrowListener();
+	});
+	leftArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+	leftArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			leftArrowListener();
+		}
+	});
+
+	// setup clickable next buttons
+	var rightArrowSingle = document.getElementById("nextBtnSingle");
+	var rightArrowMulti = document.getElementById("nextBtnMulti");
+	rightArrowSingle.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowMulti.addEventListener('click', function(event) {
+		rightArrowListener();
+	});
+	rightArrowSingle.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+	rightArrowMulti.addEventListener('keypress', function(e) {
+		var key = e.which || e.keyCode;
+		if (key === 13) {
+			rightArrowListener();
+		}
+	});
+}
+
+// listener for left arrow previous buttons
+function leftArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum > 0) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum - 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			if (currentSlideNum === 0) {
+				disablePrevBtn();
+			}
+			else {
+				enablePrevBtn();
+			}
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
+}
+
+// listener for right arrow next buttons
+function rightArrowListener() {
+	if (verifyInput(slideArray[currentSlideNum])) {
+		if (currentSlideNum === slideArray.length - 1) {
+			updateInput(inputArray[currentSlideNum]);
+			// handle displaying finish box
+			var finishResult = executeFinish(slideArray, inputArray);
+			if (finishResult === -1) {
+				// populate finish screen fields to match input fields
+				populateFinish(inputArray, slideArray);
+				// display finish screen
+				$('#createSlides').hide();
+				$('#finishBox').show();
+				$('#createPanel').show();
+			}
+			else {
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				currentSlideNum = finishResult[0];
+				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+				// display errors
+				confirmInputError(slideArray[currentSlideNum], finishResult[1]);
+				if (currentSlideNum === 0) {
+					disablePrevBtn();
+				}
+			}
+		}
+		else if (currentSlideNum < slideArray.length - 1) {
+			document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+			updateInput(inputArray[currentSlideNum]);
+			currentSlideNum = currentSlideNum + 1;
+			document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
+			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
+			enablePrevBtn();
+		}
+	}
+	else {
+		// handle displaying error
+		inputError(slideArray[currentSlideNum]);
+	}
 }
 
 // updates the slide information
@@ -464,6 +554,13 @@ function populateFinish(inputArr, slideArr) {
 
 
 window.onload=function() {
+
+	$("#infoPanel").hide();
+	$('#createPanel').hide();
+	$('#finishBox').hide();
+	currentSlideNum = 0;
+	populateArrays();
+
 	//connect to web3 and load contracts
 	if(typeof web3 !== 'undefined') {
 		web3Provider = web3.currentProvider;
@@ -491,12 +588,6 @@ window.onload=function() {
 		getRegistries();
 		displayRegistries();
 	}, 200);
-
-	// immediately load registries into array
-
-	$("#infoPanel").hide();
-	$('#createPanel').hide();
-	$('#finishBox').hide();
 
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
@@ -546,7 +637,7 @@ window.onload=function() {
 
 	});
 
-	//handle adding device
+	//handle creating a registry
 	var addButton = document.querySelector('#addRegBtn');
 
 	addButton.addEventListener('click', function(event) {
@@ -561,171 +652,9 @@ window.onload=function() {
 		// initialize creation panel
 		updateSlide(slideArray[0], inputArray[0]);
 		disablePrevBtn();
+		console.log("error timing of course");
 		document.getElementById('dot0').style.opacity = 1.0;
 	});
-
-	//handle creating a new registry
-	currentSlideNum = 0;
-	slideArray = populateSlides();
-	inputArray = populateInputs(slideArray);
-
-	// generate correct number of 'slides'
-	var dotRow = document.querySelector('#dotRow');
-	var newHtml = "";
-	for (var i = 0; i < slideArray.length; i++) {
-		str1 = newHtml;
-		str2 = "<a><span class='purpleDot' id='dot" + i + "' role='button' tabindex='0'></span></a>";
-		newHtml = str1.concat(str2);
-	}
-	dotRow.innerHTML = newHtml;
-
-	// setup listeners to handle moving through slides and updating data
-	// setup clickable dots
-	for (var i = 0; i < slideArray.length; i++) {
-		var thisDot = document.getElementById("dot" + i);
-		thisDot.addEventListener('click', function(event) {
-			dotListener(event);
-		});
-		thisDot.addEventListener('keypress', function(event) {
-			var key = event.which || event.keyCode;
-			if (key === 13) {
-				dotListener(event);
-			}
-		});
-	}
-
-	// listener for dot focus
-	function dotListener(event) {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			event.target.style.opacity = 1;
-			if (event.target.id != "dot" + currentSlideNum) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-			}
-			updateInput(inputArray[currentSlideNum]);
-			currentSlideNum = +event.target.id.split("dot")[1];
-			updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-			if (currentSlideNum === 0) {
-				disablePrevBtn();
-			}
-			else {
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-	// setup clickable previous buttons
-	var leftArrowSingle = document.getElementById("prevBtnSingle");
-	var leftArrowMulti = document.getElementById("prevBtnMulti");
-	leftArrowSingle.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowMulti.addEventListener('click', function(event) {
-		leftArrowListener();
-	});
-	leftArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-	leftArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			leftArrowListener();
-		}
-	});
-
-	// listener for left arrow previous buttons
-	function leftArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum > 0) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum - 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				if (currentSlideNum === 0) {
-					disablePrevBtn();
-				}
-				else {
-					enablePrevBtn();
-				}
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
-
-
-	// setup clickable next buttons
-	var rightArrowSingle = document.getElementById("nextBtnSingle");
-	var rightArrowMulti = document.getElementById("nextBtnMulti");
-	rightArrowSingle.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowMulti.addEventListener('click', function(event) {
-		rightArrowListener();
-	});
-	rightArrowSingle.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-	rightArrowMulti.addEventListener('keypress', function(e) {
-		var key = e.which || e.keyCode;
-		if (key === 13) {
-			rightArrowListener();
-		}
-	});
-
-	// listener for right arrow next buttons
-	function rightArrowListener() {
-		if (verifyInput(slideArray[currentSlideNum])) {
-			if (currentSlideNum === slideArray.length - 1) {
-				updateInput(inputArray[currentSlideNum]);
-				// handle displaying finish box
-				var finishResult = executeFinish(slideArray, inputArray);
-				if (finishResult === -1) {
-					// populate finish screen fields to match input fields
-					populateFinish(inputArray, slideArray);
-					// display finish screen
-					$('#createSlides').hide();
-					$('#finishBox').show();
-					$('#createPanel').show();
-				}
-				else {
-					document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-					currentSlideNum = finishResult[0];
-					document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-					updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-					// display errors
-					confirmInputError(slideArray[currentSlideNum], finishResult[1]);
-					if (currentSlideNum === 0) {
-						disablePrevBtn();
-					}
-				}
-			}
-			else if (currentSlideNum < slideArray.length - 1) {
-				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-				updateInput(inputArray[currentSlideNum]);
-				currentSlideNum = currentSlideNum + 1;
-				document.getElementById('dot' + currentSlideNum).style.opacity = 1.0;
-				updateSlide(slideArray[currentSlideNum], inputArray[currentSlideNum]);
-				enablePrevBtn();
-			}
-		}
-		else {
-			// handle displaying error
-			inputError(slideArray[currentSlideNum]);
-		}
-	}
 
 	//handle canceling during adding device
 	var cancelAddButton = document.querySelector('#cancelAddBtn');
