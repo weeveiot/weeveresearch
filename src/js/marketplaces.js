@@ -723,6 +723,8 @@ window.onload=function() {
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
     $('#finishBox').hide();
+	$('#loadingScreen').hide();
+	
 	currentSlideNum = 0;
 	populateArrays();
 
@@ -872,7 +874,5 @@ window.onload=function() {
 
 		// TODO update blockchain
 	});
-
-	$('#loadingScreen').hide();
 
 }
