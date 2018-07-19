@@ -5,7 +5,7 @@
 /*********************************************************************/
 
 // arrays to hold test data
-var regArray = [];		//name, stake, stakePerReg, stakePerVal, stakePerArb
+var regArray = [];		// id, name, ownerAddress, registryAddress, stake amount
 
 // web3 and contract data
 var web3Provider;
@@ -13,6 +13,7 @@ var contract_factory;
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 var contract_token;
 var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
+var userAddress = "0x0";
 
 var slideArray = [];
 var inputArray = [];
@@ -30,44 +31,45 @@ var allReg = [];
 /**
  *	Accesses contract factory to determine the registries to display
  */
+function getUserRegistries(counter) {
+	userAddress = web3.eth.accounts[0];
+	if (userAddress != "0x0") {
+		getRegistry(counter, function(res, err) {
+			if (!err && res[5] === true) {
 
-//FIXME: this does not work, length of allRegistries is for some reason
-//always 0. Once this code properly loads info into the regArray above,
-//the other display methods should work as they are.
-function getRegistries() {
+				// extract registry data and push to array
+				var id = res[0];
+				var name = res[1];
+				var ownerAddress = res[2];
+				var regAddress = res[3];
+				var stakedTokens = res[4];
 
-	console.log("filling registry array");		//FIXME:debug
+				if (userAddress === ownerAddress) {
+					regArray.push([id, name, ownerAddress, regAddress, stakedTokens]);
+				}
 
-	var name;
-	var stake;
-	var stakePerReg;
-	var stakePerVal;
-	var stakePerArb;
-
-	var ownerAddress;
-
-	console.log("length of registry array: " + contract_factory.allRegistries.length);
-
-	allReg = contract_factory.allRegistries;
-
-	console.log("length of array holding allRegs: " + allReg.length);
-
-		//FIXME
-		contract_factory.allRegistries(0, function(errCall, result) {
-			ownerAddress = result[2];
-			name = result[1];
-			stake = result[4];
+				let newCounter = counter + 1;
+				getUserRegistries(newCounter);
+			}
+			else {
+				displayRegistries();
+			}
 		});
+	}
+	else {
+		setTimeout(function(){getUserRegistries(0);}, 100);
+	}
+}
 
-		if(ownerAddress == web3.eth.accounts[0]) {
-			//fill array
-			regArray[i] = [name, stake];
-			console.log(regArray[i][0] + " " + regArray[i][1]);		//FIXME:debug
-		} else if (ownerAddress != '0x0') {
-
-		}
-
-	console.log("finished filling array");
+function getRegistry(position, callback) {
+	contract_factory.allRegistries(position, function(errCall, result) {
+            if(!errCall) {
+                callback(result, null);
+            }
+            else {
+                callback(null, true);
+            }
+    });
 }
 
 /**
@@ -87,7 +89,7 @@ function displayRegistries() {
 		var str2;
 		for (var i = 0; i < regArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][0] + "</span><span class='rightFloat'>" + regArray[i][1] + " WEEV</span></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][1] + "</span><span class='rightFloat'>" + regArray[i][4] + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
@@ -96,7 +98,8 @@ function displayRegistries() {
 		panel.innerHTML = newHtml;
 
 	} else {
-
+		console.log("no registries to display");
+		// TODO display a prompt here saying 'You own no registries'
 	}
 }
 
@@ -774,7 +777,7 @@ window.onload=function() {
 
 	//wait a little before displaying data to ensure DOM objects loaded
 	setTimeout(function() {
-		getRegistries();
+		getUserRegistries(0);
 		displayRegistries();
 	}, 1000);
 
@@ -872,7 +875,7 @@ window.onload=function() {
 		$("#titlePanel").show();
 		$('#registryPanel').show().addClass('right').removeClass('left');;
 		$('#createPanel').hide();
-		// reset input array and currentField counter
+		// reset input array and currentSlide counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 		for (var i = 0; i < inputArray.length; i++) {
 			for (var j = 0; j < inputArray[i].length; j++) {
@@ -942,19 +945,17 @@ window.onload=function() {
 					console.log("errEstimate");
 				}
 			});
+			getUserRegistries(0);
 		}, 50000);
 
-		// reset input array and currentField counter
+		// reset input array and currentSlide counter
 		document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
-/*		for (var i = 0; i < inputArray.length; i++) {
+		for (var i = 0; i < inputArray.length; i++) {
 			for (var j = 0; j < inputArray[i].length; j++) {
 				inputArray[i][j] = "";
 			}
 		}
-		currentSlideNum = 0;*/
-
-		// TODO update blockchain
-
+		currentSlideNum = 0;
 
 	});
 
