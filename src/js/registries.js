@@ -30,6 +30,10 @@ var allReg = [];
 /**
  *	Accesses contract factory to determine the registries to display
  */
+
+//FIXME: this does not work, length of allRegistries is for some reason
+//always 0. Once this code properly loads info into the regArray above,
+//the other display methods should work as they are.
 function getRegistries() {
 
 	console.log("filling registry array");		//FIXME:debug
@@ -42,8 +46,6 @@ function getRegistries() {
 
 	var ownerAddress;
 
-	//TODO: update so actually pulls data from contract
-	//will probably need to take users address as an argument
 	console.log("length of registry array: " + contract_factory.allRegistries.length);
 
 	allReg = contract_factory.allRegistries;
