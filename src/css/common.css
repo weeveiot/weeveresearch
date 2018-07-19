@@ -45,7 +45,7 @@ Styling classes for text floating and screen splitting
         height: 80%;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
      /* start of phone styles */
      body {
          height: 100%;
@@ -60,23 +60,22 @@ Styling classes for text floating and screen splitting
 .left {
     left: 0px;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     /* Turn the left panel into the 'top' panel */
     .left {
-        height: 55%;
+        height: 50%;
         left: 0px;
         top: 0px;
         bottom: 50%;
         background-color: #FFFFFF;
         margin-bottom: 5px;
-        padding-top: 95px;
+        padding-top: 65px;
     }
     /* Turn the right panel into the 'bottom' panel */
     .right {
         height: 50%;
-        top: 50%;
-        bottom: 0%;
-        margin-bottom: 60px;
+        bottom: 0px;
+        margin-bottom: 70px;
         z-index: 0;
     }
 }
@@ -108,7 +107,7 @@ Styling classes for text floating and screen splitting
 .pageTitle {
     padding-left: 20px;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .pageTitle {
         font-size: 32px;
         padding-left: 0px;
@@ -139,7 +138,7 @@ Common back button styling
         margin-bottom: 5px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .backBtn {
         width: 95%;
     }
@@ -167,7 +166,7 @@ Common cancel button styling
         float: right;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .cancelBtn {
         font-size: 12px;
         text-align: center;
@@ -199,7 +198,7 @@ Common add/remove button styling (e.g. add/remove registry/marketplace/device)
         margin-bottom: 5px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .addBtn {
         width: 95%;
     }
@@ -255,7 +254,7 @@ and some value (such as stake in weeve) on the right side
         font-size: 16px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .grayNameBtn {
         width: 95%;
     }
@@ -274,7 +273,7 @@ label contains a purple border. Header contains title and, usually, a button
         margin-bottom: 60px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .infoHeader {
         margin-bottom: 0px;
         margin-top: 5px;
@@ -320,7 +319,7 @@ label contains a purple border. Header contains title and, usually, a button
         justify-content: space-between;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .infoLabel {
         width: 95%;
     }
@@ -338,7 +337,7 @@ A box used to hold information needed to create/add an Object
     width: 60%;
     height: 70%;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 800px) {
     .createBox {
         width: 90%;
         opacity: 0.9;
@@ -355,7 +354,7 @@ A box used to hold information needed to create/add an Object
         font-size: 28px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .createHeader h1 {
         font-size: 18px;
     }
@@ -372,7 +371,7 @@ A box used to hold information needed to create/add an Object
         width: 150px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 610px) {
     .inputSingle {
         width: 115px;
         font-size: 12px;
@@ -387,14 +386,19 @@ A box used to hold information needed to create/add an Object
     text-align: center;
     margin-bottom: 15px;
 }
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1200px) {
     .inputMulti {
         margin-bottom: 5px;
-        max-width: 150px;
+        max-width: 175px;
         max-height: 25px;
     }
     .inputMulti::placeholder {
         font-size: 12px;
+    }
+}
+@media only screen and (max-width: 1100px) {
+    .inputMulti {
+        max-width: 150px;
     }
 }
 @media only screen and (max-width: 900px) {
@@ -406,29 +410,26 @@ A box used to hold information needed to create/add an Object
         font-size: 10px;
     }
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 500px) {
     .inputMulti {
-        max-width: 100px;
+        max-width: 125px;
         font-size: 10px;
     }
     .inputMulti::placeholder {
         font-size: 8px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 440px) {
     .inputMulti {
         width: 100px !important;
     }
     .inputMulti::placeholder {
-        font-size: 10px;
+        font-size: 9px;
     }
 }
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 350px) {
     .inputMulti {
-        width: 85px !important;
-    }
-    .inputMulti::placeholder {
-        font-size: 9px;
+        width: 90px !important;
     }
 }
 .fieldBoxSingle {
@@ -537,15 +538,33 @@ pages
     margin-left: 0px;
     text-align: center;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
      /* start of phone styles */
      .firstHex, .secondHex, .thirdHex {
-         max-width: 125px;
+         max-width: 130px;
      }
      .secondHex, .thirdHex {
          margin-top: 0%;
      }
  }
+ @media only screen and (max-width: 700px) and (max-height: 690px) {
+      /* start of phone styles */
+      .firstHex, .secondHex, .thirdHex {
+          max-width: 115px;
+      }
+  }
+ @media only screen and (max-width: 700px) and (max-height: 650px) {
+      /* start of phone styles */
+      .firstHex, .secondHex, .thirdHex {
+          max-width: 105px;
+      }
+  }
+  @media only screen and (max-width: 700px) and (max-height: 600px) {
+       /* start of phone styles */
+       .firstHex, .secondHex, .thirdHex {
+           max-width: 90px;
+       }
+   }
 .hexRow {
     display: flex;
     align-content: center;
@@ -561,7 +580,7 @@ pages
         justify-content: center;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .hexRow {
         display: flex;
         flex-direction: row;
@@ -577,12 +596,24 @@ pages
     text-align: center;
 }
 .hexTxt {
-    padding: 5px;
+    padding: 10px;
     font-size: 16px;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 1100px) {
+    .hexTxt {
+        padding: 30px;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .hexTxt {
+        font-size: 10px;
+        padding: 30px;
+    }
+}
+@media only screen and (max-width: 500px) {
     .hexTxt {
         font-size: 8px;
+        padding: 10px;
     }
 }
 
@@ -732,7 +763,7 @@ Homepage styling for tiles and buttons
         margin-top: 8%;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .tileTitle {
         margin-top: 70px;
         font-size: 32px;
@@ -755,7 +786,7 @@ Homepage styling for tiles and buttons
 .row:after {
     clear: both;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .row {
         position: relative;
         display: flex;
@@ -780,7 +811,7 @@ Homepage styling for tiles and buttons
     padding-right: 15px;
     margin-top: 3%;
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .col {
         margin-bottom: auto;
         display: inline-table;
@@ -815,7 +846,7 @@ Homepage styling for tiles and buttons
         padding-top: 10px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .tile {
         margin-bottom: 10px;
     }
@@ -892,21 +923,53 @@ Basic styling inputs
     height: 95%;
     z-index: 5;
 }
+.inputContainer .split {
+    overflow: hidden;
+}
+@media only screen and (min-height: 700px) {
+    .inputContainer .split {
+        padding-top: 100px;
+    }
+}
+@media only screen and (min-height: 750px) {
+    .inputContainer .split {
+        padding-top: 120px;
+    }
+}
+@media only screen and (min-height: 800px) {
+    .inputContainer .split {
+        padding-top: 130px;
+    }
+}
+@media only screen and (min-height: 900px) {
+    .inputContainer .split {
+        padding-top: 150px;
+    }
+}
+@media only screen and (min-height: 1000px) {
+    .inputContainer .split {
+        padding-top: 190px;
+    }
+}
+@media only screen and (min-height: 1200px) {
+    .inputContainer .split {
+        padding-top: 250px;
+    }
+}
+@media only screen and (min-height: 1350px) {
+    .inputContainer .split {
+        padding-top: 300px;
+    }
+}
 @media only screen and (max-width: 1000px) {
     .inputContainer {
         position: fixed;
         width: 70%;
         height: 100%;
-        top: 45% !important;
     }
     .inputContainer p {
         margin-top: 5px;
         font-size: 12px;
-    }
-}
-@media only screen and (max-width: 900px) {
-    .inputContainer {
-        top: 40% !important;
     }
 }
 @media only screen and (max-width: 800px) {
@@ -914,7 +977,7 @@ Basic styling inputs
         font-size: 10px;
     }
 }
-@media only screen and (max-width: 489px) {
+@media only screen and (max-width: 700px) {
     .inputContainer .split {
         height: 90%;
         width: 50%;
@@ -922,7 +985,7 @@ Basic styling inputs
         z-index: 1;
         top: 0;
         overflow-x: hidden;
-        padding-top: 80px;
+        padding-top: 50px;
         padding-bottom: 55px !important;
         padding-left: 2%;
         background-color: none !important;
@@ -930,7 +993,7 @@ Basic styling inputs
     .inputContainer .left {
         height: 75%;
         left: 0px;
-        top: 125px;
+        top: 25px;
         bottom: 10%;
         background-color: transparent;
         margin-bottom: 5px;
@@ -938,7 +1001,7 @@ Basic styling inputs
     .inputContainer .right {
         height: 75%;
         right: 0px;
-        top: 125px;
+        top: 25px;
         bottom: 10%;
         background-color: transparent;
         margin-bottom: 5px;
