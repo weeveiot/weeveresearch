@@ -4,7 +4,7 @@
 /*
 /*********************************************************************/
 //global variables
-var marketArray = []	//name, stake, commission
+var marketArray = []	// id, name, ownerAddress, marketAddress, stakedTokens, active
 
 // web3 and contract data
 var web3Provider;
@@ -26,39 +26,46 @@ var currentSlideNum = 0;
 /**
  *	Accesses contract factory to determine the marketplaces to display
  */
-function getMarkets() {
+ function getUserMarkets(counter) {
+	userAddress = web3.eth.accounts[0];
+ 	if (userAddress != "0x0") {
+ 		getMarketplace(counter, function(res, err) {
+ 			if (!err) {
+ 				// extract registry data and push to array
+ 				var id = res[0];
+ 				var name = res[1];
+ 				var ownerAddress = res[2];
+ 				var marketAddress = res[3];
+ 				var stakedTokens = res[4];
+ 				var active = res[5];
 
-	console.log("filling market array");		//FIXME:debug
+ 				if (userAddress == ownerAddress && active) {
+ 					marketArray.push([id, name, ownerAddress, marketAddress, stakedTokens, active]);
+ 				}
 
-	var name;
-	var stake;
-	var commission;
+ 				let newCounter = counter + 1;
+ 				getUserMarkets(newCounter);
+ 			}
+ 			else {
+ 				displayMarkets();
+ 			}
+ 		});
+ 	}
+ 	else {
+ 		setTimeout(function(){getUserMarkets(0);}, 100);
+ 	}
+ }
 
-	//TODO: update to actually pull from contract
-	for(var i = 0; i < 3; i++) {
-		if (i == 0) {
-			name = "Ben's Market";
-			stake = 1000;
-			commission = 5;
-		}
 
-		if (i == 1) {
-			name = "Braden's Market";
-			stake = 1500;
-			commission = 20;
-		}
-
-		if (i == 2) {
-			name = "Martin's Market";
-			stake = 3000;
-			commission = 30;
-		}
-
-		marketArray[i] = [name, stake, commission];
-
-		console.log(marketArray[i][0] + " " + marketArray[i][2]);		//FIXME: debug
-
-	}
+function getMarketplace(position, callback) {
+  contract_factory.allMarketplaces(position, function(errCall, result) {
+          if(!errCall) {
+              callback(result, null);
+          }
+          else {
+              callback(null, true);
+          }
+  });
 }
 
 /**
@@ -78,13 +85,18 @@ function displayMarkets() {
 
 		for(var i = 0; i < marketArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + marketArray[i][0] + "</span><span class='rightFloat'>" + marketArray[i][1] + " WEEV</span></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + marketArray[i][1] + "</span><span class='rightFloat'>" + web3.fromWei(marketArray[i][4], 'ether') + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
 
 		console.log(newHtml);		//FIXME: debug
 
 		panel.innerHTML = newHtml;
+	}
+	else {
+		console.log("no markets to display");
+		var panel = document.querySelector('#marketButtons');
+		panel.innerHTML = "<div class='infoLabel'><p class='leftFloat'>No marketplaces to display</p></div>";
 	}
 }
 
@@ -99,7 +111,7 @@ function displayMarkets() {
 function displayMarketInfo(id) {
 	if(marketArray.length != 0) {
 		var panel = document.querySelector('#marketInfo');
-		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + marketArray[id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Commission</p><p class='rightFloat'>" + marketArray[id][2] + " WEEV</p></div>";
+		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + web3.fromWei(marketArray[id][4], 'ether') + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Active</p><p class='rightFloat'>" + marketArray[id][5] + "</p></div>";
 
 		console.log(newHtml);		//FIXME: debug
 
@@ -730,10 +742,6 @@ function populateFinish(inputArr, slideArr) {
 
 window.onload=function() {
 
-	//immediately fill array and display
-	getMarkets();
-	displayMarkets();
-
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
     $('#finishBox').hide();
@@ -767,6 +775,11 @@ window.onload=function() {
 		contract_factory = web3.eth.contract(data.abi).at(factory_address);
 		console.log("factory: ", contract_factory);
 	});
+
+	//wait a little before displaying data to ensure DOM objects loaded
+	setTimeout(function() {
+		getUserMarkets(0);
+	}, 1000);
 
 	/*************************Attach listeners****************************/
 	/*

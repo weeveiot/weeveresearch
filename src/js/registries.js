@@ -777,7 +777,6 @@ window.onload=function() {
 	//wait a little before displaying data to ensure DOM objects loaded
 	setTimeout(function() {
 		getUserRegistries(0);
-		displayRegistries();
 	}, 1000);
 
 	/*************************Attach listeners****************************/
