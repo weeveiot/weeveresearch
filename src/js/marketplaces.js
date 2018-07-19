@@ -778,7 +778,8 @@ window.onload=function() {
 	var marketButtons = document.querySelector('#marketButtons');
 	marketButtons.addEventListener('click', function(event) {
 		// support clicking on button text
-		if(event.target.parentNode.parentNode === marketButtons) {
+		if(event.target.parentNode.parentNode === marketButtons
+			&& $(event.target.parentNode).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -801,7 +802,8 @@ window.onload=function() {
 			$("#infoPanel").show();
 		}
 		// support clicking on actual button
-		else if(event.target.parentNode === marketButtons) {
+		else if(event.target.parentNode === marketButtons
+			&& $(event.target).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 

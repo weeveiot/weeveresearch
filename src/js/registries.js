@@ -5,7 +5,7 @@
 /*********************************************************************/
 
 // arrays to hold test data
-var regArray = [];		// id, name, ownerAddress, registryAddress, stake amount
+var regArray = [];		// [id, name, ownerAddress, registryAddress, stake amount, active], ...
 
 // web3 and contract data
 var web3Provider;
@@ -35,17 +35,17 @@ function getUserRegistries(counter) {
 	userAddress = web3.eth.accounts[0];
 	if (userAddress != "0x0") {
 		getRegistry(counter, function(res, err) {
-			if (!err && res[5] === true) {
-
+			if (!err) {
 				// extract registry data and push to array
 				var id = res[0];
 				var name = res[1];
 				var ownerAddress = res[2];
 				var regAddress = res[3];
 				var stakedTokens = res[4];
+				var active = res[5];
 
-				if (userAddress === ownerAddress) {
-					regArray.push([id, name, ownerAddress, regAddress, stakedTokens]);
+				if (userAddress == ownerAddress && active) {
+					regArray.push([id, name, ownerAddress, regAddress, stakedTokens, active]);
 				}
 
 				let newCounter = counter + 1;
@@ -89,17 +89,16 @@ function displayRegistries() {
 		var str2;
 		for (var i = 0; i < regArray.length; i++) {
 			str1 = newHtml;
-			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][1] + "</span><span class='rightFloat'>" + regArray[i][4] + " WEEV</span></button>";
+			str2 = "<button class='grayNameBtn'><span class='leftFloat'>" + regArray[i][1] + "</span><span class='rightFloat'>" + web3.fromWei(regArray[i][4], 'ether') + " WEEV</span></button>";
 			newHtml = str1.concat(str2);
 		}
-
-		console.log(newHtml);			//FIXME: debug
 
 		panel.innerHTML = newHtml;
 
 	} else {
 		console.log("no registries to display");
-		// TODO display a prompt here saying 'You own no registries'
+		var panel = document.querySelector('#registryButtons');
+		panel.innerHTML = "<div class='infoLabel'><p class='leftFloat'>No registries to display</p></div>";
 	}
 }
 
@@ -116,7 +115,7 @@ function displayRegistryInfo(id) {
 		//fill registryButtons
 		var panel = document.querySelector('#registryInfo');
 
-		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + regArray[id][1] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Stake per Registration</p><p class='rightFloat'>" + regArray[id][2] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Stake per Validator</p><p class='rightFloat'>" + regArray[id][3] + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Stake per Arbiter</p><p class='rightFloat'>" + regArray[id][4] + " WEEV</p></div>";
+		var newHtml = "<div class='infoLabel'><p class='leftFloat'>Stake</p><p class='rightFloat'>" + web3.fromWei(regArray[id][4], 'ether') + " WEEV</p></div><div class='infoLabel'><p class='leftFloat'>Active</p><p class='rightFloat'>" + regArray[id][5] + "</p></div>";
 
 		console.log(newHtml);			//FIXME: debug
 
@@ -791,7 +790,8 @@ window.onload=function() {
 	var registryButtons = document.querySelector('#registryButtons');
 	registryButtons.addEventListener('click', function(event) {
 		// support clicking on button text
-		if(event.target.parentNode.parentNode === registryButtons) {
+		if(event.target.parentNode.parentNode === registryButtons
+			&& $(event.target.parentNode).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -815,7 +815,8 @@ window.onload=function() {
 			$("#infoPanel").show();
 		}
 		//support clicking on actual button
-		else if(event.target.parentNode === registryButtons) {
+		else if(event.target.parentNode === registryButtons
+			&& $(event.target).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -846,9 +847,33 @@ window.onload=function() {
 	//handle closing registry
 	var closeButton = document.querySelector('#closeBtn');
 	closeButton.addEventListener('click', function(event) {
-		//hide info panel
-		$('#infoPanel').hide();
-		//TODO: eventually logic to delete registry goes here
+		var regName = document.getElementById("regName").textContent;
+		for (var i = 0; i < regArray.length; i++) {
+			if (regArray[i][1] === regName) {
+				var registryID = Number(regArray[i][0]);
+		        var contract_call_data = contract_factory.closeRegistry.getData(registryID);
+				web3.eth.estimateGas({data: contract_call_data, to: factory_address}, function(errEstimate, estimatedGas) {
+					if(!errEstimate) {
+						web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
+							if(!errNonce) {
+								contract_factory.closeRegistry(registryID, {value: 0, gas: parseInt(estimatedGas*1.1), nonce: nonce},function(errCall, result) {
+									if(!errCall) {
+										if(result.startsWith("0x")) {
+											console.log("worked");
+											// hide info panel
+											$('#infoPanel').hide();
+										}
+									}
+									else {
+										console.log(errCall)
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		}
 	});
 
 	//handle creating a registry
@@ -911,6 +936,7 @@ window.onload=function() {
 						contract_token.approve(factory_address, regStake, {value:0, gas: parseInt(estimatedGas*1.1), nonce: nonce}, function(errCall, result) {
 							if(!errCall) {
 								console.log("successfully set allowance");
+								// TODO display a window to notify the user to wait to send the transaction to add at the end
 							} else {
 								console.log(errCall);
 							}
@@ -945,7 +971,7 @@ window.onload=function() {
 					console.log("errEstimate");
 				}
 			});
-			getUserRegistries(0);
+			console.log("displaying registries");
 		}, 50000);
 
 		// reset input array and currentSlide counter

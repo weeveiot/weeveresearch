@@ -828,7 +828,8 @@ window.onload=function() {
 	var registryButtons = document.querySelector('#registryButtons');
 	registryButtons.addEventListener('click', function(event) {
 		// support clicking on button text
-		if (event.target.parentNode.parentNode === registryButtons) {
+		if (event.target.parentNode.parentNode === registryButtons
+			&& $(event.target.parentNode).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -852,7 +853,8 @@ window.onload=function() {
 			$('#goBack').hide();
 		}
 		// support clicking on actual button
-		else if(event.target.parentNode === registryButtons) {
+		else if(event.target.parentNode === registryButtons
+			&& $(event.target).hasClass("grayNameBtn")) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -883,7 +885,8 @@ window.onload=function() {
 	var deviceButtons = document.querySelector('#deviceButtons');
 	deviceButtons.addEventListener('click', function(event) {
 		// support clicking on button text
-		if (event.target.parentNode.parentNode === deviceButtons) {
+		if (event.target.parentNode.parentNode === deviceButtons
+			&& $(event.target.parentNode).hasClass("grayNameBtn")) {
 			//get rid of left panel
 			$('#registryPanel').hide();
 
@@ -907,7 +910,8 @@ window.onload=function() {
 			$('#infoPanel').show();
 		}
 		// support clicking on actual button
-		else if(event.target.parentNode === deviceButtons) {
+		else if(event.target.parentNode === deviceButtons
+			&& $(event.target).hasClass("grayNameBtn")) {
 			//get rid of left panel
 			$('#registryPanel').hide();
 
