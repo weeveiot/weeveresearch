@@ -42,10 +42,10 @@ function getRegistries() {
 
 	//TODO: update so actually pulls data from contract
 	//will probably need to take users address as an argument
-	var i = 0;
-	while(false) {
-		console.log("top of while");
-		contract_factory.allRegistries(i, function(errCall, result) {
+	console.log("length of registry array: " + contract_factory.allRegistries.length);
+
+		//FIXME
+		contract_factory.allRegistries(0, function(errCall, result) {
 			ownerAddress = result[2];
 			name = result[1];
 			stake = result[4];
@@ -55,15 +55,10 @@ function getRegistries() {
 			//fill array
 			regArray[i] = [name, stake];
 			console.log(regArray[i][0] + " " + regArray[i][1]);		//FIXME:debug
-			i++;
-			continue;
 		} else if (ownerAddress != '0x0') {
-			i++;
-			continue;
+
 		}
 
-		break;
-	}
 	console.log("finished filling array");
 }
 
