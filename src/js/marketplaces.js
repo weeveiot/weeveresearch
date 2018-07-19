@@ -910,7 +910,7 @@ window.onload=function() {
 			var contract_call_data = contract_factory.createMarketplace.getData(marketName, marketComm, marketCode);
 
 			console.log("estimating gas");
-			web3.eth.estimateGas({data: contract_call_data, to: factory_address, from: web3.eth.accounts[0]}, function(errEstimate, estimatedGas) {
+			web3.eth.estimateGas({data: contract_call_data, to: factory_address}, function(errEstimate, estimatedGas) {
 				if(!errEstimate) {
 					console.log("getting transaction count");
 					web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
