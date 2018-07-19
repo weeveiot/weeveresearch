@@ -784,9 +784,32 @@ window.onload=function() {
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
 	registryButtons.addEventListener('click', function(event) {
+		// support clicking on button text
+		if(event.target.parentNode.parentNode === registryButtons) {
+			// get rid of left panel
+			$('#titlePanel').hide();
 
-		//check if creator of event is child of the panel
-		if(event.target.parentNode === registryButtons) {
+			let string  = event.target.parentNode.innerHTML;
+			let beginning = string.search(">") + 1;
+			let end = string.search("</span>");
+			let selectedReg = string.slice(beginning, end);
+			let msg = "Selected " + selectedReg;
+			console.log(msg);
+
+			//move list of registers from right to left
+			$('#registryPanel').addClass("left").removeClass("right");
+
+			// load info for chosen registry
+			let buttonId = $('.grayNameBtn').index(event.target.parentNode);
+			console.log("buttonId: " + buttonId);			//FIXME: debug
+			displayRegistryInfo(buttonId);
+
+			//show info panel on right side
+			document.getElementById("regName").textContent = selectedReg;
+			$("#infoPanel").show();
+		}
+		//support clicking on actual button
+		else if(event.target.parentNode === registryButtons) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 

@@ -777,12 +777,31 @@ window.onload=function() {
 	// handle clicking of a marketplace
 	var marketButtons = document.querySelector('#marketButtons');
 	marketButtons.addEventListener('click', function(event) {
-		console.log("click");
-		console.log(event.target.parentNode);
-		console.log(event.target.parentNode.parentNode);
-		console.log($(event.target).hasClass('grayNameBtn'));
-		//check if creator of event is child of the panel
-		if(event.target.parentNode === marketButtons) {
+		// support clicking on button text
+		if(event.target.parentNode.parentNode === marketButtons) {
+			// get rid of left panel
+			$('#titlePanel').hide();
+
+			let string  = event.target.parentNode.innerHTML;
+			let beginning = string.search(">") + 1;
+			let end = string.search("</span>");
+			let selectedMarket = string.slice(beginning, end);
+			let msg = "Selected " + selectedMarket;
+			console.log(msg);
+
+			//move list of registers from right to left
+			$('#marketPanel').addClass("left").removeClass("right");
+
+			//load info for chosen marketplace
+			let buttonId = $('.grayNameBtn').index(event.target.parentNode);
+			displayMarketInfo(buttonId);
+
+			//show info panel on right side
+			document.getElementById("marketName").textContent = selectedMarket;
+			$("#infoPanel").show();
+		}
+		// support clicking on actual button
+		else if(event.target.parentNode === marketButtons) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 

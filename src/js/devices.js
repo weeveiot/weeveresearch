@@ -827,8 +827,32 @@ window.onload=function() {
 	// handle clicking of a registry
 	var registryButtons = document.querySelector('#registryButtons');
 	registryButtons.addEventListener('click', function(event) {
-		//check if creator of event is child of the panel
-		if(event.target.parentNode === registryButtons) {
+		// support clicking on button text
+		if (event.target.parentNode.parentNode === registryButtons) {
+			// get rid of left panel
+			$('#titlePanel').hide();
+
+			let string  = event.target.parentNode.innerHTML;
+			let beginning = string.search(">") + 1;
+			let end = string.search("</span>");
+			let selectedReg = string.slice(beginning, end);
+			let msg = "Selected " + selectedReg;
+			console.log(msg);
+
+			//move list of registers from right to left
+			$('#registryPanel').addClass("left").removeClass("right");
+
+			//display devices for that registry
+			selectedRegId = $('.grayNameBtn').index(event.target.parentNode);
+			displayDevices(selectedRegId);
+
+			//show device list on right side and hide back button
+			document.getElementById("regName").textContent = selectedReg;
+			$("#devicesPanel").show();
+			$('#goBack').hide();
+		}
+		// support clicking on actual button
+		else if(event.target.parentNode === registryButtons) {
 			// get rid of left panel
 			$('#titlePanel').hide();
 
@@ -858,7 +882,32 @@ window.onload=function() {
 	//handle selecting device
 	var deviceButtons = document.querySelector('#deviceButtons');
 	deviceButtons.addEventListener('click', function(event) {
-		if(event.target.parentNode === deviceButtons) {
+		// support clicking on button text
+		if (event.target.parentNode.parentNode === deviceButtons) {
+			//get rid of left panel
+			$('#registryPanel').hide();
+
+			let string  = event.target.parentNode.innerHTML;
+			let beginning = string.search(">") + 1;
+			let end = string.search("</span>");
+			let selectedDevice = string.slice(beginning, end);
+			let msg = "Selected " + selectedDevice;
+			console.log(msg);
+
+			//move list of devices to left and show back button
+			$('#devicesPanel').addClass('left').removeClass('right');
+			$('#goBack').show();
+
+			//show device info
+			let buttonId = $('.grayNameBtn').index(event.target.parentNode) - regArray.length;			//cheeky
+			displayDeviceInfo(buttonId);
+
+			//show info panel on right
+			document.getElementById('deviceName').textContent = selectedDevice;
+			$('#infoPanel').show();
+		}
+		// support clicking on actual button
+		else if(event.target.parentNode === deviceButtons) {
 			//get rid of left panel
 			$('#registryPanel').hide();
 
