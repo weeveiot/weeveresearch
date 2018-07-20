@@ -1,5 +1,3 @@
-//var Web3 = require('web3');
-
 var account;
 
 var web3Provider;
@@ -7,9 +5,7 @@ var web3Provider;
 var contract_token;
 var contract_factory;
 
-//var token_address = '0xa4227b1fd67b65b579c9865780680d543ad8e294';
 var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
-//var factory_address = '0xe8c219f72fc117219bf0a7b134ff4f88f7d58a03';
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 
 var balanceETH = 0;
@@ -23,13 +19,11 @@ var testTokensRequested = false;
 
 function initializeAccount() {
 	return function() {
-		console.log("inside timeout");
 
 		setAccount();
 
 		setWeevBalance();
 
-		console.log("end of setTimeout");
 	}
 }
 
@@ -41,7 +35,6 @@ function setAccount() {
 		if (netId == 4) {
 			//set the account display
 			account = web3.eth.accounts[0];
-			console.log(account);
 			$("#metamaskButton").text(account);
 
 			// set the ethereum balance display
@@ -78,7 +71,6 @@ function setWeevBalance() {
 }
 
 function getTestTokens() {
-	console.log("account before getTransCount: " + account);
 	web3.eth.getTransactionCount(account, function(errNonce, nonce) {
 		if(!errNonce) {
 			contract_factory.getTestTokens({value:0, gas: 100000, from: account, nonce: nonce}, function(errCall, result) {
@@ -109,21 +101,15 @@ window.addEventListener('load', function() {
 	}
 
 	web3 = new Web3(web3Provider);
-	console.log("web3: " + web3);
 
 	// get contract data for factory and token
 	$.getJSON('json/weeveToken.json', function(data) {
-		console.log("pulling token contract");
 		contract_token = web3.eth.contract(data.abi).at(token_address);
-		console.log("token: ", contract_token);
-		// TODO setWeevBalance now at the end, once token is initialized
 	});
 
 
 	$.getJSON('json/weeveFactory.json', function(data) {
-		console.log("pulling factory contract");
 		contract_factory = web3.eth.contract(data.abi).at(factory_address);
-		console.log("factory: ", contract_factory);
 	});
 
 
