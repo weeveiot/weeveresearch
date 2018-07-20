@@ -16,6 +16,7 @@ var contract_factory;
 var factory_address = '0x6edb9a1e68258f1d7aebefb4fbd53c74f68031b7';
 var contract_token;
 var token_address = '0x21d6690715db82a7b11c17c7dda8cf7afac47fd7';
+var userAddress = "0x0";
 
 var slideArray = [];
 var inputArray = [];

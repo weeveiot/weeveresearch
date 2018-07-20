@@ -19,7 +19,8 @@ var slideArray = [];
 var inputArray = [];
 var currentSlideNum = 0;
 
-var allReg = [];
+// used to check for changes in registry data in the contract
+var compareArray = [];
 
 
 /****************************Functions******************************/
@@ -34,6 +35,10 @@ var allReg = [];
 function getUserRegistries(counter) {
 	userAddress = web3.eth.accounts[0];
 	if (userAddress != "0x0") {
+		if (counter === 0) {
+			compareArray = [];
+			console.log("new registry process");
+		}
 		getRegistry(counter, function(res, err) {
 			if (!err) {
 				// extract registry data and push to array
@@ -45,14 +50,20 @@ function getUserRegistries(counter) {
 				var active = res[5];
 
 				if (userAddress == ownerAddress && active) {
-					regArray.push([id, name, ownerAddress, regAddress, stakedTokens, active]);
+					compareArray.push([id, name, ownerAddress, regAddress, stakedTokens, active]);
 				}
 
 				let newCounter = counter + 1;
 				getUserRegistries(newCounter);
 			}
 			else {
-				displayRegistries();
+				console.log("finished");
+				if (compareArray.length !== regArray.length) {
+					console.log("different lengths");
+					regArray = compareArray;
+					displayRegistries();
+				}
+				setTimeout(function(){getUserRegistries(0);}, 1000);
 			}
 		});
 	}
@@ -81,6 +92,7 @@ function getRegistry(position, callback) {
  * @param regArray an array storing registry data
  */
 function displayRegistries() {
+	console.log("displaying registries");
 	if(regArray.length != 0) {
 		//fill registryButtons
 		var panel = document.querySelector('#registryButtons');
@@ -96,10 +108,10 @@ function displayRegistries() {
 		panel.innerHTML = newHtml;
 
 	} else {
-		console.log("no registries to display");
 		var panel = document.querySelector('#registryButtons');
 		panel.innerHTML = "<div class='infoLabel'><p class='leftFloat'>No registries to display</p></div>";
 	}
+	$('#loadingAlert').hide();
 }
 
 /**
@@ -747,6 +759,7 @@ window.onload=function() {
 	$("#infoPanel").hide();
 	$('#createPanel').hide();
 	$('#finishBox').hide();
+	$('#loadingAlert').hide();
 	$('#loadingScreen').hide();
 
 	// initialize slides for creating registries
@@ -777,6 +790,7 @@ window.onload=function() {
 	//wait a little before displaying data to ensure DOM objects loaded
 	setTimeout(function() {
 		getUserRegistries(0);
+		displayRegistries();
 	}, 1000);
 
 	/*************************Attach listeners****************************/
@@ -852,6 +866,8 @@ window.onload=function() {
 				var registryID = Number(regArray[i][0]);
 		        var contract_call_data = contract_factory.closeRegistry.getData(registryID);
 				web3.eth.estimateGas({data: contract_call_data, to: factory_address}, function(errEstimate, estimatedGas) {
+					document.getElementById("loadingTxt").textContent = "Please submit the transaction to close the registry";
+					$('#loadingAlert').show();
 					if(!errEstimate) {
 						web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
 							if(!errNonce) {
@@ -861,6 +877,7 @@ window.onload=function() {
 											console.log("worked");
 											// hide info panel
 											$('#infoPanel').hide();
+											document.getElementById("loadingTxt").textContent = "Please wait while your transaction is being mined...";
 										}
 									}
 									else {
@@ -930,12 +947,14 @@ window.onload=function() {
 
 		web3.eth.estimateGas({data: approve_call_data, to: token_address, from: web3.eth.accounts[0]}, function(errEstimate, estimatedGas) {
 			if(!errEstimate) {
+				document.getElementById("loadingTxt").textContent = "Please submit the transaction to approve the stake";
+				$('#loadingAlert').show();
 				web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
 					if(!errNonce) {
 						contract_token.approve(factory_address, regStake, {value:0, gas: parseInt(estimatedGas*1.1), nonce: nonce}, function(errCall, result) {
 							if(!errCall) {
 								console.log("successfully set allowance");
-								// TODO display a window to notify the user to wait to send the transaction to add at the end
+								document.getElementById("loadingTxt").textContent = "Please wait while your transaction is being mined...";
 							} else {
 								console.log(errCall);
 							}
@@ -953,13 +972,14 @@ window.onload=function() {
 			web3.eth.estimateGas({data: contract_call_data, to: factory_address, from: web3.eth.accounts[0]}, function(errEstimate, estimatedGas) {
 				console.log("beginning estimate gas callback");
 				if(!errEstimate) {
-					console.log("getting transaction count");
+					document.getElementById("loadingTxt").textContent = "Please submit the transaction to create the registry";
 					web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
 						if(!errNonce) {
 							console.log("creating registry");
 							contract_factory.createRegistry(regName, regStakeReg, regStakeArb, regStakeVal, regCode, {value: 0, gas: parseInt(estimatedGas*1.1), nonce: nonce}, function(errCall, result) {
 								if(!errCall) {
 									console.log("result: ", result);
+									document.getElementById("loadingTxt").textContent = "Please wait while your transaction is being mined...";
 								} else {
 									console.log(errCall);
 								}
