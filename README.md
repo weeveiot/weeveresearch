@@ -3,7 +3,20 @@ _Ben Hodgson_, _Braden Meyerhoefer_
 
 Experimental things we are working on regarding the weeveNetwork demo.
 
-### Adding Registries/Marketplaces and Registering Devices
+### TODOs and Bugs
+
+#### Load device data from contracts
+Currently the Registry and Marketplace information displayed is loaded in from the contract data. This same functionality needs to be implemented for devices, including functionality for registering and closing a device. For registering a device we also recommend either a dropdown menu or an autocomplete/predictive text feature so the user can easily choose which registry to register the device to. 
+
+#### Perfect error handling
+The error checking is satisfactory for creating registries/marketplaces and registering devices, but the error checking could be improved for reading in JSON and contract data. For example, if a JSON file has a typo in a field name then this needs to be communicated to the user in a more effective way than a console.log. Similarly the user should be told to install and use MetaMask if they reach the webpage without it because they won't be able to interact with most of the site without it. 
+
+#### Navigation bar doesn't always display MetaMask information
+The navigation bar doesn't always load in the information about the user's MetaMask data, including their ether, weev, and address. We believe this is caused by either:
+  1. A timing bug where the information is loaded before the webpage elements, so they don't get displayed. 
+  2. Loading the navbar in from a separate html file with it's own js file. For some reason maybe the js file doesn't execute when it's loaded into the page externally this way. 
+
+### Customize Adding Registries/Marketplaces and Registering Devices
 Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace: 
 
 ```json
@@ -12,8 +25,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Stake Amount",
-		    "data": "num",
-		    "placeholder": "Enter stake"
+		    	"data": "num",
+		    	"placeholder": "Enter stake"
 		},
 		"description": "Some WEEV must be given as collateral to discourage malicious behavior"
 	},
@@ -21,8 +34,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Marketplace Name",
-		    "data": "str",
-		    "placeholder": "Enter name"
+		    	"data": "str",
+		    	"placeholder": "Enter name"
 		},
 		"description": "Provide a name to identify and describe the Marketplace"
 	},
@@ -30,8 +43,8 @@ Currently the user interface for adding registries/marketplaces and registering 
 		"title": "Add Marketplace",
 		"field1": {
 			"name": "Commission",
-		    "data": "num",
-		    "placeholder": "Enter commission"
+		    	"data": "num",
+		    	"placeholder": "Enter commission"
 		},
 		"description": "Set the amount that will be collected as commission on marketplace transactions to support marketplace curation"
 	},
