@@ -9,7 +9,7 @@ Experimental things we are working on regarding the weeveNetwork demo.
 Currently the Registry and Marketplace information displayed is loaded in from the contract data. This same functionality needs to be implemented for devices, including functionality for registering and closing a device. For registering a device we also recommend either a dropdown menu or an autocomplete/predictive text feature so the user can easily choose which registry to register the device to. 
 
 #### Perfect error handling
-The error checking is satisfactory for creating registries/marketplaces and registering devices, but the error checking could be improved for reading in JSON and contract data. For example, if a JSON file has a typo in a field name then this needs to be communicated to the user in a more effective way than a console.log. Similarly the user should be told to install and use MetaMask if they reach the webpage without it because they won't be able to interact with most of the site without it. 
+The error checking is satisfactory for creating registries/marketplaces and registering devices, but the error checking could be improved for reading in JSON and contract data. For example, if a JSON file has a typo in a field name then this needs to be communicated to the user in a more effective way than a console.log. Similarly the user should be told to install and use MetaMask if they reach the webpage without it because they won't be able to interact with most of the site. 
 
 #### Navigation bar doesn't always display MetaMask information
 The navigation bar doesn't always load in the information about the user's MetaMask data, including their ether, weev, and address. We believe this is caused by either:
