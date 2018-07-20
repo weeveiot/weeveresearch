@@ -33,6 +33,10 @@ var compareArray = [];
 function getUserMarkets(counter) {
 	userAddress = web3.eth.accounts[0];
 	if (userAddress != "0x0") {
+		if (counter === 0) {
+			compareArray = [];
+			console.log("new market process");
+		}
 		getMarketplace(counter, function(res, err) {
 			if (!err) {
 				// extract registry data and push to array
@@ -51,6 +55,8 @@ function getUserMarkets(counter) {
 				getUserMarkets(newCounter);
 			}
 			else {
+				console.log("finished");
+				console.log(compareArray.length);
 				if (compareArray.length !== marketArray.length) {
 					marketArray = compareArray;
 					displayMarkets();
@@ -85,6 +91,7 @@ function getMarketplace(position, callback) {
 * @param marketArray a 2D array with elements of the form [name, stake, commission]
 */
 function displayMarkets() {
+	console.log("update display");
 	if(marketArray.length != 0) {
 		var panel = document.querySelector('#marketButtons');
 		var newHtml = "";
@@ -857,9 +864,36 @@ window.onload=function() {
 			//handle closing marketplace
 			var closeButton = document.querySelector('#closeBtn');
 			closeButton.addEventListener('click', function(event) {
-				//hide info panel
-				$('#infoPanel').hide();
-				//TODO: eventually logic to delete marketplace goes here
+				var marketName = document.getElementById("marketName").textContent;
+				for (var i = 0; i < marketArray.length; i++) {
+					if (marketArray[i][1] === marketName) {
+						var marketplaceID = Number(marketArray[i][0]);
+						var contract_call_data = contract_factory.closeMarketplace.getData(marketplaceID);
+						web3.eth.estimateGas({data: contract_call_data, to: factory_address}, function(errEstimate, estimatedGas) {
+							document.getElementById("loadingTxt").textContent = "Please submit the transaction to close the marketplace";
+							$('#loadingAlert').show();
+							if(!errEstimate) {
+								web3.eth.getTransactionCount(web3.eth.accounts[0], function(errNonce, nonce) {
+									if(!errNonce) {
+										contract_factory.closeMarketplace(marketplaceID, {value: 0, gas: parseInt(estimatedGas*1.1), nonce: nonce},function(errCall, result) {
+											if(!errCall) {
+												if(result.startsWith("0x")) {
+													console.log("worked");
+													// hide info panel
+													$('#infoPanel').hide();
+													document.getElementById("loadingTxt").textContent = "Please wait while your transaction is being mined...";
+												}
+											}
+											else {
+												console.log(errCall)
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				}
 			});
 
 			//handle adding device
@@ -911,6 +945,7 @@ window.onload=function() {
 
 				//approve staked tokens
 				console.log("approving stake");
+				console.log(marketplaceStake);
 				var approve_call_data = contract_token.approve.getData(factory_address, marketplaceStake);
 
 				web3.eth.estimateGas({data: approve_call_data, to: token_address, from: web3.eth.accounts[0]}, function(errEstimate, estimatedGas) {
@@ -923,6 +958,8 @@ window.onload=function() {
 									if(!errCall) {
 										document.getElementById("loadingTxt").textContent = "Please wait while your transaction is being mined...";
 										console.log("successfully set allowance");
+										console.log(estimatedGas);
+										console.log(result);
 									} else {
 										console.log(errCall);
 									}
@@ -952,21 +989,20 @@ window.onload=function() {
 							});
 						} else {
 							console.log(errEstimate)
+							console.log(estimatedGas);
 						}
 					});
 				}, 50000);
 
 				// reset input array and currentField counter
-				/*	document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
+				document.getElementById('dot' + currentSlideNum).style.opacity = 0.6;
 				for (var i = 0; i < inputArray.length; i++) {
-				for (var j = 0; j < inputArray[i].length; j++) {
-				inputArray[i][j] = "";
-			}
+					for (var j = 0; j < inputArray[i].length; j++) {
+						inputArray[i][j] = "";
+					}
+				}
+				currentSlideNum = 0;
+			});
+
+
 		}
-		currentSlideNum = 0; */
-
-		// TODO update blockchain
-	});
-
-
-}
