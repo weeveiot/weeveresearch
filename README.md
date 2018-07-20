@@ -11,10 +11,15 @@ Currently the Registry and Marketplace information displayed is loaded in from t
 #### Perfect error handling
 The error checking is satisfactory for creating registries/marketplaces and registering devices, but the error checking could be improved for reading in JSON and contract data. For example, if a JSON file has a typo in a field name then this needs to be communicated to the user in a more effective way than a console.log. Similarly the user should be told to install and use MetaMask if they reach the webpage without it because they won't be able to interact with most of the site. 
 
-#### Navigation bar doesn't always display MetaMask information
-The navigation bar doesn't always load in the information about the user's MetaMask data, including their ether, weev, and address. We believe this is caused by either:
+#### Navigation bar doesn't always display MetaMask information on page load
+The navigation bar doesn't always load in the information about the user's MetaMask data, including their ether, weev, and address when the page loads. We believe this is caused by either:
   1. A timing bug where the information is loaded before the webpage elements, so they don't get displayed. 
   2. Loading the navbar in from a separate html file with it's own js file. For some reason maybe the js file doesn't execute when it's loaded into the page externally this way. 
+
+For some reason it seems to display more reliably if you hard refresh the page with ctrl + shift + r.
+  
+#### Navigation bar doesn't automatically update
+After creating a new registry/marketplace the amount of weev shown in the navbar doesn't update to reflect any changes. The same is true for closing registries/marketplaces. Ideally this value should update automatically when the weev balance changes on the network. 
 
 ### Customize Adding Registries/Marketplaces and Registering Devices
 Currently the user interface for adding registries/marketplaces and registering devices is presented as a slideshow. Each slide supports up to 6 fields at once, but for optimal display we recommend presenting either **1 field** or **6 fields** on a slide. The number of slides and the slide content is specified in a json file under the doc directory. Here's the _marketplaceFields.json_ file used to define the process of adding a new marketplace: 
